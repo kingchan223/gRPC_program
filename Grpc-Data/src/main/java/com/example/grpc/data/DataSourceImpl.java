@@ -5,6 +5,9 @@ import com.example.grpc.*;
 import io.grpc.stub.StreamObserver;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Map;
 
 public class DataSourceImpl extends DataSourceGrpc.DataSourceImplBase {
@@ -83,35 +86,38 @@ public class DataSourceImpl extends DataSourceGrpc.DataSourceImplBase {
     }
 
     public void writeCourse(Course request) throws AlreadyExistIdException {
-
         String id = request.getId();
         match(id, SCRSProperties.COURSE_LIST_PATH);
         String name = request.getName();
         Map<Integer, String> preCoursesMap = request.getPreCoursesMap();
         String profName = request.getProfName();
-
-        FileWriter fileWriter = null;
-        try {
-            fileWriter = new FileWriter(SCRSProperties.COURSE_LIST_PATH);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        assert fileWriter != null;
-        BufferedWriter bw = new BufferedWriter(fileWriter);
+//
+//        try {
+//            Files.write(Paths.get(SCRSProperties.COURSE_LIST_PATH), "the text".getBytes(), StandardOpenOption.APPEND);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        FileWriter fileWriter = null;
+//        try {
+//            fileWriter = new FileWriter(SCRSProperties.COURSE_LIST_PATH);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        assert fileWriter != null;
+//        BufferedWriter bw = new BufferedWriter(fileWriter);
         StringBuilder s = new StringBuilder();
         for (Integer integer : preCoursesMap.keySet()) {
             s.append(preCoursesMap.get(integer)).append(" ");
         }
-        try {
-            bw.write(id + " " + profName + " " + name + " "+s+"\n\n\n");
-            bw.newLine();
-            bw.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        System.out.println(id + " " + profName + " " + name + " "+s);
+//        try {
+//            bw.write(id + " " + profName + " " + name + " "+s+"\n\n\n");
+//            bw.newLine();
+//            bw.flush();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
-
-
 
     @Override
     public void deleteCourseById(Course request, StreamObserver<Message> responseObserver) {
