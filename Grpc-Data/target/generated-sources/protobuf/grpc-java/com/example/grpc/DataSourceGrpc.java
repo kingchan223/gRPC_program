@@ -49,27 +49,27 @@ public final class DataSourceGrpc {
     return getGetListDataMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<com.example.grpc.Course,
+  private static volatile io.grpc.MethodDescriptor<com.example.grpc.CourseInfoString,
       com.example.grpc.Message> getAddCourseMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "addCourse",
-      requestType = com.example.grpc.Course.class,
+      requestType = com.example.grpc.CourseInfoString.class,
       responseType = com.example.grpc.Message.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.example.grpc.Course,
+  public static io.grpc.MethodDescriptor<com.example.grpc.CourseInfoString,
       com.example.grpc.Message> getAddCourseMethod() {
-    io.grpc.MethodDescriptor<com.example.grpc.Course, com.example.grpc.Message> getAddCourseMethod;
+    io.grpc.MethodDescriptor<com.example.grpc.CourseInfoString, com.example.grpc.Message> getAddCourseMethod;
     if ((getAddCourseMethod = DataSourceGrpc.getAddCourseMethod) == null) {
       synchronized (DataSourceGrpc.class) {
         if ((getAddCourseMethod = DataSourceGrpc.getAddCourseMethod) == null) {
           DataSourceGrpc.getAddCourseMethod = getAddCourseMethod =
-              io.grpc.MethodDescriptor.<com.example.grpc.Course, com.example.grpc.Message>newBuilder()
+              io.grpc.MethodDescriptor.<com.example.grpc.CourseInfoString, com.example.grpc.Message>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "addCourse"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.example.grpc.Course.getDefaultInstance()))
+                  com.example.grpc.CourseInfoString.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   com.example.grpc.Message.getDefaultInstance()))
               .setSchemaDescriptor(new DataSourceMethodDescriptorSupplier("addCourse"))
@@ -80,27 +80,27 @@ public final class DataSourceGrpc {
     return getAddCourseMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<com.example.grpc.Student,
+  private static volatile io.grpc.MethodDescriptor<com.example.grpc.StudentInfoString,
       com.example.grpc.Message> getAddStudentMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "addStudent",
-      requestType = com.example.grpc.Student.class,
+      requestType = com.example.grpc.StudentInfoString.class,
       responseType = com.example.grpc.Message.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.example.grpc.Student,
+  public static io.grpc.MethodDescriptor<com.example.grpc.StudentInfoString,
       com.example.grpc.Message> getAddStudentMethod() {
-    io.grpc.MethodDescriptor<com.example.grpc.Student, com.example.grpc.Message> getAddStudentMethod;
+    io.grpc.MethodDescriptor<com.example.grpc.StudentInfoString, com.example.grpc.Message> getAddStudentMethod;
     if ((getAddStudentMethod = DataSourceGrpc.getAddStudentMethod) == null) {
       synchronized (DataSourceGrpc.class) {
         if ((getAddStudentMethod = DataSourceGrpc.getAddStudentMethod) == null) {
           DataSourceGrpc.getAddStudentMethod = getAddStudentMethod =
-              io.grpc.MethodDescriptor.<com.example.grpc.Student, com.example.grpc.Message>newBuilder()
+              io.grpc.MethodDescriptor.<com.example.grpc.StudentInfoString, com.example.grpc.Message>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "addStudent"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.example.grpc.Student.getDefaultInstance()))
+                  com.example.grpc.StudentInfoString.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   com.example.grpc.Message.getDefaultInstance()))
               .setSchemaDescriptor(new DataSourceMethodDescriptorSupplier("addStudent"))
@@ -270,7 +270,7 @@ public final class DataSourceGrpc {
      *add Course
      * </pre>
      */
-    public void addCourse(com.example.grpc.Course request,
+    public void addCourse(com.example.grpc.CourseInfoString request,
         io.grpc.stub.StreamObserver<com.example.grpc.Message> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getAddCourseMethod(), responseObserver);
     }
@@ -280,7 +280,7 @@ public final class DataSourceGrpc {
      *add Student
      * </pre>
      */
-    public void addStudent(com.example.grpc.Student request,
+    public void addStudent(com.example.grpc.StudentInfoString request,
         io.grpc.stub.StreamObserver<com.example.grpc.Message> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getAddStudentMethod(), responseObserver);
     }
@@ -328,14 +328,14 @@ public final class DataSourceGrpc {
             getAddCourseMethod(),
             io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
-                com.example.grpc.Course,
+                com.example.grpc.CourseInfoString,
                 com.example.grpc.Message>(
                   this, METHODID_ADD_COURSE)))
           .addMethod(
             getAddStudentMethod(),
             io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
-                com.example.grpc.Student,
+                com.example.grpc.StudentInfoString,
                 com.example.grpc.Message>(
                   this, METHODID_ADD_STUDENT)))
           .addMethod(
@@ -396,7 +396,7 @@ public final class DataSourceGrpc {
      *add Course
      * </pre>
      */
-    public void addCourse(com.example.grpc.Course request,
+    public void addCourse(com.example.grpc.CourseInfoString request,
         io.grpc.stub.StreamObserver<com.example.grpc.Message> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getAddCourseMethod(), getCallOptions()), request, responseObserver);
@@ -407,7 +407,7 @@ public final class DataSourceGrpc {
      *add Student
      * </pre>
      */
-    public void addStudent(com.example.grpc.Student request,
+    public void addStudent(com.example.grpc.StudentInfoString request,
         io.grpc.stub.StreamObserver<com.example.grpc.Message> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getAddStudentMethod(), getCallOptions()), request, responseObserver);
@@ -479,7 +479,7 @@ public final class DataSourceGrpc {
      *add Course
      * </pre>
      */
-    public com.example.grpc.Message addCourse(com.example.grpc.Course request) {
+    public com.example.grpc.Message addCourse(com.example.grpc.CourseInfoString request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getAddCourseMethod(), getCallOptions(), request);
     }
@@ -489,7 +489,7 @@ public final class DataSourceGrpc {
      *add Student
      * </pre>
      */
-    public com.example.grpc.Message addStudent(com.example.grpc.Student request) {
+    public com.example.grpc.Message addStudent(com.example.grpc.StudentInfoString request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getAddStudentMethod(), getCallOptions(), request);
     }
@@ -559,7 +559,7 @@ public final class DataSourceGrpc {
      * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.example.grpc.Message> addCourse(
-        com.example.grpc.Course request) {
+        com.example.grpc.CourseInfoString request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getAddCourseMethod(), getCallOptions()), request);
     }
@@ -570,7 +570,7 @@ public final class DataSourceGrpc {
      * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.example.grpc.Message> addStudent(
-        com.example.grpc.Student request) {
+        com.example.grpc.StudentInfoString request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getAddStudentMethod(), getCallOptions()), request);
     }
@@ -638,11 +638,11 @@ public final class DataSourceGrpc {
               (io.grpc.stub.StreamObserver<com.example.grpc.DataResponse>) responseObserver);
           break;
         case METHODID_ADD_COURSE:
-          serviceImpl.addCourse((com.example.grpc.Course) request,
+          serviceImpl.addCourse((com.example.grpc.CourseInfoString) request,
               (io.grpc.stub.StreamObserver<com.example.grpc.Message>) responseObserver);
           break;
         case METHODID_ADD_STUDENT:
-          serviceImpl.addStudent((com.example.grpc.Student) request,
+          serviceImpl.addStudent((com.example.grpc.StudentInfoString) request,
               (io.grpc.stub.StreamObserver<com.example.grpc.Message>) responseObserver);
           break;
         case METHODID_DELETE_COURSE_BY_ID:

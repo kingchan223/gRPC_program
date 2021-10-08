@@ -19,13 +19,4 @@ public class DataConnection {
         return DataSourceGrpc.newBlockingStub(connect());
     }
 
-    public DataResponse getStudentData() {
-        DataSourceGrpc.DataSourceBlockingStub stub = DataSourceGrpc.newBlockingStub(connect());
-        return  stub.getListData(DataRequest.newBuilder().setSORc("s").build());
-    }
-
-    public DataResponse getCourseData() {
-        DataSourceGrpc.DataSourceBlockingStub stub = DataSourceGrpc.newBlockingStub(connect());
-        return stub.getListData(DataRequest.newBuilder().setSORc("c").build());
-    }
 }

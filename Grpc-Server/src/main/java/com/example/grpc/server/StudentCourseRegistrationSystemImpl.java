@@ -53,39 +53,23 @@ public class StudentCourseRegistrationSystemImpl extends StudentCourseRegistrati
 
     @Override
     public void addCourse(Course request, StreamObserver<Message> responseObserver) {
-        /*----------------------test--------------------------*/
-        System.out.println(request.getName());
-        Map<Integer, String> preCoursesMap = request.getPreCoursesMap();
-        for (Integer integer : preCoursesMap.keySet()) {
-            System.out.println(preCoursesMap.get(integer));
-        }
-        /*----------------------------------------------------*/
         DataSourceGrpc.DataSourceBlockingStub stub = dataConnection.makeStub();
         Message message = extractCourseInfo(request, stub);
         responseObserver.onNext(message);
         responseObserver.onCompleted();
-
     }
 
     private Message extractCourseInfo(Course request, DataSourceGrpc.DataSourceBlockingStub stub) {
-        Message message = stub.addCourse(Course.newBuilder()
-                .setId(request.getId())
-                .setName(request.getName())
-                .setProfName(request.getProfName())
-                .putAllPreCourses(request.getPreCoursesMap())
-                .build());
+        String courseInfo =
+                  request.getId() +" "
+                + request.getName() +" "
+                + request.getProfName() +" " + makeOneStrFromMap(request.getPreCoursesMap());
+        Message message = stub.addCourse(CourseInfoString.newBuilder().setCourseInfo(courseInfo).build());
         return message;
     }
 
     @Override
     public void addStudent(Student request, StreamObserver<Message> responseObserver) {
-        /*----------------------test--------------------------*/
-        System.out.println(request.getName());
-        Map<Integer, String> preCoursesMap = request.getTakeCoursesMap();
-        for (Integer integer : preCoursesMap.keySet()) {
-            System.out.println(preCoursesMap.get(integer));
-        }
-        /*----------------------------------------------------*/
         DataSourceGrpc.DataSourceBlockingStub stub = dataConnection.makeStub();
         Message message = extractStudentInfo(request, stub);
         responseObserver.onNext(message);
@@ -93,13 +77,21 @@ public class StudentCourseRegistrationSystemImpl extends StudentCourseRegistrati
     }
 
     private Message extractStudentInfo(Student request, DataSourceGrpc.DataSourceBlockingStub stub) {
-        Message message = stub.addStudent(Student.newBuilder()
-                .setId(request.getId())
-                .setName(request.getName())
-                .setMajor(request.getMajor())
-                .putAllTakeCourses(request.getTakeCoursesMap())
-                .build());
+        String studentInfo =
+                          request.getId()
+                        + request.getName()
+                        + request.getMajor()
+                        + makeOneStrFromMap(request.getTakeCoursesMap());
+        Message message = stub.addStudent(StudentInfoString.newBuilder().setStudentInfo(studentInfo).build());
         return message;
+    }
+
+    private String makeOneStrFromMap(Map<Integer, String> map) {
+        String retVal = "";
+        for (Integer i : map.keySet()) {
+            retVal += map.get(i)+" ";
+        }
+        return retVal;
     }
 
     @Override

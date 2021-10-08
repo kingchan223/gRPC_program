@@ -26,9 +26,9 @@ public class DataSourceImpl extends DataSourceGrpc.DataSourceImplBase {
     }
 
     @Override
-    public void addCourse(Course request, StreamObserver<Message> responseObserver) {
+    public void addCourse(CourseInfoString courseInfoString, StreamObserver<Message> responseObserver) {
         try {
-           writeCourse(request);
+           writeCourse(courseInfoString);
         } catch (AlreadyExistIdException e) {
             Message alreadyException = Message.newBuilder().setMsg("alreadyException").build();
             responseObserver.onNext(alreadyException);
@@ -41,9 +41,9 @@ public class DataSourceImpl extends DataSourceGrpc.DataSourceImplBase {
     }
 
     @Override
-    public void addStudent(Student request, StreamObserver<Message> responseObserver) {
+    public void addStudent(StudentInfoString studentInfoString, StreamObserver<Message> responseObserver) {
         try {
-            writeStudent(request);
+            writeStudent(studentInfoString);
         } catch (AlreadyExistIdException e) {
             Message alreadyException = Message.newBuilder().setMsg("alreadyException").build();
             responseObserver.onNext(alreadyException);
@@ -55,68 +55,30 @@ public class DataSourceImpl extends DataSourceGrpc.DataSourceImplBase {
         responseObserver.onCompleted();
     }
 
-    public void writeStudent(Student request) throws AlreadyExistIdException {
+    public void writeStudent(StudentInfoString studentInfoString) throws AlreadyExistIdException {
 
-        String id = request.getId();
-        match(id, SCRSProperties.STUDENT_LIST_PATH);
+        String studentInfo = "\n\n"+studentInfoString.getStudentInfo();
+        String[] stdInfoArray = studentInfo.split(" ");
+        match(stdInfoArray[0], SCRSProperties.STUDENT_LIST_PATH);
 
-        String[] name = request.getName().split("/");
-        Map<Integer, String> takeCoursesMap = request.getTakeCoursesMap();
-        String major = request.getMajor();
-
-        FileWriter fileWriter = null;
         try {
-            fileWriter = new FileWriter(SCRSProperties.STUDENT_LIST_PATH);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        assert fileWriter != null;
-        BufferedWriter bw = new BufferedWriter(fileWriter);
-        StringBuilder s = new StringBuilder();
-        for (Integer integer : takeCoursesMap.keySet()) {
-            s.append(takeCoursesMap.get(integer)).append(" ");
-        }
-        try {
-            bw.write(id + " " + name[0] + " "+name[1]+" " + major + " "+s+"\n\n\n");
-            bw.newLine();
-            bw.flush();
+            Files.write(Paths.get(SCRSProperties.STUDENT_LIST_PATH), studentInfo.getBytes(), StandardOpenOption.APPEND);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void writeCourse(Course request) throws AlreadyExistIdException {
-        String id = request.getId();
+    public void writeCourse(CourseInfoString courseInfoString) throws AlreadyExistIdException {
+        String courseInfo = "\n\n"+courseInfoString.getCourseInfo();
+        String[] courseInfoArray = courseInfo.split(" ");
+        String id = courseInfoArray[0];
         match(id, SCRSProperties.COURSE_LIST_PATH);
-        String name = request.getName();
-        Map<Integer, String> preCoursesMap = request.getPreCoursesMap();
-        String profName = request.getProfName();
-//
-//        try {
-//            Files.write(Paths.get(SCRSProperties.COURSE_LIST_PATH), "the text".getBytes(), StandardOpenOption.APPEND);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        FileWriter fileWriter = null;
-//        try {
-//            fileWriter = new FileWriter(SCRSProperties.COURSE_LIST_PATH);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        assert fileWriter != null;
-//        BufferedWriter bw = new BufferedWriter(fileWriter);
-        StringBuilder s = new StringBuilder();
-        for (Integer integer : preCoursesMap.keySet()) {
-            s.append(preCoursesMap.get(integer)).append(" ");
+
+        try {
+            Files.write(Paths.get(SCRSProperties.COURSE_LIST_PATH), courseInfo.getBytes(), StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        System.out.println(id + " " + profName + " " + name + " "+s);
-//        try {
-//            bw.write(id + " " + profName + " " + name + " "+s+"\n\n\n");
-//            bw.newLine();
-//            bw.flush();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
     @Override

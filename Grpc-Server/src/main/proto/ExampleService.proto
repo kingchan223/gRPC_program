@@ -120,6 +120,12 @@ message DataRequest{
 message DataResponse{
   map<int32, string> data = 1;
 }
+message CourseInfoString{
+  string courseInfo = 1;
+}
+message StudentInfoString{
+  string studentInfo = 1;
+}
 
 
 //Data부분 Service정의
@@ -129,10 +135,10 @@ service DataSource{
   rpc getListData(DataRequest) returns (DataResponse);
 
   //add Course
-  rpc addCourse(Course) returns (Message);
+  rpc addCourse(CourseInfoString) returns (Message);
 
   //add Student
-  rpc addStudent(Student) returns (Message);
+  rpc addStudent(StudentInfoString) returns (Message);
 
   //delete Course
   rpc deleteCourseById(Course) returns (Message);
