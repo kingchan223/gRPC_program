@@ -28,14 +28,14 @@ public class DataSourceImpl extends DataSourceGrpc.DataSourceImplBase {
     @Override
     public void addCourse(CourseInfoString courseInfoString, StreamObserver<Message> responseObserver) {
         try {
-           writeCourse(courseInfoString);
+            writeCourse(courseInfoString);
         } catch (AlreadyExistIdException e) {
-            Message alreadyException = Message.newBuilder().setMsg("alreadyException").build();
+            Message alreadyException = Message.newBuilder().setMsg("already exist id").build();
             responseObserver.onNext(alreadyException);
             responseObserver.onCompleted();
             e.printStackTrace();
         }
-        Message ok = Message.newBuilder().setMsg("ok").build();
+        Message ok = Message.newBuilder().setMsg("saved!").build();
         responseObserver.onNext(ok);
         responseObserver.onCompleted();
     }
@@ -45,21 +45,21 @@ public class DataSourceImpl extends DataSourceGrpc.DataSourceImplBase {
         try {
             writeStudent(studentInfoString);
         } catch (AlreadyExistIdException e) {
-            Message alreadyException = Message.newBuilder().setMsg("alreadyException").build();
+            Message alreadyException = Message.newBuilder().setMsg("already exist id").build();
             responseObserver.onNext(alreadyException);
             responseObserver.onCompleted();
             e.printStackTrace();
         }
-        Message ok = Message.newBuilder().setMsg("ok").build();
+        Message ok = Message.newBuilder().setMsg("saved!").build();
         responseObserver.onNext(ok);
         responseObserver.onCompleted();
     }
 
     public void writeStudent(StudentInfoString studentInfoString) throws AlreadyExistIdException {
-
-        String studentInfo = "\n\n"+studentInfoString.getStudentInfo();
-        String[] stdInfoArray = studentInfo.split(" ");
-        match(stdInfoArray[0], SCRSProperties.STUDENT_LIST_PATH);
+        String studentInfo = studentInfoString.getStudentInfo();
+        String studentID = studentInfo.split(" ")[0];
+        studentInfo = "\n\n"+studentInfoString.getStudentInfo();
+        match(studentID, SCRSProperties.STUDENT_LIST_PATH);
 
         try {
             Files.write(Paths.get(SCRSProperties.STUDENT_LIST_PATH), studentInfo.getBytes(), StandardOpenOption.APPEND);
@@ -69,10 +69,11 @@ public class DataSourceImpl extends DataSourceGrpc.DataSourceImplBase {
     }
 
     public void writeCourse(CourseInfoString courseInfoString) throws AlreadyExistIdException {
-        String courseInfo = "\n\n"+courseInfoString.getCourseInfo();
+        String courseInfo = courseInfoString.getCourseInfo();
         String[] courseInfoArray = courseInfo.split(" ");
-        String id = courseInfoArray[0];
-        match(id, SCRSProperties.COURSE_LIST_PATH);
+        String courseID = courseInfoArray[0];
+        courseInfo = "\n\n"+courseInfo;
+        match(courseID, SCRSProperties.COURSE_LIST_PATH);
 
         try {
             Files.write(Paths.get(SCRSProperties.COURSE_LIST_PATH), courseInfo.getBytes(), StandardOpenOption.APPEND);
@@ -83,12 +84,94 @@ public class DataSourceImpl extends DataSourceGrpc.DataSourceImplBase {
 
     @Override
     public void deleteCourseById(Course request, StreamObserver<Message> responseObserver) {
-        super.deleteCourseById(request, responseObserver);
+        String id = request.getId();
+        try {
+            if(match(id, SCRSProperties.COURSE_LIST_PATH)){
+                Message msg = Message.newBuilder().setMsg("there No ID Like "+id).build();
+                responseObserver.onNext(msg);
+                responseObserver.onCompleted();
+            }
+        } catch (AlreadyExistIdException e) {
+            e.printStackTrace();
+        }
+        boolean yORn = delete(id, SCRSProperties.COURSE_LIST_PATH);
+        Message msg = null;
+        if(yORn){
+            msg = Message.newBuilder().setMsg("deleted!").build();
+        }else{
+            msg = Message.newBuilder().setMsg("fail to delete").build();
+        }
+        responseObserver.onNext(msg);
+        responseObserver.onCompleted();
+    }
+
+    private boolean delete(String id, String fileName){
+
+        BufferedReader br = null;
+        String all = "";
+        try {
+            br = new BufferedReader(new FileReader(fileName));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+        try{
+            while (br.ready()) {
+                assert br != null;
+                String line = br.readLine();
+                String[] alreadyId = line.split(" ");
+                if(alreadyId[0].equals(id)){
+                    continue;
+                }else{
+                    all += line + "\n";
+                }
+            }
+        }
+        catch(IOException e){
+            e.printStackTrace();
+            return false;
+        }
+
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter(fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        try {
+            fw.write(all);
+            fw.close();
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public void deleteStudentById(Student request, StreamObserver<Message> responseObserver) {
-        super.deleteStudentById(request, responseObserver);
+    public void deleteStudentById(Student request, StreamObserver<Message> responseObserver)  {
+        String id = request.getId();
+        try {
+            if(match(id, SCRSProperties.STUDENT_LIST_PATH)){
+                Message msg = Message.newBuilder().setMsg("there No ID Like "+id).build();
+                responseObserver.onNext(msg);
+                responseObserver.onCompleted();
+            }
+        } catch (AlreadyExistIdException e) {
+            e.printStackTrace();
+        }
+        boolean yORn = delete(id, SCRSProperties.STUDENT_LIST_PATH);
+        Message msg = null;
+        if(yORn){
+            msg = Message.newBuilder().setMsg("deleted!").build();
+        }else{
+            msg = Message.newBuilder().setMsg("fail to delete").build();
+        }
+        responseObserver.onNext(msg);
+        responseObserver.onCompleted();
     }
 
     @Override
@@ -97,21 +180,23 @@ public class DataSourceImpl extends DataSourceGrpc.DataSourceImplBase {
     }
 
     //새로 입력한 info의 id와 이미 존재하는 fileName의 id를 비교하고 이미 있는 id이면 AlreadyExistIdException을 던잔다.
-    public void match(String id, String fileName) throws AlreadyExistIdException{
+    public boolean match(String id, String fileName) throws AlreadyExistIdException{
         int i = 0;
         BufferedReader objStudentFile = null;
         try {
-            objStudentFile = new BufferedReader(new FileReader(SCRSProperties.STUDENT_LIST_PATH));
+            objStudentFile = new BufferedReader(new FileReader(fileName));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         try{
-            while (true) {
+            while (objStudentFile.ready()) {
                 assert objStudentFile != null;
-                if (!objStudentFile.ready()) break;
                 String line = objStudentFile.readLine();
                 String[] alreadyId = line.split(" ");
-                if(alreadyId.equals(id)) throw new AlreadyExistIdException();
+                if(alreadyId[0].equals(id)){
+                    objStudentFile.close();
+                    return false;
+                }
             }
         }
         catch(IOException e){
@@ -122,6 +207,7 @@ public class DataSourceImpl extends DataSourceGrpc.DataSourceImplBase {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return true;
     }
 
     public DataResponse.Builder putStudentInfo(DataResponse.Builder builder){
@@ -132,9 +218,11 @@ public class DataSourceImpl extends DataSourceGrpc.DataSourceImplBase {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+//        String all = "";
         try{
             while (objStudentFile.ready()) {
                 String stuInfo = objStudentFile.readLine();
+//                all += stuInfo+"\n";
                 if (!stuInfo.equals("")) {
                     builder.putData(i++,stuInfo);
                 }
@@ -147,6 +235,7 @@ public class DataSourceImpl extends DataSourceGrpc.DataSourceImplBase {
         } catch (IOException e) {
             e.printStackTrace();
         }
+//        System.out.println(all);
         return builder;
     }
 

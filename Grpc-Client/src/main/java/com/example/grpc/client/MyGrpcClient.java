@@ -34,7 +34,16 @@ public class MyGrpcClient {
                 case 4://4. Add Courses
                     addCourse(channel);
                     break;
-                case 7:
+                case 5://5. Delete Student
+                    DeleteStudent(channel);
+                    break;
+                case 6://6. Delete Courses
+                    DeleteCourse(channel);
+                    break;
+                case 7://7. 수강신청
+                    addCourse(channel);
+                    break;
+                case 8:// 8.EXIT
                     System.out.println("프로그램을 종료합니다.");
                     return;
                 default:
@@ -44,6 +53,24 @@ public class MyGrpcClient {
             }
             System.out.println(ClientProperties.LINE);
         }
+    }
+
+    private static void DeleteStudent(ManagedChannel channel) throws IOException {
+        StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub = StudentCourseRegistrationSystemGrpc.newBlockingStub(channel);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print("삭제할 학생의 ID를 입력하세요 :");
+        String id = br.readLine().trim();
+        Message message = stub.deleteStudentById(Student.newBuilder().setId(id).build());
+        System.out.println(message);
+    }
+
+    private static void DeleteCourse(ManagedChannel channel) throws IOException {
+        StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub = StudentCourseRegistrationSystemGrpc.newBlockingStub(channel);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print("삭제할 학생의 ID를 입력하세요 :");
+        String id = br.readLine().trim();
+        Message message = stub.deleteCourseById(Course.newBuilder().setId(id).build());
+        System.out.println(message);
     }
 
     private static void addCourse(ManagedChannel channel) throws IOException {

@@ -27,12 +27,15 @@ public class StudentCourseRegistrationSystemImpl extends StudentCourseRegistrati
                 .putMenuList(3, "2. List Courses")
                 .putMenuList(4, "3. Add Students")
                 .putMenuList(5, "4. Add Courses")
-                .putMenuList(6, "7. EXIT")
+                .putMenuList(6, "5. Delete Students")
+                .putMenuList(7, "6. Delete Courses")
+                .putMenuList(8, "7. 수강신청")
+                .putMenuList(10,"8. EXIT")
                 .build());
     }
 
     @Override
-    public void printStudentList(Request request, StreamObserver<StudentListResponse> responseObserver) {
+    public void printStudentList(Request request, StreamObserver<StudentListResponse> responseObserver){
         DataSourceGrpc.DataSourceBlockingStub stub = dataConnection.makeStub();
         DataResponse studentData = stub.getListData(DataRequest.newBuilder().setSORc("s").build());
         StudentListResponse.Builder builder = putStudentInfo(StudentListResponse.newBuilder(), studentData);
@@ -42,7 +45,7 @@ public class StudentCourseRegistrationSystemImpl extends StudentCourseRegistrati
 
 
     @Override
-    public void printCourseList(Request request, StreamObserver<CourseListResponse> responseObserver) {
+    public void printCourseList(Request request, StreamObserver<CourseListResponse> responseObserver){
         DataSourceGrpc.DataSourceBlockingStub stub = dataConnection.makeStub();
         DataResponse courseData = stub.getListData(DataRequest.newBuilder().setSORc("c").build());
         CourseListResponse.Builder builder = putCourseInfo(CourseListResponse.newBuilder(), courseData);
@@ -52,41 +55,42 @@ public class StudentCourseRegistrationSystemImpl extends StudentCourseRegistrati
 
 
     @Override
-    public void addCourse(Course request, StreamObserver<Message> responseObserver) {
+    public void addCourse(Course request, StreamObserver<Message> responseObserver){
         DataSourceGrpc.DataSourceBlockingStub stub = dataConnection.makeStub();
         Message message = extractCourseInfo(request, stub);
         responseObserver.onNext(message);
         responseObserver.onCompleted();
     }
 
-    private Message extractCourseInfo(Course request, DataSourceGrpc.DataSourceBlockingStub stub) {
+    private Message extractCourseInfo(Course request, DataSourceGrpc.DataSourceBlockingStub stub){
         String courseInfo =
                   request.getId() +" "
                 + request.getName() +" "
-                + request.getProfName() +" " + makeOneStrFromMap(request.getPreCoursesMap());
+                + request.getProfName() +" "
+                + makeOneStrFromMap(request.getPreCoursesMap());
         Message message = stub.addCourse(CourseInfoString.newBuilder().setCourseInfo(courseInfo).build());
         return message;
     }
 
     @Override
-    public void addStudent(Student request, StreamObserver<Message> responseObserver) {
+    public void addStudent(Student request, StreamObserver<Message> responseObserver){
         DataSourceGrpc.DataSourceBlockingStub stub = dataConnection.makeStub();
         Message message = extractStudentInfo(request, stub);
         responseObserver.onNext(message);
         responseObserver.onCompleted();
     }
 
-    private Message extractStudentInfo(Student request, DataSourceGrpc.DataSourceBlockingStub stub) {
+    private Message extractStudentInfo(Student request, DataSourceGrpc.DataSourceBlockingStub stub){
         String studentInfo =
-                          request.getId()
-                        + request.getName()
-                        + request.getMajor()
+                          request.getId() +" "
+                        + request.getName()+" "
+                        + request.getMajor()+" "
                         + makeOneStrFromMap(request.getTakeCoursesMap());
         Message message = stub.addStudent(StudentInfoString.newBuilder().setStudentInfo(studentInfo).build());
         return message;
     }
 
-    private String makeOneStrFromMap(Map<Integer, String> map) {
+    private String makeOneStrFromMap(Map<Integer, String> map){
         String retVal = "";
         for (Integer i : map.keySet()) {
             retVal += map.get(i)+" ";
@@ -95,27 +99,35 @@ public class StudentCourseRegistrationSystemImpl extends StudentCourseRegistrati
     }
 
     @Override
-    public void deleteCourseById(Course request, StreamObserver<Message> responseObserver) {
-        super.deleteCourseById(request, responseObserver);
+    public void deleteCourseById(Course request, StreamObserver<Message> responseObserver){
+        String id = request.getId();
+        DataSourceGrpc.DataSourceBlockingStub stub = dataConnection.makeStub();
+        Message message = stub.deleteCourseById(Course.newBuilder().setId(id).build());
+        responseObserver.onNext(message);
+        responseObserver.onCompleted();
     }
 
     @Override
-    public void deleteStudentById(Student request, StreamObserver<Message> responseObserver) {
-        super.deleteStudentById(request, responseObserver);
+    public void deleteStudentById(Student request, StreamObserver<Message> responseObserver){
+        String id = request.getId();
+        DataSourceGrpc.DataSourceBlockingStub stub = dataConnection.makeStub();
+        Message message = stub.deleteStudentById(Student.newBuilder().setId(id).build());
+        responseObserver.onNext(message);
+        responseObserver.onCompleted();
     }
 
     @Override
-    public void registerCourseByStudent(StuAndCourseInfo request, StreamObserver<Message> responseObserver) {
+    public void registerCourseByStudent(StuAndCourseInfo request, StreamObserver<Message> responseObserver){
         super.registerCourseByStudent(request, responseObserver);
     }
 
     @Override
-    public void studentCourseList(StudentIdRequest request, StreamObserver<StudentIdResponse> responseObserver) {
+    public void studentCourseList(StudentIdRequest request, StreamObserver<StudentIdResponse> responseObserver){
         super.studentCourseList(request, responseObserver);
     }
 
     @Override
-    public void courseIdStudentList(CourseIdRequest request, StreamObserver<CourseIdResponse> responseObserver) {
+    public void courseIdStudentList(CourseIdRequest request, StreamObserver<CourseIdResponse> responseObserver){
         super.courseIdStudentList(request, responseObserver);
     }
 
@@ -127,7 +139,7 @@ public class StudentCourseRegistrationSystemImpl extends StudentCourseRegistrati
         return builder;
     }
 
-    private CourseListResponse.Builder putCourseInfo(CourseListResponse.Builder builder, DataResponse data) {
+    private CourseListResponse.Builder putCourseInfo(CourseListResponse.Builder builder, DataResponse data){
         Map<Integer, String> dataMap = data.getDataMap();
         for (Integer i : dataMap.keySet()) {
             builder.putCourseList(i,dataMap.get(i));
