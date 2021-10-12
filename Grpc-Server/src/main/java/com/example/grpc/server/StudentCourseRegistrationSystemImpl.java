@@ -3,7 +3,6 @@ package com.example.grpc.server;
 import com.example.grpc.*;
 import io.grpc.stub.StreamObserver;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class StudentCourseRegistrationSystemImpl extends StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemImplBase {
@@ -43,7 +42,6 @@ public class StudentCourseRegistrationSystemImpl extends StudentCourseRegistrati
         responseObserver.onCompleted();
     }
 
-
     @Override
     public void printCourseList(Request request, StreamObserver<CourseListResponse> responseObserver){
         DataSourceGrpc.DataSourceBlockingStub stub = dataConnection.makeStub();
@@ -52,24 +50,22 @@ public class StudentCourseRegistrationSystemImpl extends StudentCourseRegistrati
         responseObserver.onNext(builder.build());
         responseObserver.onCompleted();
     }
-
-
+//    Message message = stub.addCourse(CourseInfoString.newBuilder().setCourseInfo(courseInfo).build());
     @Override
     public void addCourse(Course request, StreamObserver<Message> responseObserver){
         DataSourceGrpc.DataSourceBlockingStub stub = dataConnection.makeStub();
-        Message message = extractCourseInfo(request, stub);
+        String courseInfo = extractCourseInfo(request, stub);
+        Message message = stub.addCourse(CourseInfoString.newBuilder().setCourseInfo(courseInfo).build());
         responseObserver.onNext(message);
         responseObserver.onCompleted();
     }
 
-    private Message extractCourseInfo(Course request, DataSourceGrpc.DataSourceBlockingStub stub){
-        String courseInfo =
+    private String extractCourseInfo(Course request, DataSourceGrpc.DataSourceBlockingStub stub){
+        return
                   request.getId() +" "
                 + request.getName() +" "
                 + request.getProfName() +" "
                 + makeOneStrFromMap(request.getPreCoursesMap());
-        Message message = stub.addCourse(CourseInfoString.newBuilder().setCourseInfo(courseInfo).build());
-        return message;
     }
 
     @Override
@@ -80,14 +76,15 @@ public class StudentCourseRegistrationSystemImpl extends StudentCourseRegistrati
         responseObserver.onCompleted();
     }
 
+
+
     private Message extractStudentInfo(Student request, DataSourceGrpc.DataSourceBlockingStub stub){
         String studentInfo =
                           request.getId() +" "
                         + request.getName()+" "
                         + request.getMajor()+" "
                         + makeOneStrFromMap(request.getTakeCoursesMap());
-        Message message = stub.addStudent(StudentInfoString.newBuilder().setStudentInfo(studentInfo).build());
-        return message;
+        return stub.addStudent(StudentInfoString.newBuilder().setStudentInfo(studentInfo).build());
     }
 
     private String makeOneStrFromMap(Map<Integer, String> map){
@@ -118,17 +115,14 @@ public class StudentCourseRegistrationSystemImpl extends StudentCourseRegistrati
 
     @Override
     public void registerCourseByStudent(StuAndCourseInfo request, StreamObserver<Message> responseObserver){
-        super.registerCourseByStudent(request, responseObserver);
-    }
-
-    @Override
-    public void studentCourseList(StudentIdRequest request, StreamObserver<StudentIdResponse> responseObserver){
-        super.studentCourseList(request, responseObserver);
-    }
-
-    @Override
-    public void courseIdStudentList(CourseIdRequest request, StreamObserver<CourseIdResponse> responseObserver){
-        super.courseIdStudentList(request, responseObserver);
+        DataSourceGrpc.DataSourceBlockingStub stub = dataConnection.makeStub();
+        Message message = stub.registerCourseByStudent(StuAndCourseInfo
+                .newBuilder()
+                .setStudentId(request.getStudentId())
+                .putAllCourseIDList(request.getCourseIDListMap())
+                .build());
+        responseObserver.onNext(message);
+        responseObserver.onCompleted();
     }
 
     public StudentListResponse.Builder putStudentInfo(StudentListResponse.Builder builder, DataResponse data){

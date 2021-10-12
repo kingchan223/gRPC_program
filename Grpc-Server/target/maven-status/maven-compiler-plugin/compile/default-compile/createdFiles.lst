@@ -79,6 +79,7 @@ com/example/grpc/StudentCourseRegistrationSystemGrpc$StudentCourseRegistrationSy
 com/example/grpc/PrintMenuRequest$1.class
 com/example/grpc/CourseOrBuilder.class
 com/example/grpc/server/MyGrpcServer.class
+com/example/grpc/StuAndCourseInfo$CourseIDListDefaultEntryHolder.class
 com/example/grpc/DataRequest$1.class
 com/example/grpc/DataSourceGrpc$3.class
 com/example/grpc/CoursesResponse$1.class

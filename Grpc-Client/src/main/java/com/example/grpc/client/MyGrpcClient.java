@@ -17,7 +17,7 @@ public class MyGrpcClient {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n=10;
-        while(n!=7){
+        while(n!=8){
             printMenu(channel);
             n = Integer.parseInt(br.readLine());
             System.out.println(ClientProperties.LINE);
@@ -41,48 +41,66 @@ public class MyGrpcClient {
                     DeleteCourse(channel);
                     break;
                 case 7://7. 수강신청
-                    addCourse(channel);
+                    addCourseByStudent(channel);
                     break;
                 case 8:// 8.EXIT
-                    System.out.println("프로그램을 종료합니다.");
+                    System.out.println(ClientProperties.EXIT);
                     return;
                 default:
-                    System.out.println("없는 번호를 입력하셨습니다.");
+                    System.out.println(ClientProperties.WRONG_NUM);
                     break;
-
             }
             System.out.println(ClientProperties.LINE);
         }
+    }
+    private static void addCourseByStudent(ManagedChannel channel) throws IOException {
+        StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub = StudentCourseRegistrationSystemGrpc.newBlockingStub(channel);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print(ClientProperties.REGISTER_COURSE_STDID);
+        String studentId = br.readLine().trim();
+        System.out.print(ClientProperties.REGISTER_COURSE_COURSEID);
+        String[] courseIdList = br.readLine().trim().split("/");
+        Map<Integer, String> courseIdMap = new HashMap<>();
+        int i=0;
+        for (String courseId : courseIdList) {
+            courseIdMap.put(i++,courseId);
+        }
+        Message message = stub.registerCourseByStudent(StuAndCourseInfo
+                .newBuilder()
+                .setStudentId(studentId)
+                .putAllCourseIDList(courseIdMap)
+                .build());
+        printResultMessage(message);
     }
 
     private static void DeleteStudent(ManagedChannel channel) throws IOException {
         StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub = StudentCourseRegistrationSystemGrpc.newBlockingStub(channel);
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("삭제할 학생의 ID를 입력하세요 :");
+        System.out.print("삭제할 학생의 "+ClientProperties.INPUT_ID_MSG);
         String id = br.readLine().trim();
         Message message = stub.deleteStudentById(Student.newBuilder().setId(id).build());
-        System.out.println(message);
+        printResultMessage(message);
     }
 
     private static void DeleteCourse(ManagedChannel channel) throws IOException {
         StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub = StudentCourseRegistrationSystemGrpc.newBlockingStub(channel);
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("삭제할 학생의 ID를 입력하세요 :");
+        System.out.print("삭제할 강좌의 "+ClientProperties.INPUT_ID_MSG);
         String id = br.readLine().trim();
         Message message = stub.deleteCourseById(Course.newBuilder().setId(id).build());
-        System.out.println(message);
+        printResultMessage(message);
     }
 
     private static void addCourse(ManagedChannel channel) throws IOException {
         StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub = StudentCourseRegistrationSystemGrpc.newBlockingStub(channel);
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("ID를 입력하세요:");
+        System.out.print(ClientProperties.INPUT_ID_MSG);
         String id = br.readLine().trim();
-        System.out.print("강좌명을 입력하세요:");
+        System.out.print(ClientProperties.INPUT_COURSENAME_MSG);
         String name = br.readLine().trim();
-        System.out.print("담당 교수를 입력하세요:");
+        System.out.print(ClientProperties.INPUT_PROFNAME_MSG);
         String profName = br.readLine().trim();
-        System.out.print("선수과목의 ID를 입력하세요 ('/'로 구분. 예시: 1010/1011 ) :");
+        System.out.print(ClientProperties.INPUT_PRECOURSE_MSG);
         String[] preCourseList = br.readLine().trim().split("/");
         Map<Integer, String> preCourseMap = new HashMap<>();
         int i=0;
@@ -96,19 +114,19 @@ public class MyGrpcClient {
                 .setProfName(profName)
                 .putAllPreCourses(preCourseMap)
                 .build());
-        System.out.println(message);
+        printResultMessage(message);
     }
 
     private static void addStudent(ManagedChannel channel) throws IOException {
         StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub = StudentCourseRegistrationSystemGrpc.newBlockingStub(channel);
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("ID를 입력하세요:");
+        System.out.print(ClientProperties.INPUT_ID_MSG);
         String id = br.readLine().trim();
-        System.out.print("이름을 입력하세요:");
+        System.out.print(ClientProperties.INPUT_NAME_MSG);
         String name = br.readLine().trim();
-        System.out.print("전공을 입력하세요:");
+        System.out.print(ClientProperties.INPUT_MAJOR_MSG);
         String major = br.readLine().trim();
-        System.out.print("수강한 강좌의 ID를 입력하세요 ('/'로 구분. 예시: 1010/1011 ) :");
+        System.out.print(ClientProperties.INPUT_TAKECOURSE_MSG);
         String[] takeCourseList = br.readLine().trim().split("/");
         Map<Integer, String> takeCourseMap = new HashMap<>();
         int i=0;
@@ -122,9 +140,8 @@ public class MyGrpcClient {
                 .setMajor(major)
                 .putAllTakeCourses(takeCourseMap)
                 .build());
-        System.out.println(message);
+        printResultMessage(message);
     }
-
     private static void printCouse(ManagedChannel channel) {
         StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub = StudentCourseRegistrationSystemGrpc.newBlockingStub(channel);
         CourseListResponse response = stub.printCourseList(Request.newBuilder().setRequest(1).build());
@@ -149,6 +166,23 @@ public class MyGrpcClient {
         Map<Integer, String> menuListMap = response.getMenuListMap();
         for (Integer i : menuListMap.keySet()) {
             System.out.println(menuListMap.get(i));
+        }
+    }
+
+    private static void printResultMessage(Message message) {
+        String msg = message.getMsg();
+        if(msg.equals("NOTexistIDstd")){
+            System.out.println("존재하지 않는 학생 아이디를 입력하셨습니다.");
+        }else if(msg.equals("alreadyEcourse")){
+            System.out.println("이미 수강신청한 강좌번호를 입력하셨습니다.");
+        }else if(msg.equals("alreadyEstd")){
+            System.out.println("이미 등록된 학생번호를 입력하셨습니다.");
+        }else if(msg.equals("NOTexistIDcourse")){
+            System.out.println("존재하지 않는 강좌번호를 입력하셨습니다.");
+        }else if(msg.equals("success")){
+            System.out.println("성공적으로 반영되었습니다.");
+        }else if(msg.equals("fail")){
+            System.out.println("알 수 없는 이유로 실패하였습니다. 다시 시도해주세요");
         }
     }
 }
