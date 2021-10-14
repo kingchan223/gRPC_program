@@ -59,7 +59,6 @@ message Student{
   string id = 1;
   string name = 2;
   string major = 3;
-  map<int32, string> takeCourses = 4;
 }
 message StuAndCourseInfo{
   string student_id = 1;

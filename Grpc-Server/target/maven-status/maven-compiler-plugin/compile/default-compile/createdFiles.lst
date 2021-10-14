@@ -1,4 +1,5 @@
 com/example/grpc/Message$1.class
+com/example/grpc/exception/NotEnoughDataException.class
 com/example/grpc/DataSourceGrpc$MethodHandlers.class
 com/example/grpc/Message$Builder.class
 com/example/grpc/StuAndCourseInfoOrBuilder.class
@@ -21,7 +22,6 @@ com/example/grpc/DataResponse.class
 com/example/grpc/DataRequestOrBuilder.class
 com/example/grpc/StudentCourseRegistrationSystemGrpc$3.class
 com/example/grpc/StudentInfoStringOrBuilder.class
-com/example/grpc/Student$TakeCoursesDefaultEntryHolder.class
 com/example/grpc/PrintMenuRequestOrBuilder.class
 com/example/grpc/ResultOfChoiceResponse.class
 com/example/grpc/Student$1.class
@@ -110,6 +110,7 @@ com/example/grpc/Request$Builder.class
 com/example/grpc/CoursesRequest$1.class
 com/example/grpc/StudentIdRequest$Builder.class
 com/example/grpc/CourseListResponse$Builder.class
+com/example/grpc/exception/NullDataException.class
 com/example/grpc/CourseInfoString.class
 com/example/grpc/server/StudentCourseRegistrationSystemImpl.class
 com/example/grpc/StudentIdRequest$1.class

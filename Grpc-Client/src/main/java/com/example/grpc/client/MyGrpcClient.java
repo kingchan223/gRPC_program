@@ -1,6 +1,7 @@
 package com.example.grpc.client;
 
 import com.example.grpc.*;
+import com.example.grpc.exception.NotEnoughDataException;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
@@ -19,7 +20,15 @@ public class MyGrpcClient {
         int n=10;
         while(n!=8){
             printMenu(channel);
-            n = Integer.parseInt(br.readLine());
+            try {
+                n = Integer.parseInt(br.readLine());
+            } catch (IOException e) {
+                System.out.println("❗️❗️❗숫자를 입력해주세요❗️❗️❗");
+                continue;
+            } catch (NumberFormatException e2) {
+                System.out.println("❗️❗️❗숫자를 입력해주세요❗️❗️❗️");
+                continue;
+            }
             System.out.println(ClientProperties.LINE);
             switch(n){
                 case 1:
@@ -78,6 +87,12 @@ public class MyGrpcClient {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("삭제할 학생의 "+ClientProperties.INPUT_ID_MSG);
         String id = br.readLine().trim();
+        try {
+            isNull(id);
+        } catch (NotEnoughDataException e) {
+            System.out.println("❗️❗️❗강좌번호를 다시 입력해주세요❗️❗️❗ ");
+            return;
+        }
         Message message = stub.deleteStudentById(Student.newBuilder().setId(id).build());
         printResultMessage(message);
     }
@@ -87,6 +102,12 @@ public class MyGrpcClient {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("삭제할 강좌의 "+ClientProperties.INPUT_ID_MSG);
         String id = br.readLine().trim();
+        try {
+            isNull(id);
+        } catch (NotEnoughDataException e) {
+            System.out.println("❗️❗️❗강좌번호를 다시 입력해주세요❗️❗️❗ ");
+            return;
+        }
         Message message = stub.deleteCourseById(Course.newBuilder().setId(id).build());
         printResultMessage(message);
     }
@@ -100,11 +121,17 @@ public class MyGrpcClient {
         String name = br.readLine().trim();
         System.out.print(ClientProperties.INPUT_PROFNAME_MSG);
         String profName = br.readLine().trim();
+        try {
+            isNull(id, name, profName);
+        } catch (NotEnoughDataException e) {
+            System.out.println("❗️❗️❗ 입력하지 않은 데이터가 있습니다. 다시 시도해주세요.❗️❗️❗ ");
+            return;
+        }
         System.out.print(ClientProperties.INPUT_PRECOURSE_MSG);
-        String[] preCourseList = br.readLine().trim().split("/");
+        String[] preCourseStr = br.readLine().trim().split("/");
         Map<Integer, String> preCourseMap = new HashMap<>();
         int i=0;
-        for (String preCourse : preCourseList) {
+        for (String preCourse : preCourseStr) {
             preCourseMap.put(i++,preCourse);
         }
         Message message = stub.addCourse(Course
@@ -126,22 +153,22 @@ public class MyGrpcClient {
         String name = br.readLine().trim();
         System.out.print(ClientProperties.INPUT_MAJOR_MSG);
         String major = br.readLine().trim();
-        System.out.print(ClientProperties.INPUT_TAKECOURSE_MSG);
-        String[] takeCourseList = br.readLine().trim().split("/");
-        Map<Integer, String> takeCourseMap = new HashMap<>();
-        int i=0;
-        for (String preCourse : takeCourseList) {
-            takeCourseMap.put(i++,preCourse);
+        try {
+            isNull(id, name, major);
+        } catch (NotEnoughDataException e) {
+            System.out.println();
+            System.out.println("❗️❗️❗입력하지 않은 데이터가 있습니다. 다시 시도해주세요❗️❗️❗");
+            return;
         }
         Message message = stub.addStudent(Student
                 .newBuilder()
                 .setId(id)
                 .setName(name)
                 .setMajor(major)
-                .putAllTakeCourses(takeCourseMap)
                 .build());
         printResultMessage(message);
     }
+
     private static void printCouse(ManagedChannel channel) {
         StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub = StudentCourseRegistrationSystemGrpc.newBlockingStub(channel);
         CourseListResponse response = stub.printCourseList(Request.newBuilder().setRequest(1).build());
@@ -169,20 +196,34 @@ public class MyGrpcClient {
         }
     }
 
+    public static void isNull(String  data1, String  data2, String  data3) throws NotEnoughDataException {
+        if((data1==null|| data1.equals("")) || (data2==null|| data2.equals("")) || (data3==null|| data3.equals(""))){
+            throw new NotEnoughDataException();
+        }
+    }
+
+    public static void isNull(String  data) throws NotEnoughDataException {
+        if((data==null|| data.equals(""))){
+            throw new NotEnoughDataException();
+        }
+    }
+
     private static void printResultMessage(Message message) {
         String msg = message.getMsg();
         if(msg.equals("NOTexistIDstd")){
-            System.out.println("존재하지 않는 학생 아이디를 입력하셨습니다.");
+            System.out.println("❗️❗️❗존재하지 않는 학생 아이디를 입력하셨습니다❗️❗️❗");
         }else if(msg.equals("alreadyEcourse")){
-            System.out.println("이미 수강신청한 강좌번호를 입력하셨습니다.");
+            System.out.println("❗️❗️❗이미 수강신청한 강좌번호를 입력하셨습니다❗️❗️❗");
         }else if(msg.equals("alreadyEstd")){
-            System.out.println("이미 등록된 학생번호를 입력하셨습니다.");
+            System.out.println("❗️❗️❗이미 등록된 학생번호를 입력하셨습니다❗️❗️❗");
         }else if(msg.equals("NOTexistIDcourse")){
-            System.out.println("존재하지 않는 강좌번호를 입력하셨습니다.");
+            System.out.println("❗️❗️❗존재하지 않는 강좌번호를 입력하셨습니다❗️❗️❗");
         }else if(msg.equals("success")){
-            System.out.println("성공적으로 반영되었습니다.");
+            System.out.println("🥳 성공적으로 반영되었습니다! 🥳");
         }else if(msg.equals("fail")){
-            System.out.println("알 수 없는 이유로 실패하였습니다. 다시 시도해주세요");
+            System.out.println("❗️❗️❗알 수 없는 이유로 실패하였습니다. 다시 시도해주세요❗️❗️❗");
+        }else if(msg.equals("NOTexistID")){
+            System.out.println("❗️❗️❗존재하지 않는 번호를 입력하셨습니다❗️❗️❗");
         }
     }
 }

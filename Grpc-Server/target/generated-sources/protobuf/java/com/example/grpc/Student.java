@@ -41,7 +41,6 @@ private static final long serialVersionUID = 0L;
     if (extensionRegistry == null) {
       throw new java.lang.NullPointerException();
     }
-    int mutable_bitField0_ = 0;
     com.google.protobuf.UnknownFieldSet.Builder unknownFields =
         com.google.protobuf.UnknownFieldSet.newBuilder();
     try {
@@ -70,19 +69,6 @@ private static final long serialVersionUID = 0L;
             major_ = s;
             break;
           }
-          case 34: {
-            if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-              takeCourses_ = com.google.protobuf.MapField.newMapField(
-                  TakeCoursesDefaultEntryHolder.defaultEntry);
-              mutable_bitField0_ |= 0x00000001;
-            }
-            com.google.protobuf.MapEntry<java.lang.Integer, java.lang.String>
-            takeCourses__ = input.readMessage(
-                TakeCoursesDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-            takeCourses_.getMutableMap().put(
-                takeCourses__.getKey(), takeCourses__.getValue());
-            break;
-          }
           default: {
             if (!parseUnknownField(
                 input, unknownFields, extensionRegistry, tag)) {
@@ -107,18 +93,6 @@ private static final long serialVersionUID = 0L;
     return com.example.grpc.ExampleService.internal_static_com_example_grpc_Student_descriptor;
   }
 
-  @SuppressWarnings({"rawtypes"})
-  @java.lang.Override
-  protected com.google.protobuf.MapField internalGetMapField(
-      int number) {
-    switch (number) {
-      case 4:
-        return internalGetTakeCourses();
-      default:
-        throw new RuntimeException(
-            "Invalid map field number: " + number);
-    }
-  }
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
@@ -241,87 +215,6 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int TAKECOURSES_FIELD_NUMBER = 4;
-  private static final class TakeCoursesDefaultEntryHolder {
-    static final com.google.protobuf.MapEntry<
-        java.lang.Integer, java.lang.String> defaultEntry =
-            com.google.protobuf.MapEntry
-            .<java.lang.Integer, java.lang.String>newDefaultInstance(
-                com.example.grpc.ExampleService.internal_static_com_example_grpc_Student_TakeCoursesEntry_descriptor, 
-                com.google.protobuf.WireFormat.FieldType.INT32,
-                0,
-                com.google.protobuf.WireFormat.FieldType.STRING,
-                "");
-  }
-  private com.google.protobuf.MapField<
-      java.lang.Integer, java.lang.String> takeCourses_;
-  private com.google.protobuf.MapField<java.lang.Integer, java.lang.String>
-  internalGetTakeCourses() {
-    if (takeCourses_ == null) {
-      return com.google.protobuf.MapField.emptyMapField(
-          TakeCoursesDefaultEntryHolder.defaultEntry);
-    }
-    return takeCourses_;
-  }
-
-  public int getTakeCoursesCount() {
-    return internalGetTakeCourses().getMap().size();
-  }
-  /**
-   * <code>map&lt;int32, string&gt; takeCourses = 4;</code>
-   */
-
-  @java.lang.Override
-  public boolean containsTakeCourses(
-      int key) {
-    
-    return internalGetTakeCourses().getMap().containsKey(key);
-  }
-  /**
-   * Use {@link #getTakeCoursesMap()} instead.
-   */
-  @java.lang.Override
-  @java.lang.Deprecated
-  public java.util.Map<java.lang.Integer, java.lang.String> getTakeCourses() {
-    return getTakeCoursesMap();
-  }
-  /**
-   * <code>map&lt;int32, string&gt; takeCourses = 4;</code>
-   */
-  @java.lang.Override
-
-  public java.util.Map<java.lang.Integer, java.lang.String> getTakeCoursesMap() {
-    return internalGetTakeCourses().getMap();
-  }
-  /**
-   * <code>map&lt;int32, string&gt; takeCourses = 4;</code>
-   */
-  @java.lang.Override
-
-  public java.lang.String getTakeCoursesOrDefault(
-      int key,
-      java.lang.String defaultValue) {
-    
-    java.util.Map<java.lang.Integer, java.lang.String> map =
-        internalGetTakeCourses().getMap();
-    return map.containsKey(key) ? map.get(key) : defaultValue;
-  }
-  /**
-   * <code>map&lt;int32, string&gt; takeCourses = 4;</code>
-   */
-  @java.lang.Override
-
-  public java.lang.String getTakeCoursesOrThrow(
-      int key) {
-    
-    java.util.Map<java.lang.Integer, java.lang.String> map =
-        internalGetTakeCourses().getMap();
-    if (!map.containsKey(key)) {
-      throw new java.lang.IllegalArgumentException();
-    }
-    return map.get(key);
-  }
-
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -345,12 +238,6 @@ private static final long serialVersionUID = 0L;
     if (!getMajorBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 3, major_);
     }
-    com.google.protobuf.GeneratedMessageV3
-      .serializeIntegerMapTo(
-        output,
-        internalGetTakeCourses(),
-        TakeCoursesDefaultEntryHolder.defaultEntry,
-        4);
     unknownFields.writeTo(output);
   }
 
@@ -368,16 +255,6 @@ private static final long serialVersionUID = 0L;
     }
     if (!getMajorBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, major_);
-    }
-    for (java.util.Map.Entry<java.lang.Integer, java.lang.String> entry
-         : internalGetTakeCourses().getMap().entrySet()) {
-      com.google.protobuf.MapEntry<java.lang.Integer, java.lang.String>
-      takeCourses__ = TakeCoursesDefaultEntryHolder.defaultEntry.newBuilderForType()
-          .setKey(entry.getKey())
-          .setValue(entry.getValue())
-          .build();
-      size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, takeCourses__);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -400,8 +277,6 @@ private static final long serialVersionUID = 0L;
         .equals(other.getName())) return false;
     if (!getMajor()
         .equals(other.getMajor())) return false;
-    if (!internalGetTakeCourses().equals(
-        other.internalGetTakeCourses())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -419,10 +294,6 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + getName().hashCode();
     hash = (37 * hash) + MAJOR_FIELD_NUMBER;
     hash = (53 * hash) + getMajor().hashCode();
-    if (!internalGetTakeCourses().getMap().isEmpty()) {
-      hash = (37 * hash) + TAKECOURSES_FIELD_NUMBER;
-      hash = (53 * hash) + internalGetTakeCourses().hashCode();
-    }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -530,28 +401,6 @@ private static final long serialVersionUID = 0L;
       return com.example.grpc.ExampleService.internal_static_com_example_grpc_Student_descriptor;
     }
 
-    @SuppressWarnings({"rawtypes"})
-    protected com.google.protobuf.MapField internalGetMapField(
-        int number) {
-      switch (number) {
-        case 4:
-          return internalGetTakeCourses();
-        default:
-          throw new RuntimeException(
-              "Invalid map field number: " + number);
-      }
-    }
-    @SuppressWarnings({"rawtypes"})
-    protected com.google.protobuf.MapField internalGetMutableMapField(
-        int number) {
-      switch (number) {
-        case 4:
-          return internalGetMutableTakeCourses();
-        default:
-          throw new RuntimeException(
-              "Invalid map field number: " + number);
-      }
-    }
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
@@ -584,7 +433,6 @@ private static final long serialVersionUID = 0L;
 
       major_ = "";
 
-      internalGetMutableTakeCourses().clear();
       return this;
     }
 
@@ -611,12 +459,9 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.example.grpc.Student buildPartial() {
       com.example.grpc.Student result = new com.example.grpc.Student(this);
-      int from_bitField0_ = bitField0_;
       result.id_ = id_;
       result.name_ = name_;
       result.major_ = major_;
-      result.takeCourses_ = internalGetTakeCourses();
-      result.takeCourses_.makeImmutable();
       onBuilt();
       return result;
     }
@@ -677,8 +522,6 @@ private static final long serialVersionUID = 0L;
         major_ = other.major_;
         onChanged();
       }
-      internalGetMutableTakeCourses().mergeFrom(
-          other.internalGetTakeCourses());
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
       return this;
@@ -707,7 +550,6 @@ private static final long serialVersionUID = 0L;
       }
       return this;
     }
-    private int bitField0_;
 
     private java.lang.Object id_ = "";
     /**
@@ -934,134 +776,6 @@ private static final long serialVersionUID = 0L;
       
       major_ = value;
       onChanged();
-      return this;
-    }
-
-    private com.google.protobuf.MapField<
-        java.lang.Integer, java.lang.String> takeCourses_;
-    private com.google.protobuf.MapField<java.lang.Integer, java.lang.String>
-    internalGetTakeCourses() {
-      if (takeCourses_ == null) {
-        return com.google.protobuf.MapField.emptyMapField(
-            TakeCoursesDefaultEntryHolder.defaultEntry);
-      }
-      return takeCourses_;
-    }
-    private com.google.protobuf.MapField<java.lang.Integer, java.lang.String>
-    internalGetMutableTakeCourses() {
-      onChanged();;
-      if (takeCourses_ == null) {
-        takeCourses_ = com.google.protobuf.MapField.newMapField(
-            TakeCoursesDefaultEntryHolder.defaultEntry);
-      }
-      if (!takeCourses_.isMutable()) {
-        takeCourses_ = takeCourses_.copy();
-      }
-      return takeCourses_;
-    }
-
-    public int getTakeCoursesCount() {
-      return internalGetTakeCourses().getMap().size();
-    }
-    /**
-     * <code>map&lt;int32, string&gt; takeCourses = 4;</code>
-     */
-
-    @java.lang.Override
-    public boolean containsTakeCourses(
-        int key) {
-      
-      return internalGetTakeCourses().getMap().containsKey(key);
-    }
-    /**
-     * Use {@link #getTakeCoursesMap()} instead.
-     */
-    @java.lang.Override
-    @java.lang.Deprecated
-    public java.util.Map<java.lang.Integer, java.lang.String> getTakeCourses() {
-      return getTakeCoursesMap();
-    }
-    /**
-     * <code>map&lt;int32, string&gt; takeCourses = 4;</code>
-     */
-    @java.lang.Override
-
-    public java.util.Map<java.lang.Integer, java.lang.String> getTakeCoursesMap() {
-      return internalGetTakeCourses().getMap();
-    }
-    /**
-     * <code>map&lt;int32, string&gt; takeCourses = 4;</code>
-     */
-    @java.lang.Override
-
-    public java.lang.String getTakeCoursesOrDefault(
-        int key,
-        java.lang.String defaultValue) {
-      
-      java.util.Map<java.lang.Integer, java.lang.String> map =
-          internalGetTakeCourses().getMap();
-      return map.containsKey(key) ? map.get(key) : defaultValue;
-    }
-    /**
-     * <code>map&lt;int32, string&gt; takeCourses = 4;</code>
-     */
-    @java.lang.Override
-
-    public java.lang.String getTakeCoursesOrThrow(
-        int key) {
-      
-      java.util.Map<java.lang.Integer, java.lang.String> map =
-          internalGetTakeCourses().getMap();
-      if (!map.containsKey(key)) {
-        throw new java.lang.IllegalArgumentException();
-      }
-      return map.get(key);
-    }
-
-    public Builder clearTakeCourses() {
-      internalGetMutableTakeCourses().getMutableMap()
-          .clear();
-      return this;
-    }
-    /**
-     * <code>map&lt;int32, string&gt; takeCourses = 4;</code>
-     */
-
-    public Builder removeTakeCourses(
-        int key) {
-      
-      internalGetMutableTakeCourses().getMutableMap()
-          .remove(key);
-      return this;
-    }
-    /**
-     * Use alternate mutation accessors instead.
-     */
-    @java.lang.Deprecated
-    public java.util.Map<java.lang.Integer, java.lang.String>
-    getMutableTakeCourses() {
-      return internalGetMutableTakeCourses().getMutableMap();
-    }
-    /**
-     * <code>map&lt;int32, string&gt; takeCourses = 4;</code>
-     */
-    public Builder putTakeCourses(
-        int key,
-        java.lang.String value) {
-      
-      if (value == null) { throw new java.lang.NullPointerException(); }
-      internalGetMutableTakeCourses().getMutableMap()
-          .put(key, value);
-      return this;
-    }
-    /**
-     * <code>map&lt;int32, string&gt; takeCourses = 4;</code>
-     */
-
-    public Builder putAllTakeCourses(
-        java.util.Map<java.lang.Integer, java.lang.String> values) {
-      internalGetMutableTakeCourses().getMutableMap()
-          .putAll(values);
       return this;
     }
     @java.lang.Override

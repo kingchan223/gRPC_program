@@ -3,7 +3,7 @@ package com.example.grpc.client;
 public interface ClientProperties {
     public static final String  LINE ="===============================================";
     public static final String EXIT = "프로그램을 종료합니다.";
-    public static final String WRONG_NUM = "없는 번호를 입력하셨습니다.";
+    public static final String WRONG_NUM = "❗️❗️❗없는 메뉴를 선택하셨습니다❗️❗️❗";
     public static final String INPUT_ID_MSG = "ID를 입력하세요:";
     public static final String INPUT_NAME_MSG = "이름을 입력하세요:";
     public static final String INPUT_COURSENAME_MSG = "강좌명을 입력하세요:";

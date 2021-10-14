@@ -42,38 +42,4 @@ public interface StudentOrBuilder extends
    */
   com.google.protobuf.ByteString
       getMajorBytes();
-
-  /**
-   * <code>map&lt;int32, string&gt; takeCourses = 4;</code>
-   */
-  int getTakeCoursesCount();
-  /**
-   * <code>map&lt;int32, string&gt; takeCourses = 4;</code>
-   */
-  boolean containsTakeCourses(
-      int key);
-  /**
-   * Use {@link #getTakeCoursesMap()} instead.
-   */
-  @java.lang.Deprecated
-  java.util.Map<java.lang.Integer, java.lang.String>
-  getTakeCourses();
-  /**
-   * <code>map&lt;int32, string&gt; takeCourses = 4;</code>
-   */
-  java.util.Map<java.lang.Integer, java.lang.String>
-  getTakeCoursesMap();
-  /**
-   * <code>map&lt;int32, string&gt; takeCourses = 4;</code>
-   */
-
-  java.lang.String getTakeCoursesOrDefault(
-      int key,
-      java.lang.String defaultValue);
-  /**
-   * <code>map&lt;int32, string&gt; takeCourses = 4;</code>
-   */
-
-  java.lang.String getTakeCoursesOrThrow(
-      int key);
 }

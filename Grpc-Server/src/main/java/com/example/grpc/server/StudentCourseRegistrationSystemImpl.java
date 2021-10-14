@@ -1,11 +1,13 @@
 package com.example.grpc.server;
 
 import com.example.grpc.*;
+import com.example.grpc.exception.NotEnoughDataException;
 import io.grpc.stub.StreamObserver;
 
 import java.util.Map;
 
-public class StudentCourseRegistrationSystemImpl extends StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemImplBase {
+public class
+StudentCourseRegistrationSystemImpl extends StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemImplBase {
 
     private final DataConnection dataConnection;
 
@@ -17,20 +19,6 @@ public class StudentCourseRegistrationSystemImpl extends StudentCourseRegistrati
     public void printMenu(PrintMenuRequest request, StreamObserver<PrintMenuResponse> responseObserver) {
         getMenuList(responseObserver);
         responseObserver.onCompleted();
-    }
-
-    private void getMenuList(StreamObserver<PrintMenuResponse> responseObserver) {
-        responseObserver.onNext(PrintMenuResponse.newBuilder()
-                .putMenuList(1, "select menu number")
-                .putMenuList(2, "1. List Students ")
-                .putMenuList(3, "2. List Courses")
-                .putMenuList(4, "3. Add Students")
-                .putMenuList(5, "4. Add Courses")
-                .putMenuList(6, "5. Delete Students")
-                .putMenuList(7, "6. Delete Courses")
-                .putMenuList(8, "7. 수강신청")
-                .putMenuList(10,"8. EXIT")
-                .build());
     }
 
     @Override
@@ -50,49 +38,64 @@ public class StudentCourseRegistrationSystemImpl extends StudentCourseRegistrati
         responseObserver.onNext(builder.build());
         responseObserver.onCompleted();
     }
-//    Message message = stub.addCourse(CourseInfoString.newBuilder().setCourseInfo(courseInfo).build());
+
     @Override
     public void addCourse(Course request, StreamObserver<Message> responseObserver){
         DataSourceGrpc.DataSourceBlockingStub stub = dataConnection.makeStub();
-        String courseInfo = extractCourseInfo(request, stub);
+        String courseInfo = null;
+        try{
+            courseInfo = extractCourseInfo(request);
+        }catch(NotEnoughDataException e){
+            Message msg = Message.newBuilder().setMsg("nullData").build();
+            responseObserver.onNext(msg);
+            responseObserver.onCompleted();
+            e.printStackTrace();
+            return;
+        }
         Message message = stub.addCourse(CourseInfoString.newBuilder().setCourseInfo(courseInfo).build());
         responseObserver.onNext(message);
         responseObserver.onCompleted();
     }
 
-    private String extractCourseInfo(Course request, DataSourceGrpc.DataSourceBlockingStub stub){
-        return
-                  request.getId() +" "
-                + request.getName() +" "
-                + request.getProfName() +" "
-                + makeOneStrFromMap(request.getPreCoursesMap());
-    }
-
     @Override
     public void addStudent(Student request, StreamObserver<Message> responseObserver){
         DataSourceGrpc.DataSourceBlockingStub stub = dataConnection.makeStub();
-        Message message = extractStudentInfo(request, stub);
+        String studentInfo = null;
+        try {
+            studentInfo = extractStudentInfo(request);
+        } catch (NotEnoughDataException e) {
+            Message msg = Message.newBuilder().setMsg("nullData").build();
+            responseObserver.onNext(msg);
+            responseObserver.onCompleted();
+            e.printStackTrace();
+            return;
+        }
+        Message message = stub.addStudent(StudentInfoString.newBuilder().setStudentInfo(studentInfo).build());
         responseObserver.onNext(message);
         responseObserver.onCompleted();
     }
 
+    private String extractCourseInfo(Course request) throws NotEnoughDataException {
+        String id = request.getId();
+        String name = request.getName();
+        String profName = request.getProfName();
+        isNull(id, name, profName);
+        return id +" " + name +" " + profName +" " + makeOneStrFromMap(request.getPreCoursesMap());
+    }
 
-
-    private Message extractStudentInfo(Student request, DataSourceGrpc.DataSourceBlockingStub stub){
-        String studentInfo =
-                          request.getId() +" "
-                        + request.getName()+" "
-                        + request.getMajor()+" "
-                        + makeOneStrFromMap(request.getTakeCoursesMap());
-        return stub.addStudent(StudentInfoString.newBuilder().setStudentInfo(studentInfo).build());
+    private String extractStudentInfo(Student request) throws NotEnoughDataException {
+        String id = request.getId();
+        String name = request.getName();
+        String major = request.getMajor();
+        isNull(id, name, major);
+        return id +" " + name+" " + major+" ";
     }
 
     private String makeOneStrFromMap(Map<Integer, String> map){
-        String retVal = "";
-        for (Integer i : map.keySet()) {
-            retVal += map.get(i)+" ";
-        }
-        return retVal;
+        String oneStr = "";
+        for (Integer i : map.keySet())
+            oneStr += map.get(i)+" ";
+        return oneStr;
     }
 
     @Override
@@ -139,5 +142,24 @@ public class StudentCourseRegistrationSystemImpl extends StudentCourseRegistrati
             builder.putCourseList(i,dataMap.get(i));
         }
         return builder;
+    }
+    private void getMenuList(StreamObserver<PrintMenuResponse> responseObserver) {
+        responseObserver.onNext(PrintMenuResponse.newBuilder()
+                .putMenuList(1, "select menu number")
+                .putMenuList(2, "1. List Students ")
+                .putMenuList(3, "2. List Courses")
+                .putMenuList(4, "3. Add Students")
+                .putMenuList(5, "4. Add Courses")
+                .putMenuList(6, "5. Delete Students")
+                .putMenuList(7, "6. Delete Courses")
+                .putMenuList(8, "7. 수강신청")
+                .putMenuList(10,"8. EXIT")
+                .build());
+    }
+
+    public static void isNull(String  data1, String  data2, String  data3) throws NotEnoughDataException {
+        if((data1==null|| data1.equals("")) || (data2==null|| data2.equals("")) || (data3==null|| data3.equals(""))){
+            throw new NotEnoughDataException();
+        }
     }
 }

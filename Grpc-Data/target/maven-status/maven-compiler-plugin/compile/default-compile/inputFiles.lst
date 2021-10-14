@@ -1,6 +1,7 @@
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/PrintMenuRequestOrBuilder.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/MessageOrBuilder.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/CourseIdResponse.java
+/Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/src/main/java/com/example/exception/NotExistStudentIDException.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/grpc-java/com/example/grpc/DataSourceGrpc.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/CourseListResponse.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/StudentListResponse.java
@@ -12,18 +13,21 @@
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/CourseIdRequest.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/grpc-java/com/example/grpc/StudentCourseRegistrationSystemGrpc.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/Course.java
+/Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/src/main/java/com/example/exception/AlreadyTakeCourseIDException.java
+/Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/src/main/java/com/example/exception/AlreadyExistStudentIDException.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/StudentIdRequest.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/ResultOfChoiceResponseOrBuilder.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/StudentIdRequestOrBuilder.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/Message.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/DataRequest.java
-/Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/src/main/java/com/example/exception/AlreadyExistIdException.java
+/Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/src/main/java/com/example/grpc/data/CrudMethods.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/src/main/java/com/example/grpc/SCRSProperties.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/ChoiceRequest.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/src/main/java/com/example/grpc/data/DataSourceImpl.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/ExampleService.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/CourseInfoString.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/src/main/java/com/example/entity/course.java
+/Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/src/main/java/com/example/exception/NotExistIDException.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/StudentIdResponseOrBuilder.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/StudentInfoString.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/CourseIdResponseOrBuilder.java
@@ -32,6 +36,7 @@
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/ResultOfChoiceResponse.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/CoursesResponse.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/StudentInfoStringOrBuilder.java
+/Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/src/main/java/com/example/exception/NotExistCourseIDException.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/PrintMenuRequest.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/CourseOrBuilder.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/CourseListResponseOrBuilder.java
@@ -44,6 +49,7 @@
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/DataResponse.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/PrintMenuResponseOrBuilder.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/src/main/java/com/example/exception/NullDataException.java
+/Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/src/main/java/com/example/exception/AlreadyExistCourseIDException.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/DataRequestOrBuilder.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/StudentListResponseOrBuilder.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/StudentOrBuilder.java

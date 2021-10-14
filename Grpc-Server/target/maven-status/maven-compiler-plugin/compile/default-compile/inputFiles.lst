@@ -24,6 +24,7 @@
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Server/target/generated-sources/protobuf/java/com/example/grpc/StudentIdResponseOrBuilder.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Server/target/generated-sources/protobuf/java/com/example/grpc/StudentIdRequestOrBuilder.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Server/src/main/java/com/example/grpc/server/MyGrpcServer.java
+/Users/leechanyoung/Downloads/coding/gRPC/Grpc-Server/src/main/java/com/example/grpc/exception/NullDataException.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Server/target/generated-sources/protobuf/java/com/example/grpc/ResultOfChoiceResponse.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Server/target/generated-sources/protobuf/java/com/example/grpc/StudentOrBuilder.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Server/target/generated-sources/protobuf/java/com/example/grpc/StuAndCourseInfo.java
@@ -44,6 +45,7 @@
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Server/src/main/java/com/example/grpc/SCRSProperties.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Server/target/generated-sources/protobuf/java/com/example/grpc/CourseIdResponseOrBuilder.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Server/target/generated-sources/protobuf/java/com/example/grpc/ExampleService.java
+/Users/leechanyoung/Downloads/coding/gRPC/Grpc-Server/src/main/java/com/example/grpc/exception/NotEnoughDataException.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Server/target/generated-sources/protobuf/java/com/example/grpc/RequestOrBuilder.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Server/target/generated-sources/protobuf/java/com/example/grpc/DataRequestOrBuilder.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Server/target/generated-sources/protobuf/java/com/example/grpc/CourseInfoString.java
