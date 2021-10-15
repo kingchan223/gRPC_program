@@ -10,6 +10,7 @@
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/PrintMenuResponse.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/CoursesResponseOrBuilder.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/RequestOrBuilder.java
+/Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/src/main/java/com/example/exception/NotTakePreCourseException.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/CourseIdRequest.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/grpc-java/com/example/grpc/StudentCourseRegistrationSystemGrpc.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Data/target/generated-sources/protobuf/java/com/example/grpc/Course.java

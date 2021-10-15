@@ -62,7 +62,7 @@ message Student{
 }
 message StuAndCourseInfo{
   string student_id = 1;
-  map<int32, string> courseID_List = 2;
+  string course_id = 2;
 }
 
 message Message{

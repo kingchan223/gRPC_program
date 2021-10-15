@@ -125,11 +125,6 @@ public final class ExampleService {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_com_example_grpc_StuAndCourseInfo_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_com_example_grpc_StuAndCourseInfo_CourseIDListEntry_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_com_example_grpc_StuAndCourseInfo_CourseIDListEntry_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_com_example_grpc_Message_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -190,51 +185,49 @@ public final class ExampleService {
       "Courses\030\004 \003(\0132(.com.example.grpc.Course." +
       "PreCoursesEntry\0321\n\017PreCoursesEntry\022\013\n\003ke" +
       "y\030\001 \001(\005\022\r\n\005value\030\002 \001(\t:\0028\001\"2\n\007Student\022\n\n" +
-      "\002id\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\r\n\005major\030\003 \001(\t\"\250" +
-      "\001\n\020StuAndCourseInfo\022\022\n\nstudent_id\030\001 \001(\t\022" +
-      "K\n\rcourseID_List\030\002 \003(\01324.com.example.grp" +
-      "c.StuAndCourseInfo.CourseIDListEntry\0323\n\021" +
-      "CourseIDListEntry\022\013\n\003key\030\001 \001(\005\022\r\n\005value\030" +
-      "\002 \001(\t:\0028\001\"\026\n\007Message\022\013\n\003msg\030\001 \001(\t\"\033\n\013Dat" +
-      "aRequest\022\014\n\004sORc\030\001 \001(\t\"s\n\014DataResponse\0226" +
-      "\n\004data\030\001 \003(\0132(.com.example.grpc.DataResp" +
-      "onse.DataEntry\032+\n\tDataEntry\022\013\n\003key\030\001 \001(\005" +
-      "\022\r\n\005value\030\002 \001(\t:\0028\0012\252\007\n\037StudentCourseReg" +
-      "istrationSystem\022T\n\tprintMenu\022\".com.examp" +
-      "le.grpc.PrintMenuRequest\032#.com.example.g" +
-      "rpc.PrintMenuResponse\022W\n\nselectMenu\022\037.co" +
-      "m.example.grpc.ChoiceRequest\032(.com.examp" +
-      "le.grpc.ResultOfChoiceResponse\022T\n\020printS" +
-      "tudentList\022\031.com.example.grpc.Request\032%." +
-      "com.example.grpc.StudentListResponse\022R\n\017" +
-      "printCourseList\022\031.com.example.grpc.Reque" +
-      "st\032$.com.example.grpc.CourseListResponse" +
-      "\022\\\n\021studentCourseList\022\".com.example.grpc" +
-      ".StudentIdRequest\032#.com.example.grpc.Stu" +
-      "dentIdResponse\022\\\n\023courseIdStudentList\022!." +
-      "com.example.grpc.CourseIdRequest\032\".com.e" +
-      "xample.grpc.CourseIdResponse\022@\n\taddCours" +
-      "e\022\030.com.example.grpc.Course\032\031.com.exampl" +
-      "e.grpc.Message\022B\n\naddStudent\022\031.com.examp" +
-      "le.grpc.Student\032\031.com.example.grpc.Messa" +
-      "ge\022G\n\020deleteCourseById\022\030.com.example.grp" +
-      "c.Course\032\031.com.example.grpc.Message\022I\n\021d" +
-      "eleteStudentById\022\031.com.example.grpc.Stud" +
-      "ent\032\031.com.example.grpc.Message\022X\n\027regist" +
-      "erCourseByStudent\022\".com.example.grpc.Stu" +
-      "AndCourseInfo\032\031.com.example.grpc.Message" +
-      "2\316\003\n\nDataSource\022L\n\013getListData\022\035.com.exa" +
-      "mple.grpc.DataRequest\032\036.com.example.grpc" +
-      ".DataResponse\022@\n\taddCourse\022\030.com.example" +
-      ".grpc.Course\032\031.com.example.grpc.Message\022" +
-      "B\n\naddStudent\022\031.com.example.grpc.Student" +
-      "\032\031.com.example.grpc.Message\022G\n\020deleteCou" +
-      "rseById\022\030.com.example.grpc.Course\032\031.com." +
-      "example.grpc.Message\022I\n\021deleteStudentByI" +
-      "d\022\031.com.example.grpc.Student\032\031.com.examp" +
-      "le.grpc.Message\022X\n\027registerCourseByStude" +
-      "nt\022\".com.example.grpc.StuAndCourseInfo\032\031" +
-      ".com.example.grpc.MessageB\002P\001b\006proto3"
+      "\002id\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\r\n\005major\030\003 \001(\t\"9" +
+      "\n\020StuAndCourseInfo\022\022\n\nstudent_id\030\001 \001(\t\022\021" +
+      "\n\tcourse_id\030\002 \001(\t\"\026\n\007Message\022\013\n\003msg\030\001 \001(" +
+      "\t\"\033\n\013DataRequest\022\014\n\004sORc\030\001 \001(\t\"s\n\014DataRe" +
+      "sponse\0226\n\004data\030\001 \003(\0132(.com.example.grpc." +
+      "DataResponse.DataEntry\032+\n\tDataEntry\022\013\n\003k" +
+      "ey\030\001 \001(\005\022\r\n\005value\030\002 \001(\t:\0028\0012\252\007\n\037StudentC" +
+      "ourseRegistrationSystem\022T\n\tprintMenu\022\".c" +
+      "om.example.grpc.PrintMenuRequest\032#.com.e" +
+      "xample.grpc.PrintMenuResponse\022W\n\nselectM" +
+      "enu\022\037.com.example.grpc.ChoiceRequest\032(.c" +
+      "om.example.grpc.ResultOfChoiceResponse\022T" +
+      "\n\020printStudentList\022\031.com.example.grpc.Re" +
+      "quest\032%.com.example.grpc.StudentListResp" +
+      "onse\022R\n\017printCourseList\022\031.com.example.gr" +
+      "pc.Request\032$.com.example.grpc.CourseList" +
+      "Response\022\\\n\021studentCourseList\022\".com.exam" +
+      "ple.grpc.StudentIdRequest\032#.com.example." +
+      "grpc.StudentIdResponse\022\\\n\023courseIdStuden" +
+      "tList\022!.com.example.grpc.CourseIdRequest" +
+      "\032\".com.example.grpc.CourseIdResponse\022@\n\t" +
+      "addCourse\022\030.com.example.grpc.Course\032\031.co" +
+      "m.example.grpc.Message\022B\n\naddStudent\022\031.c" +
+      "om.example.grpc.Student\032\031.com.example.gr" +
+      "pc.Message\022G\n\020deleteCourseById\022\030.com.exa" +
+      "mple.grpc.Course\032\031.com.example.grpc.Mess" +
+      "age\022I\n\021deleteStudentById\022\031.com.example.g" +
+      "rpc.Student\032\031.com.example.grpc.Message\022X" +
+      "\n\027registerCourseByStudent\022\".com.example." +
+      "grpc.StuAndCourseInfo\032\031.com.example.grpc" +
+      ".Message2\316\003\n\nDataSource\022L\n\013getListData\022\035" +
+      ".com.example.grpc.DataRequest\032\036.com.exam" +
+      "ple.grpc.DataResponse\022@\n\taddCourse\022\030.com" +
+      ".example.grpc.Course\032\031.com.example.grpc." +
+      "Message\022B\n\naddStudent\022\031.com.example.grpc" +
+      ".Student\032\031.com.example.grpc.Message\022G\n\020d" +
+      "eleteCourseById\022\030.com.example.grpc.Cours" +
+      "e\032\031.com.example.grpc.Message\022I\n\021deleteSt" +
+      "udentById\022\031.com.example.grpc.Student\032\031.c" +
+      "om.example.grpc.Message\022X\n\027registerCours" +
+      "eByStudent\022\".com.example.grpc.StuAndCour" +
+      "seInfo\032\031.com.example.grpc.MessageB\002P\001b\006p" +
+      "roto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -371,13 +364,7 @@ public final class ExampleService {
     internal_static_com_example_grpc_StuAndCourseInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_example_grpc_StuAndCourseInfo_descriptor,
-        new java.lang.String[] { "StudentId", "CourseIDList", });
-    internal_static_com_example_grpc_StuAndCourseInfo_CourseIDListEntry_descriptor =
-      internal_static_com_example_grpc_StuAndCourseInfo_descriptor.getNestedTypes().get(0);
-    internal_static_com_example_grpc_StuAndCourseInfo_CourseIDListEntry_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_com_example_grpc_StuAndCourseInfo_CourseIDListEntry_descriptor,
-        new java.lang.String[] { "Key", "Value", });
+        new java.lang.String[] { "StudentId", "CourseId", });
     internal_static_com_example_grpc_Message_descriptor =
       getDescriptor().getMessageTypes().get(16);
     internal_static_com_example_grpc_Message_fieldAccessorTable = new

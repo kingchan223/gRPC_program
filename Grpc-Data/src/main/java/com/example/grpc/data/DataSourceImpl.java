@@ -99,8 +99,8 @@ public class DataSourceImpl extends DataSourceGrpc.DataSourceImplBase {
     @Override
     public void registerCourseByStudent(StuAndCourseInfo request, StreamObserver<Message> responseObserver) {
         String studentId = request.getStudentId();
-        Map<Integer, String> courseIDListMap = request.getCourseIDListMap();
-        if(crudMethods.update(studentId, courseIDListMap, responseObserver)){
+        String courseId = request.getCourseId();
+        if(crudMethods.update(studentId, courseId, responseObserver)){
             Message msg = Message.newBuilder().setMsg("success").build();
             responseObserver.onNext(msg);
             responseObserver.onCompleted();

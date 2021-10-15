@@ -17,6 +17,7 @@ private static final long serialVersionUID = 0L;
   }
   private StuAndCourseInfo() {
     studentId_ = "";
+    courseId_ = "";
   }
 
   @java.lang.Override
@@ -39,7 +40,6 @@ private static final long serialVersionUID = 0L;
     if (extensionRegistry == null) {
       throw new java.lang.NullPointerException();
     }
-    int mutable_bitField0_ = 0;
     com.google.protobuf.UnknownFieldSet.Builder unknownFields =
         com.google.protobuf.UnknownFieldSet.newBuilder();
     try {
@@ -57,16 +57,9 @@ private static final long serialVersionUID = 0L;
             break;
           }
           case 18: {
-            if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-              courseIDList_ = com.google.protobuf.MapField.newMapField(
-                  CourseIDListDefaultEntryHolder.defaultEntry);
-              mutable_bitField0_ |= 0x00000001;
-            }
-            com.google.protobuf.MapEntry<java.lang.Integer, java.lang.String>
-            courseIDList__ = input.readMessage(
-                CourseIDListDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-            courseIDList_.getMutableMap().put(
-                courseIDList__.getKey(), courseIDList__.getValue());
+            java.lang.String s = input.readStringRequireUtf8();
+
+            courseId_ = s;
             break;
           }
           default: {
@@ -93,18 +86,6 @@ private static final long serialVersionUID = 0L;
     return com.example.grpc.ExampleService.internal_static_com_example_grpc_StuAndCourseInfo_descriptor;
   }
 
-  @SuppressWarnings({"rawtypes"})
-  @java.lang.Override
-  protected com.google.protobuf.MapField internalGetMapField(
-      int number) {
-    switch (number) {
-      case 2:
-        return internalGetCourseIDList();
-      default:
-        throw new RuntimeException(
-            "Invalid map field number: " + number);
-    }
-  }
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
@@ -151,85 +132,42 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int COURSEID_LIST_FIELD_NUMBER = 2;
-  private static final class CourseIDListDefaultEntryHolder {
-    static final com.google.protobuf.MapEntry<
-        java.lang.Integer, java.lang.String> defaultEntry =
-            com.google.protobuf.MapEntry
-            .<java.lang.Integer, java.lang.String>newDefaultInstance(
-                com.example.grpc.ExampleService.internal_static_com_example_grpc_StuAndCourseInfo_CourseIDListEntry_descriptor, 
-                com.google.protobuf.WireFormat.FieldType.INT32,
-                0,
-                com.google.protobuf.WireFormat.FieldType.STRING,
-                "");
-  }
-  private com.google.protobuf.MapField<
-      java.lang.Integer, java.lang.String> courseIDList_;
-  private com.google.protobuf.MapField<java.lang.Integer, java.lang.String>
-  internalGetCourseIDList() {
-    if (courseIDList_ == null) {
-      return com.google.protobuf.MapField.emptyMapField(
-          CourseIDListDefaultEntryHolder.defaultEntry);
+  public static final int COURSE_ID_FIELD_NUMBER = 2;
+  private volatile java.lang.Object courseId_;
+  /**
+   * <code>string course_id = 2;</code>
+   * @return The courseId.
+   */
+  @java.lang.Override
+  public java.lang.String getCourseId() {
+    java.lang.Object ref = courseId_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      courseId_ = s;
+      return s;
     }
-    return courseIDList_;
-  }
-
-  public int getCourseIDListCount() {
-    return internalGetCourseIDList().getMap().size();
   }
   /**
-   * <code>map&lt;int32, string&gt; courseID_List = 2;</code>
-   */
-
-  @java.lang.Override
-  public boolean containsCourseIDList(
-      int key) {
-    
-    return internalGetCourseIDList().getMap().containsKey(key);
-  }
-  /**
-   * Use {@link #getCourseIDListMap()} instead.
+   * <code>string course_id = 2;</code>
+   * @return The bytes for courseId.
    */
   @java.lang.Override
-  @java.lang.Deprecated
-  public java.util.Map<java.lang.Integer, java.lang.String> getCourseIDList() {
-    return getCourseIDListMap();
-  }
-  /**
-   * <code>map&lt;int32, string&gt; courseID_List = 2;</code>
-   */
-  @java.lang.Override
-
-  public java.util.Map<java.lang.Integer, java.lang.String> getCourseIDListMap() {
-    return internalGetCourseIDList().getMap();
-  }
-  /**
-   * <code>map&lt;int32, string&gt; courseID_List = 2;</code>
-   */
-  @java.lang.Override
-
-  public java.lang.String getCourseIDListOrDefault(
-      int key,
-      java.lang.String defaultValue) {
-    
-    java.util.Map<java.lang.Integer, java.lang.String> map =
-        internalGetCourseIDList().getMap();
-    return map.containsKey(key) ? map.get(key) : defaultValue;
-  }
-  /**
-   * <code>map&lt;int32, string&gt; courseID_List = 2;</code>
-   */
-  @java.lang.Override
-
-  public java.lang.String getCourseIDListOrThrow(
-      int key) {
-    
-    java.util.Map<java.lang.Integer, java.lang.String> map =
-        internalGetCourseIDList().getMap();
-    if (!map.containsKey(key)) {
-      throw new java.lang.IllegalArgumentException();
+  public com.google.protobuf.ByteString
+      getCourseIdBytes() {
+    java.lang.Object ref = courseId_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      courseId_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
     }
-    return map.get(key);
   }
 
   private byte memoizedIsInitialized = -1;
@@ -249,12 +187,9 @@ private static final long serialVersionUID = 0L;
     if (!getStudentIdBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 1, studentId_);
     }
-    com.google.protobuf.GeneratedMessageV3
-      .serializeIntegerMapTo(
-        output,
-        internalGetCourseIDList(),
-        CourseIDListDefaultEntryHolder.defaultEntry,
-        2);
+    if (!getCourseIdBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, courseId_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -267,15 +202,8 @@ private static final long serialVersionUID = 0L;
     if (!getStudentIdBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, studentId_);
     }
-    for (java.util.Map.Entry<java.lang.Integer, java.lang.String> entry
-         : internalGetCourseIDList().getMap().entrySet()) {
-      com.google.protobuf.MapEntry<java.lang.Integer, java.lang.String>
-      courseIDList__ = CourseIDListDefaultEntryHolder.defaultEntry.newBuilderForType()
-          .setKey(entry.getKey())
-          .setValue(entry.getValue())
-          .build();
-      size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, courseIDList__);
+    if (!getCourseIdBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, courseId_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -294,8 +222,8 @@ private static final long serialVersionUID = 0L;
 
     if (!getStudentId()
         .equals(other.getStudentId())) return false;
-    if (!internalGetCourseIDList().equals(
-        other.internalGetCourseIDList())) return false;
+    if (!getCourseId()
+        .equals(other.getCourseId())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -309,10 +237,8 @@ private static final long serialVersionUID = 0L;
     hash = (19 * hash) + getDescriptor().hashCode();
     hash = (37 * hash) + STUDENT_ID_FIELD_NUMBER;
     hash = (53 * hash) + getStudentId().hashCode();
-    if (!internalGetCourseIDList().getMap().isEmpty()) {
-      hash = (37 * hash) + COURSEID_LIST_FIELD_NUMBER;
-      hash = (53 * hash) + internalGetCourseIDList().hashCode();
-    }
+    hash = (37 * hash) + COURSE_ID_FIELD_NUMBER;
+    hash = (53 * hash) + getCourseId().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -420,28 +346,6 @@ private static final long serialVersionUID = 0L;
       return com.example.grpc.ExampleService.internal_static_com_example_grpc_StuAndCourseInfo_descriptor;
     }
 
-    @SuppressWarnings({"rawtypes"})
-    protected com.google.protobuf.MapField internalGetMapField(
-        int number) {
-      switch (number) {
-        case 2:
-          return internalGetCourseIDList();
-        default:
-          throw new RuntimeException(
-              "Invalid map field number: " + number);
-      }
-    }
-    @SuppressWarnings({"rawtypes"})
-    protected com.google.protobuf.MapField internalGetMutableMapField(
-        int number) {
-      switch (number) {
-        case 2:
-          return internalGetMutableCourseIDList();
-        default:
-          throw new RuntimeException(
-              "Invalid map field number: " + number);
-      }
-    }
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
@@ -470,7 +374,8 @@ private static final long serialVersionUID = 0L;
       super.clear();
       studentId_ = "";
 
-      internalGetMutableCourseIDList().clear();
+      courseId_ = "";
+
       return this;
     }
 
@@ -497,10 +402,8 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.example.grpc.StuAndCourseInfo buildPartial() {
       com.example.grpc.StuAndCourseInfo result = new com.example.grpc.StuAndCourseInfo(this);
-      int from_bitField0_ = bitField0_;
       result.studentId_ = studentId_;
-      result.courseIDList_ = internalGetCourseIDList();
-      result.courseIDList_.makeImmutable();
+      result.courseId_ = courseId_;
       onBuilt();
       return result;
     }
@@ -553,8 +456,10 @@ private static final long serialVersionUID = 0L;
         studentId_ = other.studentId_;
         onChanged();
       }
-      internalGetMutableCourseIDList().mergeFrom(
-          other.internalGetCourseIDList());
+      if (!other.getCourseId().isEmpty()) {
+        courseId_ = other.courseId_;
+        onChanged();
+      }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
       return this;
@@ -583,7 +488,6 @@ private static final long serialVersionUID = 0L;
       }
       return this;
     }
-    private int bitField0_;
 
     private java.lang.Object studentId_ = "";
     /**
@@ -661,131 +565,79 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private com.google.protobuf.MapField<
-        java.lang.Integer, java.lang.String> courseIDList_;
-    private com.google.protobuf.MapField<java.lang.Integer, java.lang.String>
-    internalGetCourseIDList() {
-      if (courseIDList_ == null) {
-        return com.google.protobuf.MapField.emptyMapField(
-            CourseIDListDefaultEntryHolder.defaultEntry);
+    private java.lang.Object courseId_ = "";
+    /**
+     * <code>string course_id = 2;</code>
+     * @return The courseId.
+     */
+    public java.lang.String getCourseId() {
+      java.lang.Object ref = courseId_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        courseId_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
       }
-      return courseIDList_;
     }
-    private com.google.protobuf.MapField<java.lang.Integer, java.lang.String>
-    internalGetMutableCourseIDList() {
-      onChanged();;
-      if (courseIDList_ == null) {
-        courseIDList_ = com.google.protobuf.MapField.newMapField(
-            CourseIDListDefaultEntryHolder.defaultEntry);
+    /**
+     * <code>string course_id = 2;</code>
+     * @return The bytes for courseId.
+     */
+    public com.google.protobuf.ByteString
+        getCourseIdBytes() {
+      java.lang.Object ref = courseId_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        courseId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
       }
-      if (!courseIDList_.isMutable()) {
-        courseIDList_ = courseIDList_.copy();
-      }
-      return courseIDList_;
-    }
-
-    public int getCourseIDListCount() {
-      return internalGetCourseIDList().getMap().size();
     }
     /**
-     * <code>map&lt;int32, string&gt; courseID_List = 2;</code>
+     * <code>string course_id = 2;</code>
+     * @param value The courseId to set.
+     * @return This builder for chaining.
      */
-
-    @java.lang.Override
-    public boolean containsCourseIDList(
-        int key) {
-      
-      return internalGetCourseIDList().getMap().containsKey(key);
-    }
-    /**
-     * Use {@link #getCourseIDListMap()} instead.
-     */
-    @java.lang.Override
-    @java.lang.Deprecated
-    public java.util.Map<java.lang.Integer, java.lang.String> getCourseIDList() {
-      return getCourseIDListMap();
-    }
-    /**
-     * <code>map&lt;int32, string&gt; courseID_List = 2;</code>
-     */
-    @java.lang.Override
-
-    public java.util.Map<java.lang.Integer, java.lang.String> getCourseIDListMap() {
-      return internalGetCourseIDList().getMap();
-    }
-    /**
-     * <code>map&lt;int32, string&gt; courseID_List = 2;</code>
-     */
-    @java.lang.Override
-
-    public java.lang.String getCourseIDListOrDefault(
-        int key,
-        java.lang.String defaultValue) {
-      
-      java.util.Map<java.lang.Integer, java.lang.String> map =
-          internalGetCourseIDList().getMap();
-      return map.containsKey(key) ? map.get(key) : defaultValue;
-    }
-    /**
-     * <code>map&lt;int32, string&gt; courseID_List = 2;</code>
-     */
-    @java.lang.Override
-
-    public java.lang.String getCourseIDListOrThrow(
-        int key) {
-      
-      java.util.Map<java.lang.Integer, java.lang.String> map =
-          internalGetCourseIDList().getMap();
-      if (!map.containsKey(key)) {
-        throw new java.lang.IllegalArgumentException();
-      }
-      return map.get(key);
-    }
-
-    public Builder clearCourseIDList() {
-      internalGetMutableCourseIDList().getMutableMap()
-          .clear();
-      return this;
-    }
-    /**
-     * <code>map&lt;int32, string&gt; courseID_List = 2;</code>
-     */
-
-    public Builder removeCourseIDList(
-        int key) {
-      
-      internalGetMutableCourseIDList().getMutableMap()
-          .remove(key);
-      return this;
-    }
-    /**
-     * Use alternate mutation accessors instead.
-     */
-    @java.lang.Deprecated
-    public java.util.Map<java.lang.Integer, java.lang.String>
-    getMutableCourseIDList() {
-      return internalGetMutableCourseIDList().getMutableMap();
-    }
-    /**
-     * <code>map&lt;int32, string&gt; courseID_List = 2;</code>
-     */
-    public Builder putCourseIDList(
-        int key,
+    public Builder setCourseId(
         java.lang.String value) {
-      
-      if (value == null) { throw new java.lang.NullPointerException(); }
-      internalGetMutableCourseIDList().getMutableMap()
-          .put(key, value);
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      courseId_ = value;
+      onChanged();
       return this;
     }
     /**
-     * <code>map&lt;int32, string&gt; courseID_List = 2;</code>
+     * <code>string course_id = 2;</code>
+     * @return This builder for chaining.
      */
-
-    public Builder putAllCourseIDList(
-        java.util.Map<java.lang.Integer, java.lang.String> values) {
-      internalGetMutableCourseIDList().getMutableMap()
-          .putAll(values);
+    public Builder clearCourseId() {
+      
+      courseId_ = getDefaultInstance().getCourseId();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string course_id = 2;</code>
+     * @param value The bytes for courseId to set.
+     * @return This builder for chaining.
+     */
+    public Builder setCourseIdBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      courseId_ = value;
+      onChanged();
       return this;
     }
     @java.lang.Override

@@ -122,7 +122,7 @@ StudentCourseRegistrationSystemImpl extends StudentCourseRegistrationSystemGrpc.
         Message message = stub.registerCourseByStudent(StuAndCourseInfo
                 .newBuilder()
                 .setStudentId(request.getStudentId())
-                .putAllCourseIDList(request.getCourseIDListMap())
+                .setCourseId(request.getCourseId())
                 .build());
         responseObserver.onNext(message);
         responseObserver.onCompleted();

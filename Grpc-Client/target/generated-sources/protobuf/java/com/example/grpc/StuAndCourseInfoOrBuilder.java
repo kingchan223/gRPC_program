@@ -20,36 +20,14 @@ public interface StuAndCourseInfoOrBuilder extends
       getStudentIdBytes();
 
   /**
-   * <code>map&lt;int32, string&gt; courseID_List = 2;</code>
+   * <code>string course_id = 2;</code>
+   * @return The courseId.
    */
-  int getCourseIDListCount();
+  java.lang.String getCourseId();
   /**
-   * <code>map&lt;int32, string&gt; courseID_List = 2;</code>
+   * <code>string course_id = 2;</code>
+   * @return The bytes for courseId.
    */
-  boolean containsCourseIDList(
-      int key);
-  /**
-   * Use {@link #getCourseIDListMap()} instead.
-   */
-  @java.lang.Deprecated
-  java.util.Map<java.lang.Integer, java.lang.String>
-  getCourseIDList();
-  /**
-   * <code>map&lt;int32, string&gt; courseID_List = 2;</code>
-   */
-  java.util.Map<java.lang.Integer, java.lang.String>
-  getCourseIDListMap();
-  /**
-   * <code>map&lt;int32, string&gt; courseID_List = 2;</code>
-   */
-
-  java.lang.String getCourseIDListOrDefault(
-      int key,
-      java.lang.String defaultValue);
-  /**
-   * <code>map&lt;int32, string&gt; courseID_List = 2;</code>
-   */
-
-  java.lang.String getCourseIDListOrThrow(
-      int key);
+  com.google.protobuf.ByteString
+      getCourseIdBytes();
 }

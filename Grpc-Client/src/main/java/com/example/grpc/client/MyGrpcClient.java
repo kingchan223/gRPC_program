@@ -67,18 +67,19 @@ public class MyGrpcClient {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.print(ClientProperties.REGISTER_COURSE_STDID);
         String studentId = br.readLine().trim();
-        System.out.print(ClientProperties.REGISTER_COURSE_COURSEID);
-        String[] courseIdList = br.readLine().trim().split("/");
-        Map<Integer, String> courseIdMap = new HashMap<>();
-        int i=0;
-        for (String courseId : courseIdList) {
-            courseIdMap.put(i++,courseId);
+        try {
+            isNull(studentId);
+        } catch (NotEnoughDataException e) {
+            System.out.println("❗️❗️❗학생번호를 다시 입력해주세요❗️❗️❗");
         }
-        Message message = stub.registerCourseByStudent(StuAndCourseInfo
-                .newBuilder()
-                .setStudentId(studentId)
-                .putAllCourseIDList(courseIdMap)
-                .build());
+        System.out.print(ClientProperties.REGISTER_COURSE_COURSEID);
+        String courseId = br.readLine().trim();
+        try {
+            isNull(courseId);
+        } catch (NotEnoughDataException e) {
+            System.out.println("❗️❗️❗강좌번호를 다시 입력해주세요❗️❗️❗");
+        }
+        Message message = stub.registerCourseByStudent(StuAndCourseInfo.newBuilder().setStudentId(studentId).setCourseId(courseId).build());
         printResultMessage(message);
     }
 
@@ -208,22 +209,41 @@ public class MyGrpcClient {
         }
     }
 
+    public static void isNull(String  data[]) throws NotEnoughDataException {
+        for (String datum : data) {
+            if((datum==null|| datum.equals(""))){
+                throw new NotEnoughDataException();
+            }
+        }
+    }
+
     private static void printResultMessage(Message message) {
         String msg = message.getMsg();
         if(msg.equals("NOTexistIDstd")){
+            System.out.println();
             System.out.println("❗️❗️❗존재하지 않는 학생 아이디를 입력하셨습니다❗️❗️❗");
         }else if(msg.equals("alreadyEcourse")){
-            System.out.println("❗️❗️❗이미 수강신청한 강좌번호를 입력하셨습니다❗️❗️❗");
+            System.out.println();
+            System.out.println("❗️❗️❗이미 등록된 강좌번호를 입력하셨습니다❗️❗️❗");
         }else if(msg.equals("alreadyEstd")){
+            System.out.println();
             System.out.println("❗️❗️❗이미 등록된 학생번호를 입력하셨습니다❗️❗️❗");
         }else if(msg.equals("NOTexistIDcourse")){
+            System.out.println();
             System.out.println("❗️❗️❗존재하지 않는 강좌번호를 입력하셨습니다❗️❗️❗");
         }else if(msg.equals("success")){
+            System.out.println();
             System.out.println("🥳 성공적으로 반영되었습니다! 🥳");
         }else if(msg.equals("fail")){
+            System.out.println();
             System.out.println("❗️❗️❗알 수 없는 이유로 실패하였습니다. 다시 시도해주세요❗️❗️❗");
         }else if(msg.equals("NOTexistID")){
+            System.out.println();
             System.out.println("❗️❗️❗존재하지 않는 번호를 입력하셨습니다❗️❗️❗");
+        }
+        else if(msg.equals("HaveToTakePre")){
+            System.out.println();
+            System.out.println("❗️❗️❗선수과목을 수강하지 않았습니다.❗️❗️❗");
         }
     }
 }
