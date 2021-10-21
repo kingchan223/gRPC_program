@@ -9,11 +9,6 @@ import java.util.Map;
 public class
 SCRegistrationSystemServerImpl extends StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemImplBase {
 
-    private final DataConnection dataConnection;
-
-    public SCRegistrationSystemServerImpl() {
-        this.dataConnection = new DataConnection();
-    }
 
 //    @Override
 //    public void testMethods(TestRequest request, StreamObserver<TestResponse> responseObserver) {
@@ -35,87 +30,81 @@ SCRegistrationSystemServerImpl extends StudentCourseRegistrationSystemGrpc.Stude
     }
 
     @Override
-    public void getStudentList(Request request, StreamObserver<StudentListResponse> responseObserver){
-        DataSourceGrpc.DataSourceBlockingStub stub = dataConnection.makeStub();
-        DataResponse studentData = stub.getListData(DataRequest.newBuilder().setSORc("s").build());
+    public void getStudentList(ListDataRequest request, StreamObserver<StudentListResponse> responseObserver){
+        ListDataResponse studentData = DataConnection.getDataConnection().makeStub().getListData(ListDataRequest.newBuilder().setStudentOrCourse("student").build());
         StudentListResponse.Builder builder = putStudentInfo(StudentListResponse.newBuilder(), studentData);
         responseObserver.onNext(builder.build());
         responseObserver.onCompleted();
     }
 
     @Override
-    public void getCourseList(Request request, StreamObserver<CourseListResponse> responseObserver){
-        DataSourceGrpc.DataSourceBlockingStub stub = dataConnection.makeStub();
-        DataResponse courseData = dataConnection.makeStub().getListData(DataRequest.newBuilder().setSORc("c").build());
+    public void getCourseList(ListDataRequest request, StreamObserver<CourseListResponse> responseObserver){
+        ListDataResponse courseData = DataConnection.getDataConnection().makeStub().getListData(ListDataRequest.newBuilder().setStudentOrCourse("course").build());
         CourseListResponse.Builder builder = putCourseInfo(CourseListResponse.newBuilder(), courseData);
         responseObserver.onNext(builder.build());
         responseObserver.onCompleted();
     }
 
     @Override
-    public void putCourse(Course request, StreamObserver<Message> responseObserver){
-        DataSourceGrpc.DataSourceBlockingStub stub = dataConnection.makeStub();
-        String courseInfo = null;
+    public void putCourse(Course request, StreamObserver<StatusCode> responseObserver){
         try{
-            courseInfo = extractCourseInfo(request);
+            String courseInfo = extractCourseInfo(request);
         }catch(NotEnoughDataException e){
-            Message msg = Message.newBuilder().setMsg("nullData").build();
-            responseObserver.onNext(msg);
+            StatusCode code = StatusCode.newBuilder().setStatusCode("nullData").build();
+            responseObserver.onNext(code);
             responseObserver.onCompleted();
             e.printStackTrace();
             return;
         }
-        Message message = stub.putCourse(CourseInfoString.newBuilder().setCourseInfo(courseInfo).build());
-        responseObserver.onNext(message);
+        StatusCode code = DataConnection.getDataConnection().makeStub().putCourse(CourseInfoString.newBuilder().setCourseInfo(courseInfo).build());
+        responseObserver.onNext(code);
         responseObserver.onCompleted();
     }
 
     @Override
-    public void putStudent(Student request, StreamObserver<Message> responseObserver){
-        DataSourceGrpc.DataSourceBlockingStub stub = dataConnection.makeStub();
+    public void putStudent(Student request, StreamObserver<StatusCode> responseObserver){
         String studentInfo = null;
         try {
             studentInfo = extractStudentInfo(request);
         } catch (NotEnoughDataException e) {
-            Message msg = Message.newBuilder().setMsg("nullData").build();
-            responseObserver.onNext(msg);
+            StatusCode code = StatusCode.newBuilder().setStatusCode("nullData").build();
+            responseObserver.onNext(code);
             responseObserver.onCompleted();
             e.printStackTrace();
             return;
         }
-        Message message = stub.putStudent(StudentInfoString.newBuilder().setStudentInfo(studentInfo).build());
-        responseObserver.onNext(message);
+        StatusCode code = DataConnection.getDataConnection().makeStub().putStudent(StudentInfoString.newBuilder().setStudentInfo(studentInfo).build());
+        responseObserver.onNext(code);
         responseObserver.onCompleted();
     }
 
 
     @Override
-    public void deleteCourseById(Course request, StreamObserver<Message> responseObserver){
-        String id = request.getId();
-        DataSourceGrpc.DataSourceBlockingStub stub = dataConnection.makeStub();
-        Message message = stub.deleteCourseById(Course.newBuilder().setId(id).build());
-        responseObserver.onNext(message);
+    public void deleteCourseById(CourseId courseId, StreamObserver<StatusCode> responseObserver){
+        String id = courseId.getCourseId();
+        DataServiceGrpc.DataServiceBlockingStub stub = DataConnection.getDataConnection().makeStub();
+        StatusCode code = stub.deleteCourseById(Course.newBuilder().setId(id).build());
+        responseObserver.onNext(code);
         responseObserver.onCompleted();
     }
 
     @Override
-    public void deleteStudentById(Student request, StreamObserver<Message> responseObserver){
-        String id = request.getId();
-        DataSourceGrpc.DataSourceBlockingStub stub = dataConnection.makeStub();
-        Message message = stub.deleteStudentById(Student.newBuilder().setId(id).build());
-        responseObserver.onNext(message);
+    public void deleteStudentById(Student student, StreamObserver<StatusCode> responseObserver){
+        String id = student.getId();
+        DataServiceGrpc.DataServiceBlockingStub stub = DataConnection.getDataConnection().makeStub();
+        StatusCode code = stub.deleteStudentById(Student.newBuilder().setId(id).build());
+        responseObserver.onNext(code);
         responseObserver.onCompleted();
     }
 
     @Override
-    public void updateStudentByAddCourse(StuAndCourseInfo request, StreamObserver<Message> responseObserver){
-        DataSourceGrpc.DataSourceBlockingStub stub = dataConnection.makeStub();
-        Message message = stub.updateStudentByAddCourse(StuAndCourseInfo
+    public void updateStudentWithCourse(StudentAndCourseId request, StreamObserver<StatusCode> responseObserver){
+        StatusCode code = DataConnection.getDataConnection().makeStub().updateStudentWithCourse(StudentAndCourseId
                 .newBuilder()
                 .setStudentId(request.getStudentId())
                 .setCourseId(request.getCourseId())
                 .build());
-        responseObserver.onNext(message);
+        responseObserver.onNext(code);
         responseObserver.onCompleted();
     }
 
