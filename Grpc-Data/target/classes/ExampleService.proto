@@ -3,121 +3,74 @@ syntax = "proto3";
 package com.example.grpc;
 option java_multiple_files=true;
 
-message CoursesRequest{
-  string getMessage = 1;
-}
-
-message CoursesResponse{
-  string courses = 1;
-}
-
-message Request{
-  int32  request = 1;
-}
-
-message StudentListResponse{
-  map<int32, string> studentList = 1;
-}
-
-message CourseListResponse{
-  map<int32, string> courseList = 1;
-}
-
-message PrintMenuRequest{
+message MenuRequest{
   string request = 1;
 }
-
+message MenuResponse{
+  repeated string menuList = 1;
+}
+message StudentListResponse{
+  repeated string studentList = 1;
+}
+message CourseListResponse{
+  repeated string courseList = 1;
+}
 message ChoiceRequest{
   string number = 1;
 }
 message ResultOfChoiceResponse{
   string result = 1;
 }
-message PrintMenuResponse{
-  map<int32, string> menuList = 1;
-}
-message StudentIdRequest{
-  string studentId = 1;
-}
-message StudentIdResponse{
-  map<int32, string> studentIdCourses = 1;
-}
-message CourseIdRequest{
-  string courseId =1;
-}
-message CourseIdResponse{
-  map<int32, string> courseIdStudents = 1;
-}
-
 message Course{
   string id = 1;
   string name = 2;
   string prof_name = 3;
-  map<int32, string> preCourses = 4;
+  repeated string preCourses = 4;
 }
 message Student{
   string id = 1;
   string name = 2;
   string major = 3;
 }
-message StuAndCourseInfo{
-  string student_id = 1;
-  string course_id = 2;
+message StatusCode{
+  string statusCode = 1;
+  string message = 2;
 }
-
-message Message{
-  string msg = 1;
+message CourseId{
+  string courseId = 1;
+}
+message StudentId{
+  string studentId = 1;
 }
 
 //Server부분 데이터 정의
 service StudentCourseRegistrationSystem{
   // 메뉴출력
-  rpc printMenu(PrintMenuRequest) returns (PrintMenuResponse);
+  rpc getMenu(MenuRequest) returns (MenuResponse);
 
-  // 메뉴선택
-  rpc selectMenu(ChoiceRequest) returns (ResultOfChoiceResponse);
-
-  //학생 리스트 출력
-  rpc printStudentList(Request) returns (StudentListResponse);
-
-  //과목 리스트 출력
-  rpc printCourseList(Request) returns (CourseListResponse);
-
-  // 학생 별 수강과목 리스트
-  rpc studentCourseList(StudentIdRequest) returns (StudentIdResponse);
-
-  // 과목 별 수강 학생 리스트
-  rpc courseIdStudentList(CourseIdRequest) returns (CourseIdResponse);
+  //학생, 과목 리스트 출력
+  rpc getListData(ListDataRequest) returns (ListDataResponse);
 
   //add Course
-  rpc addCourse(Course) returns (Message);
+  rpc putCourse(Course) returns (StatusCode);
 
   //add Student
-  rpc addStudent(Student) returns (Message);
+  rpc putStudent(Student) returns (StatusCode);
 
   //delete Course
-  rpc deleteCourseById(Course) returns (Message);
+  rpc deleteCourseById(CourseId) returns (StatusCode);
 
   //delete Student
-  rpc deleteStudentById(Student) returns (Message);
+  rpc deleteStudentById(StudentId) returns (StatusCode);
 
   //수강신청
-  rpc registerCourseByStudent(StuAndCourseInfo) returns (Message);
-
-
-  //학생 별 수강을 완료한 과목 리스트
-  //수강신청
-  //EXIT
+  rpc updateStudentWithCourse(StudentAndCourseId) returns (StatusCode);
 }
-
-
-
-message DataRequest{
-  string sORc = 1;
+message ListDataRequest{
+  string studentOrCourse = 1;
 }
-
-message DataResponse{
-  map<int32, string> data = 1;
+message ListDataResponse{
+  repeated string data = 1;
 }
 message CourseInfoString{
   string courseInfo = 1;
@@ -125,28 +78,29 @@ message CourseInfoString{
 message StudentInfoString{
   string studentInfo = 1;
 }
-
-
+message StudentAndCourseId{
+  string studentId = 1;
+  string courseId = 2;
+}
 //Data부분 Service정의
-service DataSource{
-
+service DataService{
   //과목 또는 학생 정보 리스트 전달하기
-  rpc getListData(DataRequest) returns (DataResponse);
+  rpc getListData(ListDataRequest) returns (ListDataResponse);
 
   //add Course
-  rpc addCourse(CourseInfoString) returns (Message);
+  rpc putCourse(CourseInfoString) returns (StatusCode);
 
   //add Student
-  rpc addStudent(StudentInfoString) returns (Message);
+  rpc putStudent(StudentInfoString) returns (StatusCode);
 
   //delete Course
-  rpc deleteCourseById(Course) returns (Message);
+  rpc deleteCourseById(CourseId) returns (StatusCode);
 
   //delete Student
-  rpc deleteStudentById(Student) returns (Message);
+  rpc deleteStudentById(StudentId) returns (StatusCode);
 
   //수강신청
-  rpc registerCourseByStudent(StuAndCourseInfo) returns (Message);
+  rpc updateStudentWithCourse(StudentAndCourseId) returns (StatusCode);
 }
 
 

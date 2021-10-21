@@ -9,7 +9,7 @@ public class MyGrpcData {
     public static void main(String[] args) throws IOException, InterruptedException {
         int fort = 9090;
         Server server = ServerBuilder.forPort(fort)
-                .addService(new DataSourceImpl())
+                .addService(new SCRegisterSystemDataImpl())
                 .build();
         server.start();
         System.out.println("Listening <"+fort+">.......");

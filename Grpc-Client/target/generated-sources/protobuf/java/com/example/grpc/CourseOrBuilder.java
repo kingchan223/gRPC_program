@@ -44,36 +44,27 @@ public interface CourseOrBuilder extends
       getProfNameBytes();
 
   /**
-   * <code>map&lt;int32, string&gt; preCourses = 4;</code>
+   * <code>repeated string preCourses = 4;</code>
+   * @return A list containing the preCourses.
+   */
+  java.util.List<java.lang.String>
+      getPreCoursesList();
+  /**
+   * <code>repeated string preCourses = 4;</code>
+   * @return The count of preCourses.
    */
   int getPreCoursesCount();
   /**
-   * <code>map&lt;int32, string&gt; preCourses = 4;</code>
+   * <code>repeated string preCourses = 4;</code>
+   * @param index The index of the element to return.
+   * @return The preCourses at the given index.
    */
-  boolean containsPreCourses(
-      int key);
+  java.lang.String getPreCourses(int index);
   /**
-   * Use {@link #getPreCoursesMap()} instead.
+   * <code>repeated string preCourses = 4;</code>
+   * @param index The index of the value to return.
+   * @return The bytes of the preCourses at the given index.
    */
-  @java.lang.Deprecated
-  java.util.Map<java.lang.Integer, java.lang.String>
-  getPreCourses();
-  /**
-   * <code>map&lt;int32, string&gt; preCourses = 4;</code>
-   */
-  java.util.Map<java.lang.Integer, java.lang.String>
-  getPreCoursesMap();
-  /**
-   * <code>map&lt;int32, string&gt; preCourses = 4;</code>
-   */
-
-  java.lang.String getPreCoursesOrDefault(
-      int key,
-      java.lang.String defaultValue);
-  /**
-   * <code>map&lt;int32, string&gt; preCourses = 4;</code>
-   */
-
-  java.lang.String getPreCoursesOrThrow(
-      int key);
+  com.google.protobuf.ByteString
+      getPreCoursesBytes(int index);
 }

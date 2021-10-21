@@ -16,6 +16,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private StudentListResponse() {
+    studentList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
   }
 
   @java.lang.Override
@@ -50,16 +51,12 @@ private static final long serialVersionUID = 0L;
             done = true;
             break;
           case 10: {
+            java.lang.String s = input.readStringRequireUtf8();
             if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-              studentList_ = com.google.protobuf.MapField.newMapField(
-                  StudentListDefaultEntryHolder.defaultEntry);
+              studentList_ = new com.google.protobuf.LazyStringArrayList();
               mutable_bitField0_ |= 0x00000001;
             }
-            com.google.protobuf.MapEntry<java.lang.Integer, java.lang.String>
-            studentList__ = input.readMessage(
-                StudentListDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-            studentList_.getMutableMap().put(
-                studentList__.getKey(), studentList__.getValue());
+            studentList_.add(s);
             break;
           }
           default: {
@@ -77,6 +74,9 @@ private static final long serialVersionUID = 0L;
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e).setUnfinishedMessage(this);
     } finally {
+      if (((mutable_bitField0_ & 0x00000001) != 0)) {
+        studentList_ = studentList_.getUnmodifiableView();
+      }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
@@ -86,18 +86,6 @@ private static final long serialVersionUID = 0L;
     return com.example.grpc.ExampleService.internal_static_com_example_grpc_StudentListResponse_descriptor;
   }
 
-  @SuppressWarnings({"rawtypes"})
-  @java.lang.Override
-  protected com.google.protobuf.MapField internalGetMapField(
-      int number) {
-    switch (number) {
-      case 1:
-        return internalGetStudentList();
-      default:
-        throw new RuntimeException(
-            "Invalid map field number: " + number);
-    }
-  }
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
@@ -107,84 +95,38 @@ private static final long serialVersionUID = 0L;
   }
 
   public static final int STUDENTLIST_FIELD_NUMBER = 1;
-  private static final class StudentListDefaultEntryHolder {
-    static final com.google.protobuf.MapEntry<
-        java.lang.Integer, java.lang.String> defaultEntry =
-            com.google.protobuf.MapEntry
-            .<java.lang.Integer, java.lang.String>newDefaultInstance(
-                com.example.grpc.ExampleService.internal_static_com_example_grpc_StudentListResponse_StudentListEntry_descriptor, 
-                com.google.protobuf.WireFormat.FieldType.INT32,
-                0,
-                com.google.protobuf.WireFormat.FieldType.STRING,
-                "");
-  }
-  private com.google.protobuf.MapField<
-      java.lang.Integer, java.lang.String> studentList_;
-  private com.google.protobuf.MapField<java.lang.Integer, java.lang.String>
-  internalGetStudentList() {
-    if (studentList_ == null) {
-      return com.google.protobuf.MapField.emptyMapField(
-          StudentListDefaultEntryHolder.defaultEntry);
-    }
+  private com.google.protobuf.LazyStringList studentList_;
+  /**
+   * <code>repeated string studentList = 1;</code>
+   * @return A list containing the studentList.
+   */
+  public com.google.protobuf.ProtocolStringList
+      getStudentListList() {
     return studentList_;
   }
-
+  /**
+   * <code>repeated string studentList = 1;</code>
+   * @return The count of studentList.
+   */
   public int getStudentListCount() {
-    return internalGetStudentList().getMap().size();
+    return studentList_.size();
   }
   /**
-   * <code>map&lt;int32, string&gt; studentList = 1;</code>
+   * <code>repeated string studentList = 1;</code>
+   * @param index The index of the element to return.
+   * @return The studentList at the given index.
    */
-
-  @java.lang.Override
-  public boolean containsStudentList(
-      int key) {
-    
-    return internalGetStudentList().getMap().containsKey(key);
+  public java.lang.String getStudentList(int index) {
+    return studentList_.get(index);
   }
   /**
-   * Use {@link #getStudentListMap()} instead.
+   * <code>repeated string studentList = 1;</code>
+   * @param index The index of the value to return.
+   * @return The bytes of the studentList at the given index.
    */
-  @java.lang.Override
-  @java.lang.Deprecated
-  public java.util.Map<java.lang.Integer, java.lang.String> getStudentList() {
-    return getStudentListMap();
-  }
-  /**
-   * <code>map&lt;int32, string&gt; studentList = 1;</code>
-   */
-  @java.lang.Override
-
-  public java.util.Map<java.lang.Integer, java.lang.String> getStudentListMap() {
-    return internalGetStudentList().getMap();
-  }
-  /**
-   * <code>map&lt;int32, string&gt; studentList = 1;</code>
-   */
-  @java.lang.Override
-
-  public java.lang.String getStudentListOrDefault(
-      int key,
-      java.lang.String defaultValue) {
-    
-    java.util.Map<java.lang.Integer, java.lang.String> map =
-        internalGetStudentList().getMap();
-    return map.containsKey(key) ? map.get(key) : defaultValue;
-  }
-  /**
-   * <code>map&lt;int32, string&gt; studentList = 1;</code>
-   */
-  @java.lang.Override
-
-  public java.lang.String getStudentListOrThrow(
-      int key) {
-    
-    java.util.Map<java.lang.Integer, java.lang.String> map =
-        internalGetStudentList().getMap();
-    if (!map.containsKey(key)) {
-      throw new java.lang.IllegalArgumentException();
-    }
-    return map.get(key);
+  public com.google.protobuf.ByteString
+      getStudentListBytes(int index) {
+    return studentList_.getByteString(index);
   }
 
   private byte memoizedIsInitialized = -1;
@@ -201,12 +143,9 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    com.google.protobuf.GeneratedMessageV3
-      .serializeIntegerMapTo(
-        output,
-        internalGetStudentList(),
-        StudentListDefaultEntryHolder.defaultEntry,
-        1);
+    for (int i = 0; i < studentList_.size(); i++) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, studentList_.getRaw(i));
+    }
     unknownFields.writeTo(output);
   }
 
@@ -216,15 +155,13 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    for (java.util.Map.Entry<java.lang.Integer, java.lang.String> entry
-         : internalGetStudentList().getMap().entrySet()) {
-      com.google.protobuf.MapEntry<java.lang.Integer, java.lang.String>
-      studentList__ = StudentListDefaultEntryHolder.defaultEntry.newBuilderForType()
-          .setKey(entry.getKey())
-          .setValue(entry.getValue())
-          .build();
-      size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, studentList__);
+    {
+      int dataSize = 0;
+      for (int i = 0; i < studentList_.size(); i++) {
+        dataSize += computeStringSizeNoTag(studentList_.getRaw(i));
+      }
+      size += dataSize;
+      size += 1 * getStudentListList().size();
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -241,8 +178,8 @@ private static final long serialVersionUID = 0L;
     }
     com.example.grpc.StudentListResponse other = (com.example.grpc.StudentListResponse) obj;
 
-    if (!internalGetStudentList().equals(
-        other.internalGetStudentList())) return false;
+    if (!getStudentListList()
+        .equals(other.getStudentListList())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -254,9 +191,9 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    if (!internalGetStudentList().getMap().isEmpty()) {
+    if (getStudentListCount() > 0) {
       hash = (37 * hash) + STUDENTLIST_FIELD_NUMBER;
-      hash = (53 * hash) + internalGetStudentList().hashCode();
+      hash = (53 * hash) + getStudentListList().hashCode();
     }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
@@ -365,28 +302,6 @@ private static final long serialVersionUID = 0L;
       return com.example.grpc.ExampleService.internal_static_com_example_grpc_StudentListResponse_descriptor;
     }
 
-    @SuppressWarnings({"rawtypes"})
-    protected com.google.protobuf.MapField internalGetMapField(
-        int number) {
-      switch (number) {
-        case 1:
-          return internalGetStudentList();
-        default:
-          throw new RuntimeException(
-              "Invalid map field number: " + number);
-      }
-    }
-    @SuppressWarnings({"rawtypes"})
-    protected com.google.protobuf.MapField internalGetMutableMapField(
-        int number) {
-      switch (number) {
-        case 1:
-          return internalGetMutableStudentList();
-        default:
-          throw new RuntimeException(
-              "Invalid map field number: " + number);
-      }
-    }
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
@@ -413,7 +328,8 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      internalGetMutableStudentList().clear();
+      studentList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      bitField0_ = (bitField0_ & ~0x00000001);
       return this;
     }
 
@@ -441,8 +357,11 @@ private static final long serialVersionUID = 0L;
     public com.example.grpc.StudentListResponse buildPartial() {
       com.example.grpc.StudentListResponse result = new com.example.grpc.StudentListResponse(this);
       int from_bitField0_ = bitField0_;
-      result.studentList_ = internalGetStudentList();
-      result.studentList_.makeImmutable();
+      if (((bitField0_ & 0x00000001) != 0)) {
+        studentList_ = studentList_.getUnmodifiableView();
+        bitField0_ = (bitField0_ & ~0x00000001);
+      }
+      result.studentList_ = studentList_;
       onBuilt();
       return result;
     }
@@ -491,8 +410,16 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(com.example.grpc.StudentListResponse other) {
       if (other == com.example.grpc.StudentListResponse.getDefaultInstance()) return this;
-      internalGetMutableStudentList().mergeFrom(
-          other.internalGetStudentList());
+      if (!other.studentList_.isEmpty()) {
+        if (studentList_.isEmpty()) {
+          studentList_ = other.studentList_;
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          ensureStudentListIsMutable();
+          studentList_.addAll(other.studentList_);
+        }
+        onChanged();
+      }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
       return this;
@@ -523,131 +450,113 @@ private static final long serialVersionUID = 0L;
     }
     private int bitField0_;
 
-    private com.google.protobuf.MapField<
-        java.lang.Integer, java.lang.String> studentList_;
-    private com.google.protobuf.MapField<java.lang.Integer, java.lang.String>
-    internalGetStudentList() {
-      if (studentList_ == null) {
-        return com.google.protobuf.MapField.emptyMapField(
-            StudentListDefaultEntryHolder.defaultEntry);
-      }
-      return studentList_;
+    private com.google.protobuf.LazyStringList studentList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    private void ensureStudentListIsMutable() {
+      if (!((bitField0_ & 0x00000001) != 0)) {
+        studentList_ = new com.google.protobuf.LazyStringArrayList(studentList_);
+        bitField0_ |= 0x00000001;
+       }
     }
-    private com.google.protobuf.MapField<java.lang.Integer, java.lang.String>
-    internalGetMutableStudentList() {
-      onChanged();;
-      if (studentList_ == null) {
-        studentList_ = com.google.protobuf.MapField.newMapField(
-            StudentListDefaultEntryHolder.defaultEntry);
-      }
-      if (!studentList_.isMutable()) {
-        studentList_ = studentList_.copy();
-      }
-      return studentList_;
+    /**
+     * <code>repeated string studentList = 1;</code>
+     * @return A list containing the studentList.
+     */
+    public com.google.protobuf.ProtocolStringList
+        getStudentListList() {
+      return studentList_.getUnmodifiableView();
     }
-
+    /**
+     * <code>repeated string studentList = 1;</code>
+     * @return The count of studentList.
+     */
     public int getStudentListCount() {
-      return internalGetStudentList().getMap().size();
+      return studentList_.size();
     }
     /**
-     * <code>map&lt;int32, string&gt; studentList = 1;</code>
+     * <code>repeated string studentList = 1;</code>
+     * @param index The index of the element to return.
+     * @return The studentList at the given index.
      */
-
-    @java.lang.Override
-    public boolean containsStudentList(
-        int key) {
-      
-      return internalGetStudentList().getMap().containsKey(key);
+    public java.lang.String getStudentList(int index) {
+      return studentList_.get(index);
     }
     /**
-     * Use {@link #getStudentListMap()} instead.
+     * <code>repeated string studentList = 1;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the studentList at the given index.
      */
-    @java.lang.Override
-    @java.lang.Deprecated
-    public java.util.Map<java.lang.Integer, java.lang.String> getStudentList() {
-      return getStudentListMap();
+    public com.google.protobuf.ByteString
+        getStudentListBytes(int index) {
+      return studentList_.getByteString(index);
     }
     /**
-     * <code>map&lt;int32, string&gt; studentList = 1;</code>
+     * <code>repeated string studentList = 1;</code>
+     * @param index The index to set the value at.
+     * @param value The studentList to set.
+     * @return This builder for chaining.
      */
-    @java.lang.Override
-
-    public java.util.Map<java.lang.Integer, java.lang.String> getStudentListMap() {
-      return internalGetStudentList().getMap();
-    }
-    /**
-     * <code>map&lt;int32, string&gt; studentList = 1;</code>
-     */
-    @java.lang.Override
-
-    public java.lang.String getStudentListOrDefault(
-        int key,
-        java.lang.String defaultValue) {
-      
-      java.util.Map<java.lang.Integer, java.lang.String> map =
-          internalGetStudentList().getMap();
-      return map.containsKey(key) ? map.get(key) : defaultValue;
-    }
-    /**
-     * <code>map&lt;int32, string&gt; studentList = 1;</code>
-     */
-    @java.lang.Override
-
-    public java.lang.String getStudentListOrThrow(
-        int key) {
-      
-      java.util.Map<java.lang.Integer, java.lang.String> map =
-          internalGetStudentList().getMap();
-      if (!map.containsKey(key)) {
-        throw new java.lang.IllegalArgumentException();
-      }
-      return map.get(key);
-    }
-
-    public Builder clearStudentList() {
-      internalGetMutableStudentList().getMutableMap()
-          .clear();
+    public Builder setStudentList(
+        int index, java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureStudentListIsMutable();
+      studentList_.set(index, value);
+      onChanged();
       return this;
     }
     /**
-     * <code>map&lt;int32, string&gt; studentList = 1;</code>
+     * <code>repeated string studentList = 1;</code>
+     * @param value The studentList to add.
+     * @return This builder for chaining.
      */
-
-    public Builder removeStudentList(
-        int key) {
-      
-      internalGetMutableStudentList().getMutableMap()
-          .remove(key);
-      return this;
-    }
-    /**
-     * Use alternate mutation accessors instead.
-     */
-    @java.lang.Deprecated
-    public java.util.Map<java.lang.Integer, java.lang.String>
-    getMutableStudentList() {
-      return internalGetMutableStudentList().getMutableMap();
-    }
-    /**
-     * <code>map&lt;int32, string&gt; studentList = 1;</code>
-     */
-    public Builder putStudentList(
-        int key,
+    public Builder addStudentList(
         java.lang.String value) {
-      
-      if (value == null) { throw new java.lang.NullPointerException(); }
-      internalGetMutableStudentList().getMutableMap()
-          .put(key, value);
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureStudentListIsMutable();
+      studentList_.add(value);
+      onChanged();
       return this;
     }
     /**
-     * <code>map&lt;int32, string&gt; studentList = 1;</code>
+     * <code>repeated string studentList = 1;</code>
+     * @param values The studentList to add.
+     * @return This builder for chaining.
      */
-
-    public Builder putAllStudentList(
-        java.util.Map<java.lang.Integer, java.lang.String> values) {
-      internalGetMutableStudentList().getMutableMap()
-          .putAll(values);
+    public Builder addAllStudentList(
+        java.lang.Iterable<java.lang.String> values) {
+      ensureStudentListIsMutable();
+      com.google.protobuf.AbstractMessageLite.Builder.addAll(
+          values, studentList_);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated string studentList = 1;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearStudentList() {
+      studentList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      bitField0_ = (bitField0_ & ~0x00000001);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated string studentList = 1;</code>
+     * @param value The bytes of the studentList to add.
+     * @return This builder for chaining.
+     */
+    public Builder addStudentListBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      ensureStudentListIsMutable();
+      studentList_.add(value);
+      onChanged();
       return this;
     }
     @java.lang.Override

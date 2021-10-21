@@ -8,36 +8,27 @@ public interface CourseListResponseOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>map&lt;int32, string&gt; courseList = 1;</code>
+   * <code>repeated string courseList = 1;</code>
+   * @return A list containing the courseList.
+   */
+  java.util.List<java.lang.String>
+      getCourseListList();
+  /**
+   * <code>repeated string courseList = 1;</code>
+   * @return The count of courseList.
    */
   int getCourseListCount();
   /**
-   * <code>map&lt;int32, string&gt; courseList = 1;</code>
+   * <code>repeated string courseList = 1;</code>
+   * @param index The index of the element to return.
+   * @return The courseList at the given index.
    */
-  boolean containsCourseList(
-      int key);
+  java.lang.String getCourseList(int index);
   /**
-   * Use {@link #getCourseListMap()} instead.
+   * <code>repeated string courseList = 1;</code>
+   * @param index The index of the value to return.
+   * @return The bytes of the courseList at the given index.
    */
-  @java.lang.Deprecated
-  java.util.Map<java.lang.Integer, java.lang.String>
-  getCourseList();
-  /**
-   * <code>map&lt;int32, string&gt; courseList = 1;</code>
-   */
-  java.util.Map<java.lang.Integer, java.lang.String>
-  getCourseListMap();
-  /**
-   * <code>map&lt;int32, string&gt; courseList = 1;</code>
-   */
-
-  java.lang.String getCourseListOrDefault(
-      int key,
-      java.lang.String defaultValue);
-  /**
-   * <code>map&lt;int32, string&gt; courseList = 1;</code>
-   */
-
-  java.lang.String getCourseListOrThrow(
-      int key);
+  com.google.protobuf.ByteString
+      getCourseListBytes(int index);
 }

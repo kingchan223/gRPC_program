@@ -8,36 +8,27 @@ public interface StudentListResponseOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>map&lt;int32, string&gt; studentList = 1;</code>
+   * <code>repeated string studentList = 1;</code>
+   * @return A list containing the studentList.
+   */
+  java.util.List<java.lang.String>
+      getStudentListList();
+  /**
+   * <code>repeated string studentList = 1;</code>
+   * @return The count of studentList.
    */
   int getStudentListCount();
   /**
-   * <code>map&lt;int32, string&gt; studentList = 1;</code>
+   * <code>repeated string studentList = 1;</code>
+   * @param index The index of the element to return.
+   * @return The studentList at the given index.
    */
-  boolean containsStudentList(
-      int key);
+  java.lang.String getStudentList(int index);
   /**
-   * Use {@link #getStudentListMap()} instead.
+   * <code>repeated string studentList = 1;</code>
+   * @param index The index of the value to return.
+   * @return The bytes of the studentList at the given index.
    */
-  @java.lang.Deprecated
-  java.util.Map<java.lang.Integer, java.lang.String>
-  getStudentList();
-  /**
-   * <code>map&lt;int32, string&gt; studentList = 1;</code>
-   */
-  java.util.Map<java.lang.Integer, java.lang.String>
-  getStudentListMap();
-  /**
-   * <code>map&lt;int32, string&gt; studentList = 1;</code>
-   */
-
-  java.lang.String getStudentListOrDefault(
-      int key,
-      java.lang.String defaultValue);
-  /**
-   * <code>map&lt;int32, string&gt; studentList = 1;</code>
-   */
-
-  java.lang.String getStudentListOrThrow(
-      int key);
+  com.google.protobuf.ByteString
+      getStudentListBytes(int index);
 }

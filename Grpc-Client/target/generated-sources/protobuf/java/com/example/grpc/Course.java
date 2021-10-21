@@ -19,6 +19,7 @@ private static final long serialVersionUID = 0L;
     id_ = "";
     name_ = "";
     profName_ = "";
+    preCourses_ = com.google.protobuf.LazyStringArrayList.EMPTY;
   }
 
   @java.lang.Override
@@ -71,16 +72,12 @@ private static final long serialVersionUID = 0L;
             break;
           }
           case 34: {
+            java.lang.String s = input.readStringRequireUtf8();
             if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-              preCourses_ = com.google.protobuf.MapField.newMapField(
-                  PreCoursesDefaultEntryHolder.defaultEntry);
+              preCourses_ = new com.google.protobuf.LazyStringArrayList();
               mutable_bitField0_ |= 0x00000001;
             }
-            com.google.protobuf.MapEntry<java.lang.Integer, java.lang.String>
-            preCourses__ = input.readMessage(
-                PreCoursesDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-            preCourses_.getMutableMap().put(
-                preCourses__.getKey(), preCourses__.getValue());
+            preCourses_.add(s);
             break;
           }
           default: {
@@ -98,6 +95,9 @@ private static final long serialVersionUID = 0L;
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e).setUnfinishedMessage(this);
     } finally {
+      if (((mutable_bitField0_ & 0x00000001) != 0)) {
+        preCourses_ = preCourses_.getUnmodifiableView();
+      }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
@@ -107,18 +107,6 @@ private static final long serialVersionUID = 0L;
     return com.example.grpc.ExampleService.internal_static_com_example_grpc_Course_descriptor;
   }
 
-  @SuppressWarnings({"rawtypes"})
-  @java.lang.Override
-  protected com.google.protobuf.MapField internalGetMapField(
-      int number) {
-    switch (number) {
-      case 4:
-        return internalGetPreCourses();
-      default:
-        throw new RuntimeException(
-            "Invalid map field number: " + number);
-    }
-  }
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
@@ -242,84 +230,38 @@ private static final long serialVersionUID = 0L;
   }
 
   public static final int PRECOURSES_FIELD_NUMBER = 4;
-  private static final class PreCoursesDefaultEntryHolder {
-    static final com.google.protobuf.MapEntry<
-        java.lang.Integer, java.lang.String> defaultEntry =
-            com.google.protobuf.MapEntry
-            .<java.lang.Integer, java.lang.String>newDefaultInstance(
-                com.example.grpc.ExampleService.internal_static_com_example_grpc_Course_PreCoursesEntry_descriptor, 
-                com.google.protobuf.WireFormat.FieldType.INT32,
-                0,
-                com.google.protobuf.WireFormat.FieldType.STRING,
-                "");
-  }
-  private com.google.protobuf.MapField<
-      java.lang.Integer, java.lang.String> preCourses_;
-  private com.google.protobuf.MapField<java.lang.Integer, java.lang.String>
-  internalGetPreCourses() {
-    if (preCourses_ == null) {
-      return com.google.protobuf.MapField.emptyMapField(
-          PreCoursesDefaultEntryHolder.defaultEntry);
-    }
+  private com.google.protobuf.LazyStringList preCourses_;
+  /**
+   * <code>repeated string preCourses = 4;</code>
+   * @return A list containing the preCourses.
+   */
+  public com.google.protobuf.ProtocolStringList
+      getPreCoursesList() {
     return preCourses_;
   }
-
+  /**
+   * <code>repeated string preCourses = 4;</code>
+   * @return The count of preCourses.
+   */
   public int getPreCoursesCount() {
-    return internalGetPreCourses().getMap().size();
+    return preCourses_.size();
   }
   /**
-   * <code>map&lt;int32, string&gt; preCourses = 4;</code>
+   * <code>repeated string preCourses = 4;</code>
+   * @param index The index of the element to return.
+   * @return The preCourses at the given index.
    */
-
-  @java.lang.Override
-  public boolean containsPreCourses(
-      int key) {
-    
-    return internalGetPreCourses().getMap().containsKey(key);
+  public java.lang.String getPreCourses(int index) {
+    return preCourses_.get(index);
   }
   /**
-   * Use {@link #getPreCoursesMap()} instead.
+   * <code>repeated string preCourses = 4;</code>
+   * @param index The index of the value to return.
+   * @return The bytes of the preCourses at the given index.
    */
-  @java.lang.Override
-  @java.lang.Deprecated
-  public java.util.Map<java.lang.Integer, java.lang.String> getPreCourses() {
-    return getPreCoursesMap();
-  }
-  /**
-   * <code>map&lt;int32, string&gt; preCourses = 4;</code>
-   */
-  @java.lang.Override
-
-  public java.util.Map<java.lang.Integer, java.lang.String> getPreCoursesMap() {
-    return internalGetPreCourses().getMap();
-  }
-  /**
-   * <code>map&lt;int32, string&gt; preCourses = 4;</code>
-   */
-  @java.lang.Override
-
-  public java.lang.String getPreCoursesOrDefault(
-      int key,
-      java.lang.String defaultValue) {
-    
-    java.util.Map<java.lang.Integer, java.lang.String> map =
-        internalGetPreCourses().getMap();
-    return map.containsKey(key) ? map.get(key) : defaultValue;
-  }
-  /**
-   * <code>map&lt;int32, string&gt; preCourses = 4;</code>
-   */
-  @java.lang.Override
-
-  public java.lang.String getPreCoursesOrThrow(
-      int key) {
-    
-    java.util.Map<java.lang.Integer, java.lang.String> map =
-        internalGetPreCourses().getMap();
-    if (!map.containsKey(key)) {
-      throw new java.lang.IllegalArgumentException();
-    }
-    return map.get(key);
+  public com.google.protobuf.ByteString
+      getPreCoursesBytes(int index) {
+    return preCourses_.getByteString(index);
   }
 
   private byte memoizedIsInitialized = -1;
@@ -345,12 +287,9 @@ private static final long serialVersionUID = 0L;
     if (!getProfNameBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 3, profName_);
     }
-    com.google.protobuf.GeneratedMessageV3
-      .serializeIntegerMapTo(
-        output,
-        internalGetPreCourses(),
-        PreCoursesDefaultEntryHolder.defaultEntry,
-        4);
+    for (int i = 0; i < preCourses_.size(); i++) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 4, preCourses_.getRaw(i));
+    }
     unknownFields.writeTo(output);
   }
 
@@ -369,15 +308,13 @@ private static final long serialVersionUID = 0L;
     if (!getProfNameBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, profName_);
     }
-    for (java.util.Map.Entry<java.lang.Integer, java.lang.String> entry
-         : internalGetPreCourses().getMap().entrySet()) {
-      com.google.protobuf.MapEntry<java.lang.Integer, java.lang.String>
-      preCourses__ = PreCoursesDefaultEntryHolder.defaultEntry.newBuilderForType()
-          .setKey(entry.getKey())
-          .setValue(entry.getValue())
-          .build();
-      size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, preCourses__);
+    {
+      int dataSize = 0;
+      for (int i = 0; i < preCourses_.size(); i++) {
+        dataSize += computeStringSizeNoTag(preCourses_.getRaw(i));
+      }
+      size += dataSize;
+      size += 1 * getPreCoursesList().size();
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -400,8 +337,8 @@ private static final long serialVersionUID = 0L;
         .equals(other.getName())) return false;
     if (!getProfName()
         .equals(other.getProfName())) return false;
-    if (!internalGetPreCourses().equals(
-        other.internalGetPreCourses())) return false;
+    if (!getPreCoursesList()
+        .equals(other.getPreCoursesList())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -419,9 +356,9 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + getName().hashCode();
     hash = (37 * hash) + PROF_NAME_FIELD_NUMBER;
     hash = (53 * hash) + getProfName().hashCode();
-    if (!internalGetPreCourses().getMap().isEmpty()) {
+    if (getPreCoursesCount() > 0) {
       hash = (37 * hash) + PRECOURSES_FIELD_NUMBER;
-      hash = (53 * hash) + internalGetPreCourses().hashCode();
+      hash = (53 * hash) + getPreCoursesList().hashCode();
     }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
@@ -530,28 +467,6 @@ private static final long serialVersionUID = 0L;
       return com.example.grpc.ExampleService.internal_static_com_example_grpc_Course_descriptor;
     }
 
-    @SuppressWarnings({"rawtypes"})
-    protected com.google.protobuf.MapField internalGetMapField(
-        int number) {
-      switch (number) {
-        case 4:
-          return internalGetPreCourses();
-        default:
-          throw new RuntimeException(
-              "Invalid map field number: " + number);
-      }
-    }
-    @SuppressWarnings({"rawtypes"})
-    protected com.google.protobuf.MapField internalGetMutableMapField(
-        int number) {
-      switch (number) {
-        case 4:
-          return internalGetMutablePreCourses();
-        default:
-          throw new RuntimeException(
-              "Invalid map field number: " + number);
-      }
-    }
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
@@ -584,7 +499,8 @@ private static final long serialVersionUID = 0L;
 
       profName_ = "";
 
-      internalGetMutablePreCourses().clear();
+      preCourses_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      bitField0_ = (bitField0_ & ~0x00000001);
       return this;
     }
 
@@ -615,8 +531,11 @@ private static final long serialVersionUID = 0L;
       result.id_ = id_;
       result.name_ = name_;
       result.profName_ = profName_;
-      result.preCourses_ = internalGetPreCourses();
-      result.preCourses_.makeImmutable();
+      if (((bitField0_ & 0x00000001) != 0)) {
+        preCourses_ = preCourses_.getUnmodifiableView();
+        bitField0_ = (bitField0_ & ~0x00000001);
+      }
+      result.preCourses_ = preCourses_;
       onBuilt();
       return result;
     }
@@ -677,8 +596,16 @@ private static final long serialVersionUID = 0L;
         profName_ = other.profName_;
         onChanged();
       }
-      internalGetMutablePreCourses().mergeFrom(
-          other.internalGetPreCourses());
+      if (!other.preCourses_.isEmpty()) {
+        if (preCourses_.isEmpty()) {
+          preCourses_ = other.preCourses_;
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          ensurePreCoursesIsMutable();
+          preCourses_.addAll(other.preCourses_);
+        }
+        onChanged();
+      }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
       return this;
@@ -937,131 +864,113 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private com.google.protobuf.MapField<
-        java.lang.Integer, java.lang.String> preCourses_;
-    private com.google.protobuf.MapField<java.lang.Integer, java.lang.String>
-    internalGetPreCourses() {
-      if (preCourses_ == null) {
-        return com.google.protobuf.MapField.emptyMapField(
-            PreCoursesDefaultEntryHolder.defaultEntry);
-      }
-      return preCourses_;
+    private com.google.protobuf.LazyStringList preCourses_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    private void ensurePreCoursesIsMutable() {
+      if (!((bitField0_ & 0x00000001) != 0)) {
+        preCourses_ = new com.google.protobuf.LazyStringArrayList(preCourses_);
+        bitField0_ |= 0x00000001;
+       }
     }
-    private com.google.protobuf.MapField<java.lang.Integer, java.lang.String>
-    internalGetMutablePreCourses() {
-      onChanged();;
-      if (preCourses_ == null) {
-        preCourses_ = com.google.protobuf.MapField.newMapField(
-            PreCoursesDefaultEntryHolder.defaultEntry);
-      }
-      if (!preCourses_.isMutable()) {
-        preCourses_ = preCourses_.copy();
-      }
-      return preCourses_;
+    /**
+     * <code>repeated string preCourses = 4;</code>
+     * @return A list containing the preCourses.
+     */
+    public com.google.protobuf.ProtocolStringList
+        getPreCoursesList() {
+      return preCourses_.getUnmodifiableView();
     }
-
+    /**
+     * <code>repeated string preCourses = 4;</code>
+     * @return The count of preCourses.
+     */
     public int getPreCoursesCount() {
-      return internalGetPreCourses().getMap().size();
+      return preCourses_.size();
     }
     /**
-     * <code>map&lt;int32, string&gt; preCourses = 4;</code>
+     * <code>repeated string preCourses = 4;</code>
+     * @param index The index of the element to return.
+     * @return The preCourses at the given index.
      */
-
-    @java.lang.Override
-    public boolean containsPreCourses(
-        int key) {
-      
-      return internalGetPreCourses().getMap().containsKey(key);
+    public java.lang.String getPreCourses(int index) {
+      return preCourses_.get(index);
     }
     /**
-     * Use {@link #getPreCoursesMap()} instead.
+     * <code>repeated string preCourses = 4;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the preCourses at the given index.
      */
-    @java.lang.Override
-    @java.lang.Deprecated
-    public java.util.Map<java.lang.Integer, java.lang.String> getPreCourses() {
-      return getPreCoursesMap();
+    public com.google.protobuf.ByteString
+        getPreCoursesBytes(int index) {
+      return preCourses_.getByteString(index);
     }
     /**
-     * <code>map&lt;int32, string&gt; preCourses = 4;</code>
+     * <code>repeated string preCourses = 4;</code>
+     * @param index The index to set the value at.
+     * @param value The preCourses to set.
+     * @return This builder for chaining.
      */
-    @java.lang.Override
-
-    public java.util.Map<java.lang.Integer, java.lang.String> getPreCoursesMap() {
-      return internalGetPreCourses().getMap();
-    }
-    /**
-     * <code>map&lt;int32, string&gt; preCourses = 4;</code>
-     */
-    @java.lang.Override
-
-    public java.lang.String getPreCoursesOrDefault(
-        int key,
-        java.lang.String defaultValue) {
-      
-      java.util.Map<java.lang.Integer, java.lang.String> map =
-          internalGetPreCourses().getMap();
-      return map.containsKey(key) ? map.get(key) : defaultValue;
-    }
-    /**
-     * <code>map&lt;int32, string&gt; preCourses = 4;</code>
-     */
-    @java.lang.Override
-
-    public java.lang.String getPreCoursesOrThrow(
-        int key) {
-      
-      java.util.Map<java.lang.Integer, java.lang.String> map =
-          internalGetPreCourses().getMap();
-      if (!map.containsKey(key)) {
-        throw new java.lang.IllegalArgumentException();
-      }
-      return map.get(key);
-    }
-
-    public Builder clearPreCourses() {
-      internalGetMutablePreCourses().getMutableMap()
-          .clear();
+    public Builder setPreCourses(
+        int index, java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  ensurePreCoursesIsMutable();
+      preCourses_.set(index, value);
+      onChanged();
       return this;
     }
     /**
-     * <code>map&lt;int32, string&gt; preCourses = 4;</code>
+     * <code>repeated string preCourses = 4;</code>
+     * @param value The preCourses to add.
+     * @return This builder for chaining.
      */
-
-    public Builder removePreCourses(
-        int key) {
-      
-      internalGetMutablePreCourses().getMutableMap()
-          .remove(key);
-      return this;
-    }
-    /**
-     * Use alternate mutation accessors instead.
-     */
-    @java.lang.Deprecated
-    public java.util.Map<java.lang.Integer, java.lang.String>
-    getMutablePreCourses() {
-      return internalGetMutablePreCourses().getMutableMap();
-    }
-    /**
-     * <code>map&lt;int32, string&gt; preCourses = 4;</code>
-     */
-    public Builder putPreCourses(
-        int key,
+    public Builder addPreCourses(
         java.lang.String value) {
-      
-      if (value == null) { throw new java.lang.NullPointerException(); }
-      internalGetMutablePreCourses().getMutableMap()
-          .put(key, value);
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  ensurePreCoursesIsMutable();
+      preCourses_.add(value);
+      onChanged();
       return this;
     }
     /**
-     * <code>map&lt;int32, string&gt; preCourses = 4;</code>
+     * <code>repeated string preCourses = 4;</code>
+     * @param values The preCourses to add.
+     * @return This builder for chaining.
      */
-
-    public Builder putAllPreCourses(
-        java.util.Map<java.lang.Integer, java.lang.String> values) {
-      internalGetMutablePreCourses().getMutableMap()
-          .putAll(values);
+    public Builder addAllPreCourses(
+        java.lang.Iterable<java.lang.String> values) {
+      ensurePreCoursesIsMutable();
+      com.google.protobuf.AbstractMessageLite.Builder.addAll(
+          values, preCourses_);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated string preCourses = 4;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearPreCourses() {
+      preCourses_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      bitField0_ = (bitField0_ & ~0x00000001);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated string preCourses = 4;</code>
+     * @param value The bytes of the preCourses to add.
+     * @return This builder for chaining.
+     */
+    public Builder addPreCoursesBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      ensurePreCoursesIsMutable();
+      preCourses_.add(value);
+      onChanged();
       return this;
     }
     @java.lang.Override
