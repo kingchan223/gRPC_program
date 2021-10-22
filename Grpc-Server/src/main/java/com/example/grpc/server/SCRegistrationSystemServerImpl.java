@@ -2,165 +2,81 @@ package com.example.grpc.server;
 
 import com.example.grpc.*;
 import com.example.grpc.exception.NotEnoughDataException;
+import com.google.protobuf.ProtocolStringList;
 import io.grpc.stub.StreamObserver;
 
 import java.util.Map;
 
-public class
-SCRegistrationSystemServerImpl extends StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemImplBase {
+public class SCRegistrationSystemServerImpl extends StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemImplBase {
 
-
-//    @Override
-//    public void testMethods(TestRequest request, StreamObserver<TestResponse> responseObserver) {
-//        responseObserver.onNext(TestResponse.newBuilder()
-//                .addTestResponse("stringstringstringstringstringstringstringstringstringstringstringstring")
-//                .addTestResponse("stringstringstringstringstringstringstringstringstringstringstringstring")
-//                .addTestResponse("stringstringstringstringstringstringstringstringstringstringstringstringstring")
-//                .addTestResponse("stringstringstringstringstringstringstringstringstringstringstringstringstringstringstring")
-//                .addTestResponse("stringstringstringstringstringstringstringstringstringstringstring")
-//                .addTestResponse("stringstringstringstringstringstringstringstringstringstringstringstringstring")
-//                .build());
-//        responseObserver.onCompleted();
-//    }
+    private static final StringMethods stringMethods = new StringMethods();
 
     @Override
     public void getMenu(MenuRequest request, StreamObserver<MenuResponse> responseObserver) {
-        getMenuList(responseObserver);
+        stringMethods.getMenuList(responseObserver);
         responseObserver.onCompleted();
     }
 
     @Override
-    public void getStudentList(ListDataRequest request, StreamObserver<StudentListResponse> responseObserver){
-        ListDataResponse studentData = DataConnection.getDataConnection().makeStub().getListData(ListDataRequest.newBuilder().setStudentOrCourse("student").build());
-        StudentListResponse.Builder builder = putStudentInfo(StudentListResponse.newBuilder(), studentData);
-        responseObserver.onNext(builder.build());
+    public void getListData(ListDataRequest request, StreamObserver<ListDataResponse> responseObserver){
+        ListDataResponse listData = DataConnection.connect()
+                .getListData(ListDataRequest.newBuilder().setStudentOrCourse(request.getStudentOrCourse()).build());
+        responseObserver.onNext(ListDataResponse.newBuilder().addData(listData.toString()).build());
         responseObserver.onCompleted();
     }
 
     @Override
-    public void getCourseList(ListDataRequest request, StreamObserver<CourseListResponse> responseObserver){
-        ListDataResponse courseData = DataConnection.getDataConnection().makeStub().getListData(ListDataRequest.newBuilder().setStudentOrCourse("course").build());
-        CourseListResponse.Builder builder = putCourseInfo(CourseListResponse.newBuilder(), courseData);
-        responseObserver.onNext(builder.build());
-        responseObserver.onCompleted();
-    }
-
-    @Override
-    public void putCourse(Course request, StreamObserver<StatusCode> responseObserver){
+    public void putCourse(Course course, StreamObserver<StatusCode> responseObserver){
         try{
-            String courseInfo = extractCourseInfo(request);
+            DataConnection.connect()
+                    .putCourse(CourseInfoString.newBuilder().setCourseInfo(stringMethods.extractCourseInfo(course)).build());
         }catch(NotEnoughDataException e){
-            StatusCode code = StatusCode.newBuilder().setStatusCode("nullData").build();
-            responseObserver.onNext(code);
-            responseObserver.onCompleted();
-            e.printStackTrace();
+            response(responseObserver,SCode.S412,SCode.NOTENOUGHDATA);
             return;
         }
-        StatusCode code = DataConnection.getDataConnection().makeStub().putCourse(CourseInfoString.newBuilder().setCourseInfo(courseInfo).build());
-        responseObserver.onNext(code);
-        responseObserver.onCompleted();
+        response(responseObserver,SCode.S200,SCode.SUCCESS);
     }
 
     @Override
-    public void putStudent(Student request, StreamObserver<StatusCode> responseObserver){
-        String studentInfo = null;
+    public void putStudent(Student student, StreamObserver<StatusCode> responseObserver){
         try {
-            studentInfo = extractStudentInfo(request);
-        } catch (NotEnoughDataException e) {
-            StatusCode code = StatusCode.newBuilder().setStatusCode("nullData").build();
-            responseObserver.onNext(code);
-            responseObserver.onCompleted();
-            e.printStackTrace();
+            DataConnection.connect()
+                    .putStudent(StudentInfoString.newBuilder().setStudentInfo(stringMethods.extractStudentInfo(student)).build());
+        } catch(NotEnoughDataException e){
+            response(responseObserver,SCode.S412,SCode.NOTENOUGHDATA);
             return;
         }
-        StatusCode code = DataConnection.getDataConnection().makeStub().putStudent(StudentInfoString.newBuilder().setStudentInfo(studentInfo).build());
-        responseObserver.onNext(code);
-        responseObserver.onCompleted();
+        response(responseObserver,SCode.S200,SCode.SUCCESS);
     }
 
 
     @Override
     public void deleteCourseById(CourseId courseId, StreamObserver<StatusCode> responseObserver){
-        String id = courseId.getCourseId();
-        DataServiceGrpc.DataServiceBlockingStub stub = DataConnection.getDataConnection().makeStub();
-        StatusCode code = stub.deleteCourseById(Course.newBuilder().setId(id).build());
-        responseObserver.onNext(code);
-        responseObserver.onCompleted();
+        StatusCode code = DataConnection.connect()
+                .deleteCourseById(CourseId.newBuilder().setCourseId(courseId.getCourseId()).build());
+        response(responseObserver, code.getStatusCode(), code.getMessage());
     }
 
     @Override
-    public void deleteStudentById(Student student, StreamObserver<StatusCode> responseObserver){
-        String id = student.getId();
-        DataServiceGrpc.DataServiceBlockingStub stub = DataConnection.getDataConnection().makeStub();
-        StatusCode code = stub.deleteStudentById(Student.newBuilder().setId(id).build());
-        responseObserver.onNext(code);
-        responseObserver.onCompleted();
+    public void deleteStudentById(StudentId student, StreamObserver<StatusCode> responseObserver){
+        StatusCode code = DataConnection.connect()
+                .deleteStudentById(StudentId.newBuilder().setStudentId(student.getStudentId()).build());
+        response(responseObserver, code.getStatusCode(), code.getMessage());
     }
 
     @Override
     public void updateStudentWithCourse(StudentAndCourseId request, StreamObserver<StatusCode> responseObserver){
-        StatusCode code = DataConnection.getDataConnection().makeStub().updateStudentWithCourse(StudentAndCourseId
-                .newBuilder()
-                .setStudentId(request.getStudentId())
-                .setCourseId(request.getCourseId())
-                .build());
-        responseObserver.onNext(code);
+        StatusCode code = DataConnection.connect()
+                .updateStudentWithCourse(StudentAndCourseId.newBuilder().setStudentId(request.getStudentId()).setCourseId(request.getCourseId()).build());
+        response(responseObserver, code.getStatusCode(), code.getMessage());
+    }
+
+    private void response(StreamObserver<StatusCode> responseObserver, String code, String message) {
+        responseObserver.onNext(makeStatusCode(StatusCode.newBuilder(), code, message));
         responseObserver.onCompleted();
     }
 
-    private String extractCourseInfo(Course request) throws NotEnoughDataException {
-        String id = request.getId();
-        String name = request.getName();
-        String profName = request.getProfName();
-        isNull(id, name, profName);
-        return id +" " + name +" " + profName +" " + makeOneStrFromMap(request.getPreCoursesMap());
-    }
-
-    private String extractStudentInfo(Student request) throws NotEnoughDataException {
-        String id = request.getId();
-        String name = request.getName();
-        String major = request.getMajor();
-        isNull(id, name, major);
-        return id +" " + name+" " + major+" ";
-    }
-
-    private String makeOneStrFromMap(Map<Integer, String> map){
-        String oneStr = "";
-        for (Integer i : map.keySet())
-            oneStr += map.get(i)+" ";
-        return oneStr;
-    }
-
-    public StudentListResponse.Builder putStudentInfo(StudentListResponse.Builder builder, DataResponse data){
-        Map<Integer, String> dataMap = data.getDataMap();
-        for (Integer i : dataMap.keySet())
-            builder.putStudentList(i,dataMap.get(i));
-        return builder;
-    }
-
-    private CourseListResponse.Builder putCourseInfo(CourseListResponse.Builder builder, DataResponse data){
-        Map<Integer, String> dataMap = data.getDataMap();
-        for (Integer i : dataMap.keySet()) {
-            builder.putCourseList(i,dataMap.get(i));
-        }
-        return builder;
-    }
-    private void getMenuList(StreamObserver<MenuResponse> responseObserver) {
-        responseObserver.onNext(MenuResponse.newBuilder()
-                .addMenuList("select menu number")
-                .addMenuList("1. List Students ")
-                .addMenuList("2. List Courses")
-                .addMenuList("3. Add Students")
-                .addMenuList("4. Add Courses")
-                .addMenuList("5. Delete Students")
-                .addMenuList("6. Delete Courses")
-                .addMenuList("7. 수강신청")
-                .addMenuList("8. EXIT")
-                .build());
-    }
-
-    public static void isNull(String  data1, String  data2, String  data3) throws NotEnoughDataException {
-        if((data1==null|| data1.equals("")) || (data2==null|| data2.equals("")) || (data3==null|| data3.equals("")))
-            throw new NotEnoughDataException();
+    public StatusCode makeStatusCode(StatusCode.Builder statusCodeBuilder, String code, String message){
+        return statusCodeBuilder.setStatusCode(code).setMessage(message).build();
     }
 }

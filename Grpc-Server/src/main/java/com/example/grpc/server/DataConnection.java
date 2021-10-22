@@ -8,19 +8,23 @@ import io.grpc.ManagedChannelBuilder;
 public class DataConnection {
 
     private static final DataConnection dataConnection = new DataConnection();
-
     private DataConnection() {}
     public static DataConnection getDataConnection(){
         return dataConnection;
     }
 
-    public ManagedChannel connect(){
+    public static DataServiceGrpc.DataServiceBlockingStub connect(){
+        return getDataConnection().makeStub();
+    }
+
+    public ManagedChannel connectPort(){
         return ManagedChannelBuilder.forAddress("localhost", 9090)
                 .usePlaintext()
                 .build();
     }
 
     public DataServiceGrpc.DataServiceBlockingStub makeStub(){
-        return DataServiceGrpc.newBlockingStub(connect());
+        return DataServiceGrpc.newBlockingStub(connectPort());
     }
+
 }

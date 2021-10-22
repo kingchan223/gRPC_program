@@ -24,4 +24,7 @@ public interface ClientProperties {
     public static final String fail = "❗️❗️❗실패하였습니다. 다시 시도해주세요❗️❗️❗";
     public static final String NOTexistID = "❗️❗️❗알 수 없는 이유로 실패하였습니다. 다시 시도해주세요❗️❗️❗";
     public static final String HaveToTakePre = "❗️❗️❗선수과목을 수강하지 않았습니다.❗️❗️❗️";
+    public static final int EXIT_NUM = 8;
+    public static final String SEPARATOR = " ";
+    public static final String EMPTY = "";
 }
