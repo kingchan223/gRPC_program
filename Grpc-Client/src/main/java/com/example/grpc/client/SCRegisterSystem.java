@@ -17,10 +17,8 @@ public class SCRegisterSystem {
             System.out.println(ClientProperties.LINE);
             switch(n){
                 case 1:
-                    scMethods.getListData(stub, n);
-                    break;
                 case 2:
-                    scMethods.getListData(stub, n);
+                    scMethods.printListData(stub, n);
                     break;
                 case 3://3. Add Students
                     scMethods.putStudent(stub);

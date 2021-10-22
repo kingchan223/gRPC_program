@@ -2,13 +2,13 @@ package com.example.grpc.client;
 
 import com.example.grpc.*;
 import com.example.grpc.exception.NotEnoughDataException;
+import com.google.protobuf.ProtocolStringList;
 import io.grpc.ManagedChannel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class SCRegisterMethods {
 
@@ -16,91 +16,48 @@ public class SCRegisterMethods {
 
     public void getMenu(StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub) {
         MenuResponse response = stub.getMenu(MenuRequest.newBuilder().setRequest("1").build());
-        for (String s : response.getMenuListList())
-            System.out.println(s);
+        for (String menu : response.getMenuListList()) System.out.println(menu);
     }
 
-//    public void getCouse(StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub) {
-////        StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub = StudentCourseRegistrationSystemGrpc.newBlockingStub(channel);
-//        stub.getListData()
-//        CourseListResponse response = stub.getCourseList(Request.newBuilder().setRequest(1).build());
-//        Map<Integer, String> courseListMap = response.getCourseListMap();
-//        for (Integer i : courseListMap.keySet()) {
-//            System.out.println(courseListMap.get(i));
-//        }
-//    }
-//
-//    public void getStudent(StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub) {
-//        StudentListResponse response = stub.getStudentList(Request.newBuilder().setRequest(1).build());
-//        Map<Integer, String> studentListMap = response.getStudentListMap();
-//        for (Integer i : studentListMap.keySet()) {
-//            System.out.println(studentListMap.get(i));
-//        }
-//    }
-
-    public getListData(StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub, int n){
-        if(n==1) CourseListResponse response = stub.getListData(ListDataRequest.newBuilder().setStudentOrCourse("student").build());
-        else if(n==2) StudentListResponse response = stub.getStudentList(Request.newBuilder().setRequest(1).build());
+    public void printListData(StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub, int n){
+        if(n==1){
+            ProtocolStringList students = stub.getListData(ListDataRequest.newBuilder().setStudentOrCourse("student").build()).getDataList();
+            for (String student : students) System.out.println(student);
+        }
+         else if(n==2){
+            ProtocolStringList courses = stub.getListData(ListDataRequest.newBuilder().setStudentOrCourse("course").build()).getDataList();
+            for (String course : courses) System.out.println(course);
+        }
     }
 
     public void putCourse(StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print(ClientProperties.INPUT_ID_MSG);
-        String id = br.readLine().trim();
-        System.out.print(ClientProperties.INPUT_COURSENAME_MSG);
-        String name = br.readLine().trim();
-        System.out.print(ClientProperties.INPUT_PROFNAME_MSG);
-        String profName = br.readLine().trim();
+        String id=""; String name=""; String profName=""; String[] preCourseStr = null;
+        printPutCourseInfo(id, name, profName, preCourseStr);
         try {
             isNull(id, name, profName);
         } catch (NotEnoughDataException e) {
             System.out.println(ClientProperties.NULL_DATA_INPUT_AGAIN);
             return;
         }
-        System.out.print(ClientProperties.INPUT_PRECOURSE_MSG);
-        String[] preCourseStr = br.readLine().trim().split("/");
-        Map<Integer, String> preCourseMap = new HashMap<>();
-        int i=0;
-        for (String preCourse : preCourseStr) {
-            preCourseMap.put(i++,preCourse);
-        }
-        StatusCode code = stub.putCourse(Course
-                .newBuilder()
-                .setId(id)
-                .setName(name)
-                .setProfName(profName)
-                .putAllPreCourses(preCourseMap)
-                .build());
-        printResultMessage(code);
+        List<String> preCourses = new ArrayList<>(Arrays.asList(preCourseStr));
+        printResult(stub.putCourse(Course.newBuilder().setId(id).setName(name).setProfName(profName).addAllPreCourses(preCourses).build()));
     }
 
     public void putStudent(StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print(ClientProperties.INPUT_ID_MSG);
-        String id = br.readLine().trim();
-        System.out.print(ClientProperties.INPUT_NAME_MSG);
-        String name = br.readLine().trim();
-        System.out.print(ClientProperties.INPUT_MAJOR_MSG);
-        String major = br.readLine().trim();
+        String id=""; String name=""; String major="";
+        printPutStudentInfo(id, name, major);
         try {
             isNull(id, name, major);
         } catch (NotEnoughDataException e) {
-            System.out.println();
             System.out.println(ClientProperties.NULL_DATA_INPUT_AGAIN);
             return;
         }
-        StatusCode code = stub.putStudent(Student
-                .newBuilder()
-                .setId(id)
-                .setName(name)
-                .setMajor(major)
-                .build());
-        printResultMessage(code);
+        printResult(stub.putStudent(Student.newBuilder().setId(id).setName(name).setMajor(major).build()));
     }
 
     public void deleteStudent(StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("삭제할 학생의 "+ClientProperties.INPUT_ID_MSG);
+        System.out.print(ClientProperties.STUDENT_DELETE_MESSAGE);
         String id = br.readLine().trim();
         try {
             isNull(id);
@@ -108,13 +65,12 @@ public class SCRegisterMethods {
             System.out.println(ClientProperties.INPUT_COURSE_NUM_AGAIN);
             return;
         }
-        StatusCode code = stub.deleteStudentById(Student.newBuilder().setId(id).build());
-        printResultMessage(code);
+        printResult(stub.deleteStudentById(StudentId.newBuilder().setStudentId(id).build()));
     }
 
     public void deleteCourse(StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("삭제할 강좌의 "+ClientProperties.INPUT_ID_MSG);
+        System.out.print(ClientProperties.COURSE_DELETE_MESSAGE);
         String id = br.readLine().trim();
         try {
             isNull(id);
@@ -122,30 +78,28 @@ public class SCRegisterMethods {
             System.out.println(ClientProperties.INPUT_COURSE_NUM_AGAIN);
             return;
         }
-        StatusCode code = stub.deleteCourseById(CourseId.newBuilder().setCourseId(id).build());
-        printResultMessage(code);
+        printResult(stub.deleteCourseById(CourseId.newBuilder().setCourseId(id).build()));
     }
 
     public void updateStudentByAddCourse(StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub) throws IOException {
-        StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub = StudentCourseRegistrationSystemGrpc.newBlockingStub(channel);
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print(ClientProperties.REGISTER_COURSE_STDID);
-        String studentId = br.readLine().trim();
+        String studentId = ""; String courseId = "";
+        printSCRegister(studentId, courseId);
         try {
             isNull(studentId);
-        } catch (NotEnoughDataException e) {
-            System.out.println(ClientProperties.INPUT_STUDENT_NUM_AGAIN);
-        }
-        System.out.print(ClientProperties.REGISTER_COURSE_COURSEID);
-        String courseId = br.readLine().trim();
-        try {
             isNull(courseId);
         } catch (NotEnoughDataException e) {
             System.out.println(ClientProperties.INPUT_STUDENT_NUM_AGAIN);
         }
-        Integer.parseInt(studentId);
-        StatusCode code = stub.updateStudentWithCourse(StudentAndCourseId.newBuilder().setStudentId(studentId).setCourseId(courseId).build());
-        printResultMessage(code);
+        printResult(stub.updateStudentWithCourse(StudentAndCourseId.newBuilder().setStudentId(studentId).setCourseId(courseId).build()));
+    }
+
+    public void printSCRegister(String studentId, String courseId) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print(ClientProperties.REGISTER_COURSE_STDID);
+        studentId = br.readLine().trim();
+        System.out.print(ClientProperties.REGISTER_COURSE_COURSEID);
+        courseId = br.readLine().trim();
     }
 
     public void isNull(String  data1, String  data2, String  data3) throws NotEnoughDataException {
@@ -162,32 +116,51 @@ public class SCRegisterMethods {
         if(data != null && !data.equals(EMPTY)) throw new NotEnoughDataException();
     }
 
-    public void printResultMessage(StatusCode statusCode) {
+    public void printPutStudentInfo(String id, String name, String profName) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print(ClientProperties.INPUT_ID_MSG);
+        id = br.readLine().trim();
+        System.out.print(ClientProperties.INPUT_COURSENAME_MSG);
+        name = br.readLine().trim();
+        System.out.print(ClientProperties.INPUT_PROFNAME_MSG);
+        profName = br.readLine().trim();
+    }
+
+    public void printPutCourseInfo(String id, String name, String major, String[] preCourseStr) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print(ClientProperties.INPUT_ID_MSG);
+        id = br.readLine().trim();
+        System.out.print(ClientProperties.INPUT_COURSENAME_MSG);
+        name = br.readLine().trim();
+        System.out.print(ClientProperties.INPUT_PROFNAME_MSG);
+        major = br.readLine().trim();
+        System.out.print(ClientProperties.INPUT_PRECOURSE_MSG);
+        preCourseStr = br.readLine().trim().split("/");
+    }
+
+    public void printResult(StatusCode statusCode) {
         String status = statusCode.getStatusCode();
-        if(status.equals("NOTexistIDstd")){//404
-            System.out.println();
-            System.out.println(ClientProperties.NOTexistIDstd);
-        }else if(status.equals("alreadyEcourse")){//402
-            System.out.println();
-            System.out.println(ClientProperties.alreadyEcourse);
-        }else if(status.equals("alreadyEstd")){//402
-            System.out.println();
-            System.out.println(ClientProperties.alreadyEstd);
-        }else if(status.equals("NOTexistIDcourse")){//404
-            System.out.println();
-            System.out.println(ClientProperties.NOTexistIDcourse);
-        }else if(status.equals("success")){//200
-            System.out.println();
+        String message = statusCode.getMessage();
+        if(status.equals(SCode.S200)){
             System.out.println(ClientProperties.success);
-        }else if(status.equals("fail")){//500
-            System.out.println();
-            System.out.println(ClientProperties.fail);
-        }else if(status.equals("NOTexistID")){//404
-            System.out.println();
-            System.out.println(ClientProperties.NOTexistID);
-        } else if(status.equals("HaveToTakePre")){//410
-            System.out.println();
+        }
+        else if(status.equals(SCode.S402)){
+            if(message.equals(SCode.STUDENT)) System.out.println(ClientProperties.alreadyEstd);
+            else if(message.equals(SCode.COURSE)) System.out.println(ClientProperties.alreadyEcourse);
+        }
+        else if(status.equals(SCode.S404)){
+            if(message.equals(SCode.STUDENT)) System.out.println(ClientProperties.NOTexistIDstd);
+            else if(message.equals(SCode.COURSE)) System.out.println(ClientProperties.NOTexistIDcourse);
+            else System.out.println(ClientProperties.NOTexistDefault);
+        }
+        else if(status.equals(SCode.S410)){
             System.out.println(ClientProperties.HaveToTakePre);
+        }
+        else if(status.equals(SCode.S412)){
+            System.out.println(ClientProperties.NULL_DATA_INPUT_AGAIN);
+        }
+        else if(status.equals(SCode.S500)){//500
+            System.out.println(ClientProperties.fail);
         }
     }
 }

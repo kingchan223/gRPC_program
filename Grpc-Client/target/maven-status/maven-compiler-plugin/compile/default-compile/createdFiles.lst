@@ -53,7 +53,9 @@ com/example/grpc/ChoiceRequest$Builder.class
 com/example/grpc/StudentCourseRegistrationSystemGrpc$StudentCourseRegistrationSystemStub.class
 com/example/grpc/DataServiceGrpc$DataServiceImplBase.class
 com/example/grpc/ListDataRequestOrBuilder.class
+com/example/grpc/client/SCRegisterMethods.class
 com/example/grpc/StudentAndCourseId.class
+com/example/grpc/client/ServerConnection.class
 com/example/grpc/StudentInfoString.class
 com/example/grpc/ExampleService.class
 com/example/grpc/ChoiceRequest$1.class
@@ -71,8 +73,10 @@ com/example/grpc/StudentId.class
 com/example/grpc/ListDataResponse$1.class
 com/example/grpc/StudentListResponse$1.class
 com/example/grpc/StudentIdOrBuilder.class
+com/example/grpc/client/SCRegisterSystem.class
 com/example/grpc/StudentCourseRegistrationSystemGrpc$1.class
 com/example/grpc/StudentInfoString$Builder.class
+com/example/grpc/client/SCode.class
 com/example/grpc/CourseId.class
 com/example/grpc/MenuRequestOrBuilder.class
 com/example/grpc/StudentCourseRegistrationSystemGrpc$StudentCourseRegistrationSystemImplBase.class
@@ -80,7 +84,6 @@ com/example/grpc/CourseListResponse$Builder.class
 com/example/grpc/CourseInfoString.class
 com/example/grpc/StudentAndCourseIdOrBuilder.class
 com/example/grpc/DataServiceGrpc$DataServiceBlockingStub.class
-com/example/grpc/client/MyGrpcClient.class
 com/example/grpc/DataServiceGrpc$1.class
 com/example/grpc/StudentId$Builder.class
 com/example/grpc/Student.class

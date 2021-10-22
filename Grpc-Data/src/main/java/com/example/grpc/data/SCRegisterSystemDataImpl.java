@@ -56,7 +56,7 @@ public class SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBas
         try {
             crudMethods.delete(request.getCourseId(), SCRSProperties.COURSE_LIST_PATH);
         } catch (NotExistIDException e) {
-            response(responseObserver,SCode.S400,SCode.COURSE);
+            response(responseObserver,SCode.S404,SCode.COURSE);
             return;
         }
         response(responseObserver,SCode.S200,SCode.SUCCESS);
