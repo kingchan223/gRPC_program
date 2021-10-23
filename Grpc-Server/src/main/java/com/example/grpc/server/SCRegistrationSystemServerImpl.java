@@ -11,11 +11,12 @@ import java.util.Map;
 
 public class SCRegistrationSystemServerImpl extends StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemImplBase {
 
-    private static final StringMethods stringMethods = new StringMethods();
+    private static StringMethods stringMethods;
     private CheckAlreadyMethods check;
 
     public SCRegistrationSystemServerImpl() {
         check = new CheckAlreadyMethods();
+        stringMethods = new StringMethods();
     }
 
     @Override
@@ -45,13 +46,13 @@ public class SCRegistrationSystemServerImpl extends StudentCourseRegistrationSys
         }
         String courseInfo = null;
         try{
-            courseInfo = stringMethods.extractCourseInfo(course);
+            courseInfo = stringMethods.makeCourseInfoString(course);
         }catch(NotEnoughDataException e){
             response(responseObserver,SCode.S412,SCode.NOTENOUGHDATA);
             return;
         }
-        DataConnection.connect().putCourse(CourseInfoString.newBuilder().setCourseInfo(courseInfo).build());
-        response(responseObserver,SCode.S200,SCode.SUCCESS);
+        StatusCode statCode = DataConnection.connect().putCourse(CourseInfoString.newBuilder().setCourseInfo(courseInfo).build());
+        response(responseObserver, statCode.getStatusCode(), statCode.getMessage());
     }
 
     @Override
@@ -62,15 +63,14 @@ public class SCRegistrationSystemServerImpl extends StudentCourseRegistrationSys
         }
         String studentInfo = null;
         try {
-            studentInfo = stringMethods.extractStudentInfo(student);
+            studentInfo = stringMethods.makeStudentInfoString(student);
         } catch(NotEnoughDataException e){
             response(responseObserver,SCode.S412,SCode.NOTENOUGHDATA);
             return;
         }
-        DataConnection.connect().putCourse(CourseInfoString.newBuilder().setCourseInfo(studentInfo).build());
-        response(responseObserver,SCode.S200,SCode.SUCCESS);
+        StatusCode statCode = DataConnection.connect().putCourse(CourseInfoString.newBuilder().setCourseInfo(studentInfo).build());
+        response(responseObserver,statCode.getStatusCode(),statCode.getMessage());
     }
-
 
     @Override
     public void deleteCourseById(CourseId courseId, StreamObserver<StatusCode> responseObserver){
@@ -78,8 +78,8 @@ public class SCRegistrationSystemServerImpl extends StudentCourseRegistrationSys
             response(responseObserver,SCode.S404,SCode.COURSE);
             return;
         }
-        StatusCode code = DataConnection.connect().deleteCourseById(CourseId.newBuilder().setCourseId(courseId.getCourseId()).build());
-        response(responseObserver, code.getStatusCode(), code.getMessage());
+        StatusCode statCode = DataConnection.connect().deleteCourseById(CourseId.newBuilder().setCourseId(courseId.getCourseId()).build());
+        response(responseObserver, statCode.getStatusCode(), statCode.getMessage());
     }
 
     @Override
@@ -88,20 +88,29 @@ public class SCRegistrationSystemServerImpl extends StudentCourseRegistrationSys
             response(responseObserver,SCode.S404,SCode.COURSE);
             return;
         }
-        StatusCode code = DataConnection.connect().deleteStudentById(StudentId.newBuilder().setStudentId(student.getStudentId()).build());
-        response(responseObserver, code.getStatusCode(), code.getMessage());
+        StatusCode statCode = DataConnection.connect().deleteStudentById(StudentId.newBuilder().setStudentId(student.getStudentId()).build());
+        response(responseObserver, statCode.getStatusCode(), statCode.getMessage());
     }
 
     @Override
     public void updateStudentWithCourse(StudentAndCourseId request, StreamObserver<StatusCode> responseObserver){
-        if(!check.alreadyExistCourse(request.getCourseId())
-                || !check.alreadyExistStudent(request.getStudentId())
-                || check.alreadyTake(request.getStudentId(), request.getStudentId())) {
-            response(responseObserver,SCode.S404,SCode.FAIL);
+        if(!check.alreadyExistCourse(request.getCourseId())){
+            response(responseObserver,SCode.S404,SCode.COURSE);
             return;
         }
+        if(!check.alreadyExistStudent(request.getStudentId())){
+            response(responseObserver,SCode.S404,SCode.STUDENT);
+            return;
+        }
+        if(check.takePreCourse(request.getStudentId(), request.getStudentId())){
+            response(responseObserver,SCode.S410,SCode.FAIL);
+            return;
+        }
+        String studentStr = DataConnection.connect().getStudentById(StudentId.newBuilder().setStudentId(request.getStudentId()).build()).getStudentInfo();
         StatusCode code = DataConnection.connect()
-                .updateStudentWithCourse(StudentAndCourseId.newBuilder().setStudentId(request.getStudentId()).setCourseId(request.getCourseId()).build());
+                .updateStudentWithCourse(EditStudentInfoString
+                        .newBuilder()
+                        .setStudentInfoString(stringMethods.makeSeparatorString(studentStr, request.getCourseId())).build());
         response(responseObserver, code.getStatusCode(), code.getMessage());
     }
 

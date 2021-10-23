@@ -82,13 +82,15 @@ message StudentAndCourseId{
   string studentId = 1;
   string courseId = 2;
 }
+message EditStudentInfoString{
+  string studentInfoString = 1;
+}
 
 //Data부분 Service정의
 service DataService{
   //과목 또는 학생 정보 리스트 전달하기
   rpc getListData(ListDataRequest) returns (ListDataResponse);
 
-  //특정 ID의 학생. 강좌가 있는 지 확인하기
   rpc getStudentById(StudentId) returns (StudentInfoString);
   rpc getCourseById(CourseId) returns (CourseInfoString);
 
@@ -105,5 +107,5 @@ service DataService{
   rpc deleteStudentById(StudentId) returns (StatusCode);
 
   //수강신청
-  rpc updateStudentWithCourse(StudentAndCourseId) returns (StatusCode);
+  rpc updateStudentWithCourse(EditStudentInfoString) returns (StatusCode);
 }

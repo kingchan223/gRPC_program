@@ -235,27 +235,27 @@ public final class DataServiceGrpc {
     return getDeleteStudentByIdMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<com.example.grpc.StudentAndCourseId,
+  private static volatile io.grpc.MethodDescriptor<com.example.grpc.EditStudentInfoString,
       com.example.grpc.StatusCode> getUpdateStudentWithCourseMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "updateStudentWithCourse",
-      requestType = com.example.grpc.StudentAndCourseId.class,
+      requestType = com.example.grpc.EditStudentInfoString.class,
       responseType = com.example.grpc.StatusCode.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.example.grpc.StudentAndCourseId,
+  public static io.grpc.MethodDescriptor<com.example.grpc.EditStudentInfoString,
       com.example.grpc.StatusCode> getUpdateStudentWithCourseMethod() {
-    io.grpc.MethodDescriptor<com.example.grpc.StudentAndCourseId, com.example.grpc.StatusCode> getUpdateStudentWithCourseMethod;
+    io.grpc.MethodDescriptor<com.example.grpc.EditStudentInfoString, com.example.grpc.StatusCode> getUpdateStudentWithCourseMethod;
     if ((getUpdateStudentWithCourseMethod = DataServiceGrpc.getUpdateStudentWithCourseMethod) == null) {
       synchronized (DataServiceGrpc.class) {
         if ((getUpdateStudentWithCourseMethod = DataServiceGrpc.getUpdateStudentWithCourseMethod) == null) {
           DataServiceGrpc.getUpdateStudentWithCourseMethod = getUpdateStudentWithCourseMethod =
-              io.grpc.MethodDescriptor.<com.example.grpc.StudentAndCourseId, com.example.grpc.StatusCode>newBuilder()
+              io.grpc.MethodDescriptor.<com.example.grpc.EditStudentInfoString, com.example.grpc.StatusCode>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "updateStudentWithCourse"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.example.grpc.StudentAndCourseId.getDefaultInstance()))
+                  com.example.grpc.EditStudentInfoString.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   com.example.grpc.StatusCode.getDefaultInstance()))
               .setSchemaDescriptor(new DataServiceMethodDescriptorSupplier("updateStudentWithCourse"))
@@ -328,9 +328,6 @@ public final class DataServiceGrpc {
     }
 
     /**
-     * <pre>
-     *특정 ID의 학생. 강좌가 있는 지 확인하기
-     * </pre>
      */
     public void getStudentById(com.example.grpc.StudentId request,
         io.grpc.stub.StreamObserver<com.example.grpc.StudentInfoString> responseObserver) {
@@ -389,7 +386,7 @@ public final class DataServiceGrpc {
      *수강신청
      * </pre>
      */
-    public void updateStudentWithCourse(com.example.grpc.StudentAndCourseId request,
+    public void updateStudentWithCourse(com.example.grpc.EditStudentInfoString request,
         io.grpc.stub.StreamObserver<com.example.grpc.StatusCode> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getUpdateStudentWithCourseMethod(), responseObserver);
     }
@@ -449,7 +446,7 @@ public final class DataServiceGrpc {
             getUpdateStudentWithCourseMethod(),
             io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
-                com.example.grpc.StudentAndCourseId,
+                com.example.grpc.EditStudentInfoString,
                 com.example.grpc.StatusCode>(
                   this, METHODID_UPDATE_STUDENT_WITH_COURSE)))
           .build();
@@ -485,9 +482,6 @@ public final class DataServiceGrpc {
     }
 
     /**
-     * <pre>
-     *특정 ID의 학생. 강좌가 있는 지 확인하기
-     * </pre>
      */
     public void getStudentById(com.example.grpc.StudentId request,
         io.grpc.stub.StreamObserver<com.example.grpc.StudentInfoString> responseObserver) {
@@ -552,7 +546,7 @@ public final class DataServiceGrpc {
      *수강신청
      * </pre>
      */
-    public void updateStudentWithCourse(com.example.grpc.StudentAndCourseId request,
+    public void updateStudentWithCourse(com.example.grpc.EditStudentInfoString request,
         io.grpc.stub.StreamObserver<com.example.grpc.StatusCode> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getUpdateStudentWithCourseMethod(), getCallOptions()), request, responseObserver);
@@ -587,9 +581,6 @@ public final class DataServiceGrpc {
     }
 
     /**
-     * <pre>
-     *특정 ID의 학생. 강좌가 있는 지 확인하기
-     * </pre>
      */
     public com.example.grpc.StudentInfoString getStudentById(com.example.grpc.StudentId request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
@@ -648,7 +639,7 @@ public final class DataServiceGrpc {
      *수강신청
      * </pre>
      */
-    public com.example.grpc.StatusCode updateStudentWithCourse(com.example.grpc.StudentAndCourseId request) {
+    public com.example.grpc.StatusCode updateStudentWithCourse(com.example.grpc.EditStudentInfoString request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getUpdateStudentWithCourseMethod(), getCallOptions(), request);
     }
@@ -683,9 +674,6 @@ public final class DataServiceGrpc {
     }
 
     /**
-     * <pre>
-     *특정 ID의 학생. 강좌가 있는 지 확인하기
-     * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.example.grpc.StudentInfoString> getStudentById(
         com.example.grpc.StudentId request) {
@@ -751,7 +739,7 @@ public final class DataServiceGrpc {
      * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.example.grpc.StatusCode> updateStudentWithCourse(
-        com.example.grpc.StudentAndCourseId request) {
+        com.example.grpc.EditStudentInfoString request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getUpdateStudentWithCourseMethod(), getCallOptions()), request);
     }
@@ -812,7 +800,7 @@ public final class DataServiceGrpc {
               (io.grpc.stub.StreamObserver<com.example.grpc.StatusCode>) responseObserver);
           break;
         case METHODID_UPDATE_STUDENT_WITH_COURSE:
-          serviceImpl.updateStudentWithCourse((com.example.grpc.StudentAndCourseId) request,
+          serviceImpl.updateStudentWithCourse((com.example.grpc.EditStudentInfoString) request,
               (io.grpc.stub.StreamObserver<com.example.grpc.StatusCode>) responseObserver);
           break;
         default:

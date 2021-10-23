@@ -9,21 +9,15 @@ public class CheckAlreadyMethods {
     public boolean alreadyExist(Object obj){
         if(obj instanceof Student){
             Student student = (Student) obj;
-             if(DataConnection.connect()
-                     .getStudentById(StudentId.newBuilder().setStudentId(student.getId()).build())
-                     .getStudentInfo().equals(SCRSProperties.EMPTY)) return false;
+             if(DataConnection.connect().getStudentById(StudentId.newBuilder().setStudentId(student.getId()).build()).getStudentInfo().equals(SCRSProperties.EMPTY)) return false;
         }
         else if(obj instanceof Course){
             Course course = (Course) obj;
-           if(DataConnection.connect()
-                   .getCourseById(CourseId.newBuilder().setCourseId(course.getId()).build())
-                   .getCourseInfo().equals(SCRSProperties.EMPTY)) return false;
+           if(DataConnection.connect().getCourseById(CourseId.newBuilder().setCourseId(course.getId()).build()).getCourseInfo().equals(SCRSProperties.EMPTY)) return false;
         }
         else if(obj instanceof StudentId){
             StudentId studentID = (StudentId) obj;
-            if(DataConnection.connect()
-                    .getCourseById(CourseId.newBuilder().setCourseId(studentID.getStudentId()).build())
-                    .getCourseInfo().equals(SCRSProperties.EMPTY))
+            if(DataConnection.connect().getCourseById(CourseId.newBuilder().setCourseId(studentID.getStudentId()).build()).getCourseInfo().equals(SCRSProperties.EMPTY))
                 return false;
         }
         else if(obj instanceof CourseId){
@@ -37,18 +31,24 @@ public class CheckAlreadyMethods {
     }
 
     public boolean alreadyExistCourse(String id){
-        return DataConnection.connect().getCourseById(CourseId.newBuilder().setCourseId(id).build()).getStatusCode().equals(SCode.S200);
+        return DataConnection.connect().getCourseById(CourseId.newBuilder().setCourseId(id).build()).getCourseInfo().equals(SCRSProperties.EMPTY);
     }
 
     public boolean alreadyExistStudent(String id){
-        return DataConnection.connect().getStudentById(StudentId.newBuilder().setStudentId(id).build()).getStatusCode().equals(SCode.S200);
+        return DataConnection.connect().getStudentById(StudentId.newBuilder().setStudentId(id).build()).getStudentInfo().equals(SCRSProperties.EMPTY);
     }
 
     public void checkPreCourse(ProtocolStringList preCoursesList) throws NotExistCourseIDException {
         for (String id : preCoursesList) if(alreadyExistCourse(id)) throw new NotExistCourseIDException();
     }
 
-    public boolean alreadyTake(String studentId, String courseId) {
-
+    public boolean takePreCourse(String studentId, String courseId) {
+        String courseInfo = DataConnection.connect().getCourseById(CourseId.newBuilder().setCourseId(courseId).build()).getCourseInfo();
+        String studentInfo = DataConnection.connect().getStudentById(StudentId.newBuilder().setStudentId(studentId).build()).getStudentInfo();
+        String[] splitCourse = courseInfo.split(SCRSProperties.SEPARATOR);
+        if(splitCourse.length >= 3)
+            for (int i = 3; i < splitCourse.length; i++)
+                if(!studentInfo.contains(splitCourse[i])) return false;
+        return true;
     }
 }

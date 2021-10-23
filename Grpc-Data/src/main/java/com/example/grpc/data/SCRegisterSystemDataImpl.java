@@ -7,7 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 
-public class SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBase {
+public class
+SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBase {
 
     private final CrudMethods crudMethods;
 
@@ -18,8 +19,8 @@ public class SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBas
     @Override
     public void getListData(ListDataRequest request, StreamObserver<ListDataResponse> responseObserver) {
         ListDataResponse.Builder builder = null;
-        if(request.getStudentOrCourse().equals(SCode.STUDENT)) builder = crudMethods.getStudentData(ListDataResponse.newBuilder());
-        else if(request.getStudentOrCourse().equals(SCode.COURSE)) builder = crudMethods.getCourseData(ListDataResponse.newBuilder());
+        if(request.getStudentOrCourse().equals(SCode.STUDENT)) builder = crudMethods.getAllStudentData(ListDataResponse.newBuilder());
+        else if(request.getStudentOrCourse().equals(SCode.COURSE)) builder = crudMethods.getAllCourseData(ListDataResponse.newBuilder());
         responseObserver.onNext(builder.build());
         responseObserver.onCompleted();
     }
@@ -40,7 +41,9 @@ public class SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBas
 
     @Override
     public void putCourse(CourseInfoString courseInfoString, StreamObserver<StatusCode> responseObserver) {
-        try { crudMethods.putCourse(courseInfoString); }
+        try {
+            crudMethods.putCourse(courseInfoString);
+        }
         catch (Exception e) {
             response(responseObserver,SCode.S500,SCode.FAIL);
             return;
@@ -60,7 +63,9 @@ public class SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBas
 
     @Override
     public void deleteCourseById(CourseId request, StreamObserver<StatusCode> responseObserver) {
-        try { crudMethods.delete(request.getCourseId(), SCRSProperties.COURSE_LIST_PATH); }
+        try {
+            crudMethods.delete(request.getCourseId(), SCRSProperties.COURSE_LIST_PATH);
+        }
         catch (Exception e) {
             response(responseObserver,SCode.S500,SCode.FAIL);
             return;
@@ -70,8 +75,10 @@ public class SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBas
 
     @Override
     public void deleteStudentById(StudentId request, StreamObserver<StatusCode> responseObserver)  {
-        try { crudMethods.delete(request.getStudentId(), SCRSProperties.STUDENT_LIST_PATH); }
-        catch (NotExistIDException e) {
+        try {
+            crudMethods.delete(request.getStudentId(), SCRSProperties.STUDENT_LIST_PATH);
+        }
+        catch (Exception e) {
             response(responseObserver, SCode.S500, SCode.FAIL);
             return;
         }
@@ -79,8 +86,8 @@ public class SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBas
     }
 
     @Override
-    public void updateStudentWithCourse(StudentAndCourseId request, StreamObserver<StatusCode> responseObserver) {
-        try{ crudMethods.updateStudent(request.getStudentId(), request.getCourseId()); }
+    public void updateStudentWithCourse(EditStudentInfoString request, StreamObserver<StatusCode> responseObserver) {
+        try{ crudMethods.updateStudent(request.getStudentInfoString()); }
         catch(Exception e) {
             response(responseObserver, SCode.S500, SCode.FAIL);
             return;

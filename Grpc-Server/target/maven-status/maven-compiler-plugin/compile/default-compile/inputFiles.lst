@@ -9,6 +9,8 @@
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Server/target/generated-sources/protobuf/java/com/example/grpc/CourseIdOrBuilder.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Server/target/generated-sources/protobuf/java/com/example/grpc/StudentIdOrBuilder.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Server/target/generated-sources/protobuf/java/com/example/grpc/ChoiceRequestOrBuilder.java
+/Users/leechanyoung/Downloads/coding/gRPC/Grpc-Server/target/generated-sources/protobuf/java/com/example/grpc/EditStudentInfoStringOrBuilder.java
+/Users/leechanyoung/Downloads/coding/gRPC/Grpc-Server/target/generated-sources/protobuf/java/com/example/grpc/EditStudentInfoString.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Server/target/generated-sources/protobuf/java/com/example/grpc/CourseOrBuilder.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Server/target/generated-sources/protobuf/java/com/example/grpc/StudentInfoStringOrBuilder.java
 /Users/leechanyoung/Downloads/coding/gRPC/Grpc-Server/target/generated-sources/protobuf/java/com/example/grpc/Course.java

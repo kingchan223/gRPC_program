@@ -14,7 +14,7 @@ public class StringMethods {
         check = new CheckAlreadyMethods();
     }
 
-    public String extractCourseInfo(Course course) throws NotEnoughDataException {
+    public String makeCourseInfoString(Course course) throws NotEnoughDataException {
         String id = course.getId();
         String name = course.getName();
         String profName = course.getProfName();
@@ -22,7 +22,7 @@ public class StringMethods {
         return id+SEPARATOR+name+SEPARATOR+profName+SEPARATOR+makePreCourseStr(course.getPreCoursesList());
     }
 
-    public String extractStudentInfo(Student request) throws NotEnoughDataException {
+    public String makeStudentInfoString(Student request) throws NotEnoughDataException {
         String id = request.getId();
         String name = request.getName();
         String major = request.getMajor();
@@ -64,5 +64,9 @@ public class StringMethods {
         String retVal= "";
         for (String listDatum : listData.getDataList()) retVal+=listDatum+"\n";
         return retVal;
+    }
+
+    public String makeSeparatorString(String data1, String data2){
+        return data1 + SCRSProperties.SEPARATOR + data2;
     }
 }
