@@ -10,9 +10,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 
-//@Slf4j
 public class CrudMethods {
-
 
     public ListDataResponse.Builder getStudentData(ListDataResponse.Builder builder){
         try {
@@ -29,9 +27,8 @@ public class CrudMethods {
     }
 
     public ListDataResponse.Builder getCourseData(ListDataResponse.Builder builder) {
-        BufferedReader objStudentFile = null;
         try {
-            objStudentFile = new BufferedReader(new FileReader(SCRSProperties.COURSE_LIST_PATH));
+            BufferedReader objStudentFile = new BufferedReader(new FileReader(SCRSProperties.COURSE_LIST_PATH));
             while (objStudentFile.ready()) {
                 String courseInfo = objStudentFile.readLine();
                 if (!courseInfo.equals("")) builder.addData(courseInfo);
@@ -154,9 +151,8 @@ public class CrudMethods {
     }
 
     public boolean matchFile(String id, String fileName){
-        BufferedReader objStudentFile = null;
         try {
-            objStudentFile = new BufferedReader(new FileReader(fileName));
+            BufferedReader objStudentFile = new BufferedReader(new FileReader(fileName));
             while (objStudentFile.ready()) {
                 String line = objStudentFile.readLine();
                 String[] alreadyId = line.split(" ");
@@ -170,6 +166,42 @@ public class CrudMethods {
         }
         return false;
     }
+
+    public String getStudentById(String studentId) {
+        try {
+            BufferedReader objStudentFile = new BufferedReader(new FileReader(SCRSProperties.STUDENT_LIST_PATH));
+            while (objStudentFile.ready()) {
+                String line = objStudentFile.readLine();
+                String[] alreadyId = line.split(" ");
+                if(alreadyId[0].equals(studentId)){
+                    objStudentFile.close();
+                    return line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public String getCourseById(String courseId) {
+        try {
+            BufferedReader objStudentFile = new BufferedReader(new FileReader(SCRSProperties.COURSE_LIST_PATH));
+            while (objStudentFile.ready()) {
+                String line = objStudentFile.readLine();
+                String[] alreadyId = line.split(" ");
+                if(alreadyId[0].equals(courseId)){
+                    objStudentFile.close();
+                    return line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+
     //    public boolean isExistCourse(String courseId, StreamObserver<StatusCode> responseObserver) {
 //        try {
 //            if(!match(courseId, SCRSProperties.COURSE_LIST_PATH)){

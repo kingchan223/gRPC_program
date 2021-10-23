@@ -7,7 +7,7 @@ import java.io.*;
 
 public class SCRegisterSystem {
     public static void main(String[] args) throws IOException {
-        StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub = ServerConnection.getServerConnection().connect();
+        StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub = ServerConnection.connect();
         SCRegisterMethods scMethods = new SCRegisterMethods();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = ClientProperties.EXIT_NUM+1;

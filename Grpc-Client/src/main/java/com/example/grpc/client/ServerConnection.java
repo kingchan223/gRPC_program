@@ -26,25 +26,4 @@ public class ServerConnection {
     public StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub makeStub(){
         return StudentCourseRegistrationSystemGrpc.newBlockingStub(connectPort());
     }
-
-//    private static final DataConnection dataConnection = new DataConnection();
-//    private DataConnection() {}
-//    public static DataConnection getDataConnection(){
-//        return dataConnection;
-//    }
-//
-//    public static DataServiceGrpc.DataServiceBlockingStub connect(){
-//        return getDataConnection().makeStub();
-//    }
-//
-//    public ManagedChannel connectPort(){
-//        return ManagedChannelBuilder.forAddress("localhost", 9090)
-//                .usePlaintext()
-//                .build();
-//    }
-//
-//    public DataServiceGrpc.DataServiceBlockingStub makeStub(){
-//        return DataServiceGrpc.newBlockingStub(connectPort());
-//    }
-
 }

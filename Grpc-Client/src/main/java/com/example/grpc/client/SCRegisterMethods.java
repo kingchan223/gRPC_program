@@ -21,8 +21,8 @@ public class SCRegisterMethods {
 
     public void printListData(StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub, int n){
         if(n==1){
-            ProtocolStringList students = stub.getListData(ListDataRequest.newBuilder().setStudentOrCourse("student").build()).getDataList();
-            for (String student : students) System.out.println(student);
+            ListDataResponse students = stub.getListData(ListDataRequest.newBuilder().setStudentOrCourse("student").build());
+            for (String student : students.getDataList()) System.out.println(student.toString());
         }
          else if(n==2){
             ProtocolStringList courses = stub.getListData(ListDataRequest.newBuilder().setStudentOrCourse("course").build()).getDataList();
@@ -31,8 +31,15 @@ public class SCRegisterMethods {
     }
 
     public void putCourse(StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub) throws IOException {
-        String id=""; String name=""; String profName=""; String[] preCourseStr = null;
-        printPutCourseInfo(id, name, profName, preCourseStr);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print(ClientProperties.INPUT_ID_MSG);
+        String id = br.readLine().trim();
+        System.out.print(ClientProperties.INPUT_COURSENAME_MSG);
+        String name = br.readLine().trim();
+        System.out.print(ClientProperties.INPUT_PROFNAME_MSG);
+        String profName = br.readLine().trim();
+        System.out.print(ClientProperties.INPUT_PRECOURSE_MSG);
+        String[] preCourseStr = br.readLine().trim().split("/");
         try {
             isNull(id, name, profName);
         } catch (NotEnoughDataException e) {
@@ -44,8 +51,13 @@ public class SCRegisterMethods {
     }
 
     public void putStudent(StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub) throws IOException {
-        String id=""; String name=""; String major="";
-        printPutStudentInfo(id, name, major);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print(ClientProperties.INPUT_ID_MSG);
+        String id = br.readLine().trim();
+        System.out.print(ClientProperties.INPUT_NAME_MSG);
+        String name = br.readLine().trim();
+        System.out.print(ClientProperties.INPUT_MAJOR_MSG);
+        String major = br.readLine().trim();
         try {
             isNull(id, name, major);
         } catch (NotEnoughDataException e) {
@@ -113,34 +125,36 @@ public class SCRegisterMethods {
     }
 
     public void nullOrEmpty(String data) throws NotEnoughDataException {
-        if(data != null && !data.equals(EMPTY)) throw new NotEnoughDataException();
+        if(data == null || data.equals(EMPTY)) throw new NotEnoughDataException();
     }
 
-    public void printPutStudentInfo(String id, String name, String profName) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print(ClientProperties.INPUT_ID_MSG);
-        id = br.readLine().trim();
-        System.out.print(ClientProperties.INPUT_COURSENAME_MSG);
-        name = br.readLine().trim();
-        System.out.print(ClientProperties.INPUT_PROFNAME_MSG);
-        profName = br.readLine().trim();
-    }
-
-    public void printPutCourseInfo(String id, String name, String major, String[] preCourseStr) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print(ClientProperties.INPUT_ID_MSG);
-        id = br.readLine().trim();
-        System.out.print(ClientProperties.INPUT_COURSENAME_MSG);
-        name = br.readLine().trim();
-        System.out.print(ClientProperties.INPUT_PROFNAME_MSG);
-        major = br.readLine().trim();
-        System.out.print(ClientProperties.INPUT_PRECOURSE_MSG);
-        preCourseStr = br.readLine().trim().split("/");
-    }
+//    public void printPutStudentInfo(String id, String name, String major) throws IOException {
+//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        System.out.print(ClientProperties.INPUT_ID_MSG);
+//        id = br.readLine().trim();
+//        System.out.print(ClientProperties.INPUT_NAME_MSG);
+//        name = br.readLine().trim();
+//        System.out.print(ClientProperties.INPUT_MAJOR_MSG);
+//        major = br.readLine().trim();
+//    }
+//
+//    public void printPutCourseInfo(String id, String name, String profName, String[] preCourseStr) throws IOException {
+//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        System.out.print(ClientProperties.INPUT_ID_MSG);
+//        id = br.readLine().trim();
+//        System.out.print(ClientProperties.INPUT_COURSENAME_MSG);
+//        name = br.readLine().trim();
+//        System.out.print(ClientProperties.INPUT_PROFNAME_MSG);
+//        profName = br.readLine().trim();
+//        System.out.print(ClientProperties.INPUT_PRECOURSE_MSG);
+//        preCourseStr = br.readLine().trim().split("/");
+//    }
 
     public void printResult(StatusCode statusCode) {
         String status = statusCode.getStatusCode();
         String message = statusCode.getMessage();
+        System.out.println("status:"+status);
+        System.out.println("message:"+message);
         if(status.equals(SCode.S200)){
             System.out.println(ClientProperties.success);
         }

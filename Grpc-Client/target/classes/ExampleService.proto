@@ -87,6 +87,10 @@ service DataService{
   //과목 또는 학생 정보 리스트 전달하기
   rpc getListData(ListDataRequest) returns (ListDataResponse);
 
+  //특정 ID의 학생. 강좌가 있는 지 확인하기
+  rpc getStudentById(StudentId) returns (StatusCode);
+  rpc getCourseById(CourseId) returns (StatusCode);
+
   //add Course
   rpc putCourse(CourseInfoString) returns (StatusCode);
 

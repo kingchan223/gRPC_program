@@ -11,6 +11,7 @@ public interface SCode {
 
     public static final String S500 = "500";
 
+
     public static final String STUDENT = "student";
     public static final String COURSE = "course";
     public static final String SUCCESS = "success";

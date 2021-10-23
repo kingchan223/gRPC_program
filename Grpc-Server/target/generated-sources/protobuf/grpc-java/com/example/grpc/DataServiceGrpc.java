@@ -49,6 +49,68 @@ public final class DataServiceGrpc {
     return getGetListDataMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<com.example.grpc.StudentId,
+      com.example.grpc.StudentInfoString> getGetStudentByIdMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "getStudentById",
+      requestType = com.example.grpc.StudentId.class,
+      responseType = com.example.grpc.StudentInfoString.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.example.grpc.StudentId,
+      com.example.grpc.StudentInfoString> getGetStudentByIdMethod() {
+    io.grpc.MethodDescriptor<com.example.grpc.StudentId, com.example.grpc.StudentInfoString> getGetStudentByIdMethod;
+    if ((getGetStudentByIdMethod = DataServiceGrpc.getGetStudentByIdMethod) == null) {
+      synchronized (DataServiceGrpc.class) {
+        if ((getGetStudentByIdMethod = DataServiceGrpc.getGetStudentByIdMethod) == null) {
+          DataServiceGrpc.getGetStudentByIdMethod = getGetStudentByIdMethod =
+              io.grpc.MethodDescriptor.<com.example.grpc.StudentId, com.example.grpc.StudentInfoString>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getStudentById"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.example.grpc.StudentId.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.example.grpc.StudentInfoString.getDefaultInstance()))
+              .setSchemaDescriptor(new DataServiceMethodDescriptorSupplier("getStudentById"))
+              .build();
+        }
+      }
+    }
+    return getGetStudentByIdMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<com.example.grpc.CourseId,
+      com.example.grpc.CourseInfoString> getGetCourseByIdMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "getCourseById",
+      requestType = com.example.grpc.CourseId.class,
+      responseType = com.example.grpc.CourseInfoString.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.example.grpc.CourseId,
+      com.example.grpc.CourseInfoString> getGetCourseByIdMethod() {
+    io.grpc.MethodDescriptor<com.example.grpc.CourseId, com.example.grpc.CourseInfoString> getGetCourseByIdMethod;
+    if ((getGetCourseByIdMethod = DataServiceGrpc.getGetCourseByIdMethod) == null) {
+      synchronized (DataServiceGrpc.class) {
+        if ((getGetCourseByIdMethod = DataServiceGrpc.getGetCourseByIdMethod) == null) {
+          DataServiceGrpc.getGetCourseByIdMethod = getGetCourseByIdMethod =
+              io.grpc.MethodDescriptor.<com.example.grpc.CourseId, com.example.grpc.CourseInfoString>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getCourseById"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.example.grpc.CourseId.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.example.grpc.CourseInfoString.getDefaultInstance()))
+              .setSchemaDescriptor(new DataServiceMethodDescriptorSupplier("getCourseById"))
+              .build();
+        }
+      }
+    }
+    return getGetCourseByIdMethod;
+  }
+
   private static volatile io.grpc.MethodDescriptor<com.example.grpc.CourseInfoString,
       com.example.grpc.StatusCode> getPutCourseMethod;
 
@@ -267,6 +329,23 @@ public final class DataServiceGrpc {
 
     /**
      * <pre>
+     *특정 ID의 학생. 강좌가 있는 지 확인하기
+     * </pre>
+     */
+    public void getStudentById(com.example.grpc.StudentId request,
+        io.grpc.stub.StreamObserver<com.example.grpc.StudentInfoString> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetStudentByIdMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void getCourseById(com.example.grpc.CourseId request,
+        io.grpc.stub.StreamObserver<com.example.grpc.CourseInfoString> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetCourseByIdMethod(), responseObserver);
+    }
+
+    /**
+     * <pre>
      *add Course
      * </pre>
      */
@@ -324,6 +403,20 @@ public final class DataServiceGrpc {
                 com.example.grpc.ListDataRequest,
                 com.example.grpc.ListDataResponse>(
                   this, METHODID_GET_LIST_DATA)))
+          .addMethod(
+            getGetStudentByIdMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                com.example.grpc.StudentId,
+                com.example.grpc.StudentInfoString>(
+                  this, METHODID_GET_STUDENT_BY_ID)))
+          .addMethod(
+            getGetCourseByIdMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                com.example.grpc.CourseId,
+                com.example.grpc.CourseInfoString>(
+                  this, METHODID_GET_COURSE_BY_ID)))
           .addMethod(
             getPutCourseMethod(),
             io.grpc.stub.ServerCalls.asyncUnaryCall(
@@ -389,6 +482,25 @@ public final class DataServiceGrpc {
         io.grpc.stub.StreamObserver<com.example.grpc.ListDataResponse> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetListDataMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     * <pre>
+     *특정 ID의 학생. 강좌가 있는 지 확인하기
+     * </pre>
+     */
+    public void getStudentById(com.example.grpc.StudentId request,
+        io.grpc.stub.StreamObserver<com.example.grpc.StudentInfoString> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getGetStudentByIdMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void getCourseById(com.example.grpc.CourseId request,
+        io.grpc.stub.StreamObserver<com.example.grpc.CourseInfoString> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getGetCourseByIdMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -476,6 +588,23 @@ public final class DataServiceGrpc {
 
     /**
      * <pre>
+     *특정 ID의 학생. 강좌가 있는 지 확인하기
+     * </pre>
+     */
+    public com.example.grpc.StudentInfoString getStudentById(com.example.grpc.StudentId request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getGetStudentByIdMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public com.example.grpc.CourseInfoString getCourseById(com.example.grpc.CourseId request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getGetCourseByIdMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
      *add Course
      * </pre>
      */
@@ -555,6 +684,25 @@ public final class DataServiceGrpc {
 
     /**
      * <pre>
+     *특정 ID의 학생. 강좌가 있는 지 확인하기
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.example.grpc.StudentInfoString> getStudentById(
+        com.example.grpc.StudentId request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getGetStudentByIdMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.example.grpc.CourseInfoString> getCourseById(
+        com.example.grpc.CourseId request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getGetCourseByIdMethod(), getCallOptions()), request);
+    }
+
+    /**
+     * <pre>
      *add Course
      * </pre>
      */
@@ -610,11 +758,13 @@ public final class DataServiceGrpc {
   }
 
   private static final int METHODID_GET_LIST_DATA = 0;
-  private static final int METHODID_PUT_COURSE = 1;
-  private static final int METHODID_PUT_STUDENT = 2;
-  private static final int METHODID_DELETE_COURSE_BY_ID = 3;
-  private static final int METHODID_DELETE_STUDENT_BY_ID = 4;
-  private static final int METHODID_UPDATE_STUDENT_WITH_COURSE = 5;
+  private static final int METHODID_GET_STUDENT_BY_ID = 1;
+  private static final int METHODID_GET_COURSE_BY_ID = 2;
+  private static final int METHODID_PUT_COURSE = 3;
+  private static final int METHODID_PUT_STUDENT = 4;
+  private static final int METHODID_DELETE_COURSE_BY_ID = 5;
+  private static final int METHODID_DELETE_STUDENT_BY_ID = 6;
+  private static final int METHODID_UPDATE_STUDENT_WITH_COURSE = 7;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -636,6 +786,14 @@ public final class DataServiceGrpc {
         case METHODID_GET_LIST_DATA:
           serviceImpl.getListData((com.example.grpc.ListDataRequest) request,
               (io.grpc.stub.StreamObserver<com.example.grpc.ListDataResponse>) responseObserver);
+          break;
+        case METHODID_GET_STUDENT_BY_ID:
+          serviceImpl.getStudentById((com.example.grpc.StudentId) request,
+              (io.grpc.stub.StreamObserver<com.example.grpc.StudentInfoString>) responseObserver);
+          break;
+        case METHODID_GET_COURSE_BY_ID:
+          serviceImpl.getCourseById((com.example.grpc.CourseId) request,
+              (io.grpc.stub.StreamObserver<com.example.grpc.CourseInfoString>) responseObserver);
           break;
         case METHODID_PUT_COURSE:
           serviceImpl.putCourse((com.example.grpc.CourseInfoString) request,
@@ -719,6 +877,8 @@ public final class DataServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new DataServiceFileDescriptorSupplier())
               .addMethod(getGetListDataMethod())
+              .addMethod(getGetStudentByIdMethod())
+              .addMethod(getGetCourseByIdMethod())
               .addMethod(getPutCourseMethod())
               .addMethod(getPutStudentMethod())
               .addMethod(getDeleteCourseByIdMethod())

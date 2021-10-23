@@ -135,21 +135,25 @@ public final class ExampleService {
       "d\022\033.com.example.grpc.StudentId\032\034.com.exa" +
       "mple.grpc.StatusCode\022]\n\027updateStudentWit" +
       "hCourse\022$.com.example.grpc.StudentAndCou" +
-      "rseId\032\034.com.example.grpc.StatusCode2\200\004\n\013" +
+      "rseId\032\034.com.example.grpc.StatusCode2\245\005\n\013" +
       "DataService\022T\n\013getListData\022!.com.example" +
       ".grpc.ListDataRequest\032\".com.example.grpc" +
-      ".ListDataResponse\022M\n\tputCourse\022\".com.exa" +
-      "mple.grpc.CourseInfoString\032\034.com.example" +
-      ".grpc.StatusCode\022O\n\nputStudent\022#.com.exa" +
-      "mple.grpc.StudentInfoString\032\034.com.exampl" +
-      "e.grpc.StatusCode\022L\n\020deleteCourseById\022\032." +
-      "com.example.grpc.CourseId\032\034.com.example." +
-      "grpc.StatusCode\022N\n\021deleteStudentById\022\033.c" +
-      "om.example.grpc.StudentId\032\034.com.example." +
-      "grpc.StatusCode\022]\n\027updateStudentWithCour" +
-      "se\022$.com.example.grpc.StudentAndCourseId" +
-      "\032\034.com.example.grpc.StatusCodeB\002P\001b\006prot" +
-      "o3"
+      ".ListDataResponse\022R\n\016getStudentById\022\033.co" +
+      "m.example.grpc.StudentId\032#.com.example.g" +
+      "rpc.StudentInfoString\022O\n\rgetCourseById\022\032" +
+      ".com.example.grpc.CourseId\032\".com.example" +
+      ".grpc.CourseInfoString\022M\n\tputCourse\022\".co" +
+      "m.example.grpc.CourseInfoString\032\034.com.ex" +
+      "ample.grpc.StatusCode\022O\n\nputStudent\022#.co" +
+      "m.example.grpc.StudentInfoString\032\034.com.e" +
+      "xample.grpc.StatusCode\022L\n\020deleteCourseBy" +
+      "Id\022\032.com.example.grpc.CourseId\032\034.com.exa" +
+      "mple.grpc.StatusCode\022N\n\021deleteStudentByI" +
+      "d\022\033.com.example.grpc.StudentId\032\034.com.exa" +
+      "mple.grpc.StatusCode\022]\n\027updateStudentWit" +
+      "hCourse\022$.com.example.grpc.StudentAndCou" +
+      "rseId\032\034.com.example.grpc.StatusCodeB\002P\001b" +
+      "\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

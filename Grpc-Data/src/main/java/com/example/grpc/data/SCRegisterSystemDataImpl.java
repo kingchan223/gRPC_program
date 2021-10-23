@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 
-@Slf4j
 public class SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBase {
 
     private final CrudMethods crudMethods;
@@ -26,15 +25,24 @@ public class SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBas
     }
 
     @Override
+    public void getStudentById(StudentId studentId, StreamObserver<StudentInfoString> responseObserver) {
+        String studentInfoString = crudMethods.getStudentById(studentId.getStudentId());
+        responseObserver.onNext(StudentInfoString.newBuilder().setStudentInfo(studentInfoString).build());
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getCourseById(CourseId courseId, StreamObserver<CourseInfoString> responseObserver) {
+        String courseInfoString = crudMethods.getCourseById(courseId.getCourseId());
+        responseObserver.onNext(CourseInfoString.newBuilder().setCourseInfo(courseInfoString).build());
+        responseObserver.onCompleted();
+    }
+
+    @Override
     public void putCourse(CourseInfoString courseInfoString, StreamObserver<StatusCode> responseObserver) {
-        try {
-            crudMethods.putCourse(courseInfoString);
-        } catch (AlreadyExistCourseIDException e) {
-            response(responseObserver,SCode.S402,SCode.COURSE);
-            return;
-        }
-        catch (NotExistCourseIDException e2) {
-            response(responseObserver,SCode.S404,SCode.COURSE);
+        try { crudMethods.putCourse(courseInfoString); }
+        catch (Exception e) {
+            response(responseObserver,SCode.S500,SCode.FAIL);
             return;
         }
         response(responseObserver,SCode.S200,SCode.SUCCESS);
@@ -42,10 +50,9 @@ public class SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBas
 
     @Override
     public void putStudent(StudentInfoString studentInfoString, StreamObserver<StatusCode> responseObserver) {
-        try {
-            crudMethods.putStudent(studentInfoString);
-        } catch (AlreadyExistStudentIDException e) {
-            response(responseObserver,SCode.S402,SCode.STUDENT);
+        try { crudMethods.putStudent(studentInfoString); }
+        catch (Exception e) {
+            response(responseObserver,SCode.S500,SCode.FAIL);
             return;
         }
         response(responseObserver,SCode.S200,SCode.SUCCESS);
@@ -53,10 +60,9 @@ public class SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBas
 
     @Override
     public void deleteCourseById(CourseId request, StreamObserver<StatusCode> responseObserver) {
-        try {
-            crudMethods.delete(request.getCourseId(), SCRSProperties.COURSE_LIST_PATH);
-        } catch (NotExistIDException e) {
-            response(responseObserver,SCode.S404,SCode.COURSE);
+        try { crudMethods.delete(request.getCourseId(), SCRSProperties.COURSE_LIST_PATH); }
+        catch (Exception e) {
+            response(responseObserver,SCode.S500,SCode.FAIL);
             return;
         }
         response(responseObserver,SCode.S200,SCode.SUCCESS);
@@ -64,35 +70,19 @@ public class SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBas
 
     @Override
     public void deleteStudentById(StudentId request, StreamObserver<StatusCode> responseObserver)  {
-        try {
-            crudMethods.delete(request.getStudentId(), SCRSProperties.STUDENT_LIST_PATH);
-        } catch (NotExistIDException e) {
-            response(responseObserver, SCode.S404, SCode.STUDENT);
+        try { crudMethods.delete(request.getStudentId(), SCRSProperties.STUDENT_LIST_PATH); }
+        catch (NotExistIDException e) {
+            response(responseObserver, SCode.S500, SCode.FAIL);
             return;
         }
         response(responseObserver,SCode.S200, SCode.SUCCESS);
     }
 
-
     @Override
     public void updateStudentWithCourse(StudentAndCourseId request, StreamObserver<StatusCode> responseObserver) {
-        try{
-            crudMethods.updateStudent(request.getStudentId(), request.getCourseId());
-        }
-        catch(NotExistStudentIDException e){
-            response(responseObserver,SCode.S404, SCode.STUDENT);
-            return;
-        }
-        catch(NotExistCourseIDException e1){
-            response(responseObserver,SCode.S404, SCode.COURSE);
-            return;
-        }
-        catch(AlreadyTakeCourseIDException e2){
-            response(responseObserver,SCode.S402, SCode.COURSE);
-            return;
-        }
-        catch(NotTakePreCourseException e3){
-            response(responseObserver,SCode.S410, SCode.COURSE);
+        try{ crudMethods.updateStudent(request.getStudentId(), request.getCourseId()); }
+        catch(Exception e) {
+            response(responseObserver, SCode.S500, SCode.FAIL);
             return;
         }
         response(responseObserver,SCode.S200, SCode.SUCCESS);
