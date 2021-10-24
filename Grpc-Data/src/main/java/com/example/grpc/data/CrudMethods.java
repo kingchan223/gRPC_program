@@ -1,14 +1,11 @@
 package com.example.grpc.data;
 
-import com.example.exception.*;
 import com.example.grpc.*;
-import io.grpc.stub.StreamObserver;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
 
 public class CrudMethods {
 
@@ -90,7 +87,7 @@ public class CrudMethods {
         }
     }
 
-    public boolean delete(String id, String fileName){
+    public boolean deleteById(String id, String fileName){
         String all = SCRSProperties.EMPTY;
         try {
             BufferedReader br = new BufferedReader(new FileReader(fileName));
@@ -113,10 +110,11 @@ public class CrudMethods {
         try{
             BufferedReader br = new BufferedReader(new FileReader(SCRSProperties.STUDENT_LIST_PATH));
             String all = SCRSProperties.EMPTY;
+            String stdId = studentInfoString.split(SCRSProperties.SEPARATOR)[0];
             while (br.ready()) {
                 String studentLine = br.readLine();
-                String[] splitStudentLine = studentLine.split(SCRSProperties.SEPARATOR);
-                if(splitStudentLine[0].equals(studentInfoString.split(SCRSProperties.SEPARATOR)[0])) all+=studentLine+SCRSProperties.SEPARATOR+SCRSProperties.C13;
+                String[] studentLineSplit = studentLine.split(SCRSProperties.SEPARATOR);
+                if(studentLineSplit[0].equals(stdId)) all+=studentInfoString+SCRSProperties.C13;
                 else all+=studentLine + SCRSProperties.C13;
             }
             FileWriter fw = new FileWriter(SCRSProperties.STUDENT_LIST_PATH);
@@ -128,90 +126,4 @@ public class CrudMethods {
             e.printStackTrace();
         }
     }
-
-//    private boolean checkTakePreCourse(String studentLine, String courseId) {
-//        String courseLine = getLineById(courseId, SCRSProperties.COURSE_LIST_PATH);
-//        return checkHavePreCourse(courseLine.split(SCRSProperties.SEPARATOR), studentLine);
-//    }
-//
-//    private boolean checkHavePreCourse(String[] courseLineSplit, String studentLine){
-//        if(courseLineSplit.length < 4) return true;
-//        for (int i = 3; i < courseLineSplit.length; i++) {
-//            if(!studentLine.contains(courseLineSplit[i]))
-//                return false;
-//        }
-//        return true;
-//    }
-
-//    public String getLineById(String id, String filename){
-//        try {
-//            BufferedReader objStudentFile = new BufferedReader(new FileReader(filename));
-//            while (objStudentFile.ready()) {
-//                String line = objStudentFile.readLine();
-//                String[] split = line.split(SCRSProperties.SEPARATOR);
-//                if (split[0].equals(id)) return line;
-//            }
-//            objStudentFile.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return "";
-//    }
-//
-//    private boolean mathchLine(String keyword, String line) {
-//        if(line.contains(keyword)) return false;
-//        else return true;
-//    }
-//
-//    public boolean matchFile(String id, String fileName){
-//        try {
-//            BufferedReader objStudentFile = new BufferedReader(new FileReader(fileName));
-//            while (objStudentFile.ready()) {
-//                String line = objStudentFile.readLine();
-//                String[] alreadyId = line.split(SCRSProperties.SEPARATOR);
-//                if(alreadyId[0].equals(id)){
-//                    objStudentFile.close();
-//                    return true;
-//                }
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return false;
-//    }
-    //    public boolean isExistCourse(String courseId, StreamObserver<StatusCode> responseObserver) {
-//        try {
-//            if(!match(courseId, SCRSProperties.COURSE_LIST_PATH)){
-//                throw new NotExistCourseIDException();
-//            }
-//        } catch (NotExistCourseIDException e) {
-//            StatusCode code = StatusCode.newBuilder().setStatusCode("NOTexistIDcourse").build();
-//            responseObserver.onNext(code);
-//            responseObserver.onCompleted();
-//            return false;
-//        }
-//        return true;
-//    }
-
-    //    public ArrayList<String> getPreCourseListOfCourse(String courseId){
-//        ArrayList<String> preCourseList = new ArrayList<>();
-//        try {
-//            BufferedReader br = new BufferedReader(new FileReader(SCRSProperties.COURSE_LIST_PATH));
-//            while (br.ready()) {
-//                String courseLine = br.readLine();
-//                String[] courseLineSplit = courseLine.split(" ");
-//                if(courseLineSplit[0].equals(courseId)){
-//                    makePreCourseList(courseId, preCourseList, courseLineSplit);
-//                    return preCourseList;
-//                }
-//            }
-//        }catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return preCourseList;
-//    }
-
-//    private void makePreCourseList(String courseId, ArrayList<String> preCourseList, String[] courseLineSplit) {
-//        for (int j = courseLineSplit.length - 1; j > 2; j--) preCourseList.add(courseLineSplit[j]);
-//    }
 }

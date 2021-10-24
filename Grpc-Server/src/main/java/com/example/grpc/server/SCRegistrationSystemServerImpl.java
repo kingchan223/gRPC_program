@@ -1,14 +1,12 @@
 package com.example.grpc.server;
 
 import com.example.grpc.*;
-import com.example.grpc.entity.StudentCourse;
 import com.example.grpc.exception.NotEnoughDataException;
 import com.example.grpc.exception.NotExistCourseIDException;
-import com.google.protobuf.ProtocolStringList;
 import io.grpc.stub.StreamObserver;
 
-import java.util.Map;
-
+// TODO
+//서버 null 검사 로직 뺄까 말까 고민
 public class SCRegistrationSystemServerImpl extends StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemImplBase {
 
     private static StringMethods stringMethods;
@@ -32,6 +30,7 @@ public class SCRegistrationSystemServerImpl extends StudentCourseRegistrationSys
         responseObserver.onCompleted();
     }
 
+
     @Override
     public void putCourse(Course course, StreamObserver<StatusCode> responseObserver){
         if(check.alreadyExist(course)) {
@@ -42,15 +41,9 @@ public class SCRegistrationSystemServerImpl extends StudentCourseRegistrationSys
             check.checkPreCourse(course.getPreCoursesList());
         } catch (NotExistCourseIDException e) {
             response(responseObserver,SCode.S404,SCode.COURSE);
-            e.printStackTrace();
-        }
-        String courseInfo = null;
-        try{
-            courseInfo = stringMethods.makeCourseInfoString(course);
-        }catch(NotEnoughDataException e){
-            response(responseObserver,SCode.S412,SCode.NOTENOUGHDATA);
             return;
         }
+        String courseInfo = stringMethods.makeCourseInfoString(course);
         StatusCode statCode = DataConnection.connect().putCourse(CourseInfoString.newBuilder().setCourseInfo(courseInfo).build());
         response(responseObserver, statCode.getStatusCode(), statCode.getMessage());
     }
@@ -58,17 +51,11 @@ public class SCRegistrationSystemServerImpl extends StudentCourseRegistrationSys
     @Override
     public void putStudent(Student student, StreamObserver<StatusCode> responseObserver){
         if(check.alreadyExist(student)) {
-            response(responseObserver,SCode.S402,SCode.COURSE);
+            response(responseObserver,SCode.S402,SCode.STUDENT);
             return;
         }
-        String studentInfo = null;
-        try {
-            studentInfo = stringMethods.makeStudentInfoString(student);
-        } catch(NotEnoughDataException e){
-            response(responseObserver,SCode.S412,SCode.NOTENOUGHDATA);
-            return;
-        }
-        StatusCode statCode = DataConnection.connect().putCourse(CourseInfoString.newBuilder().setCourseInfo(studentInfo).build());
+        String studentInfo = stringMethods.makeStudentInfoString(student);
+        StatusCode statCode = DataConnection.connect().putStudent(StudentInfoString.newBuilder().setStudentInfo(studentInfo).build());
         response(responseObserver,statCode.getStatusCode(),statCode.getMessage());
     }
 
@@ -85,7 +72,7 @@ public class SCRegistrationSystemServerImpl extends StudentCourseRegistrationSys
     @Override
     public void deleteStudentById(StudentId student, StreamObserver<StatusCode> responseObserver){
         if(!check.alreadyExist(student)) {
-            response(responseObserver,SCode.S404,SCode.COURSE);
+            response(responseObserver,SCode.S404,SCode.STUDENT);
             return;
         }
         StatusCode statCode = DataConnection.connect().deleteStudentById(StudentId.newBuilder().setStudentId(student.getStudentId()).build());
@@ -102,15 +89,12 @@ public class SCRegistrationSystemServerImpl extends StudentCourseRegistrationSys
             response(responseObserver,SCode.S404,SCode.STUDENT);
             return;
         }
-        if(check.takePreCourse(request.getStudentId(), request.getStudentId())){
+        if(!check.takePreCourse(request.getStudentId(), request.getStudentId())){
             response(responseObserver,SCode.S410,SCode.FAIL);
             return;
         }
         String studentStr = DataConnection.connect().getStudentById(StudentId.newBuilder().setStudentId(request.getStudentId()).build()).getStudentInfo();
-        StatusCode code = DataConnection.connect()
-                .updateStudentWithCourse(EditStudentInfoString
-                        .newBuilder()
-                        .setStudentInfoString(stringMethods.makeSeparatorString(studentStr, request.getCourseId())).build());
+        StatusCode code = DataConnection.connect().updateStudentWithCourse(EditStudentInfoString.newBuilder().setStudentInfoString(stringMethods.makeSeparatorString(studentStr, request.getCourseId())).build());
         response(responseObserver, code.getStatusCode(), code.getMessage());
     }
 

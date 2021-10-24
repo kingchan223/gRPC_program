@@ -1,11 +1,7 @@
 package com.example.grpc.data;
 
-import com.example.exception.*;
 import com.example.grpc.*;
 import io.grpc.stub.StreamObserver;
-import lombok.extern.slf4j.Slf4j;
-
-import java.util.Map;
 
 public class
 SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBase {
@@ -21,8 +17,7 @@ SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBase {
         ListDataResponse.Builder builder = null;
         if(request.getStudentOrCourse().equals(SCode.STUDENT)) builder = crudMethods.getAllStudentData(ListDataResponse.newBuilder());
         else if(request.getStudentOrCourse().equals(SCode.COURSE)) builder = crudMethods.getAllCourseData(ListDataResponse.newBuilder());
-        responseObserver.onNext(builder.build());
-        responseObserver.onCompleted();
+        response(responseObserver, builder);
     }
 
     @Override
@@ -53,7 +48,9 @@ SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBase {
 
     @Override
     public void putStudent(StudentInfoString studentInfoString, StreamObserver<StatusCode> responseObserver) {
-        try { crudMethods.putStudent(studentInfoString); }
+        try {
+            crudMethods.putStudent(studentInfoString);
+        }
         catch (Exception e) {
             response(responseObserver,SCode.S500,SCode.FAIL);
             return;
@@ -64,7 +61,7 @@ SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBase {
     @Override
     public void deleteCourseById(CourseId request, StreamObserver<StatusCode> responseObserver) {
         try {
-            crudMethods.delete(request.getCourseId(), SCRSProperties.COURSE_LIST_PATH);
+            crudMethods.deleteById(request.getCourseId(), SCRSProperties.COURSE_LIST_PATH);
         }
         catch (Exception e) {
             response(responseObserver,SCode.S500,SCode.FAIL);
@@ -76,7 +73,8 @@ SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBase {
     @Override
     public void deleteStudentById(StudentId request, StreamObserver<StatusCode> responseObserver)  {
         try {
-            crudMethods.delete(request.getStudentId(), SCRSProperties.STUDENT_LIST_PATH);
+            crudMethods.deleteById
+                    (request.getStudentId(), SCRSProperties.STUDENT_LIST_PATH);
         }
         catch (Exception e) {
             response(responseObserver, SCode.S500, SCode.FAIL);
@@ -95,6 +93,11 @@ SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBase {
         response(responseObserver,SCode.S200, SCode.SUCCESS);
     }
 
+    private void response(StreamObserver<ListDataResponse> responseObserver, ListDataResponse.Builder builder) {
+        responseObserver.onNext(builder.build());
+        responseObserver.onCompleted();
+    }
+
     private void response(StreamObserver<StatusCode> responseObserver, String code, String message) {
         responseObserver.onNext(makeStatusCode(StatusCode.newBuilder(), code, message));
         responseObserver.onCompleted();
@@ -103,5 +106,6 @@ SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBase {
     public StatusCode makeStatusCode(StatusCode.Builder statusCodeBuilder, String code, String message){
         return statusCodeBuilder.setStatusCode(code).setMessage(message).build();
     }
+
 
 }

@@ -3,7 +3,6 @@ package com.example.grpc.client;
 import com.example.grpc.*;
 import com.example.grpc.exception.NotEnoughDataException;
 import com.google.protobuf.ProtocolStringList;
-import io.grpc.ManagedChannel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,7 +28,7 @@ public class SCRegisterMethods {
             for (String course : courses) System.out.println(course);
         }
     }
-
+    // TODO
     public void putCourse(StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.print(ClientProperties.INPUT_ID_MSG);
@@ -74,7 +73,7 @@ public class SCRegisterMethods {
         try {
             isNull(id);
         } catch (NotEnoughDataException e) {
-            System.out.println(ClientProperties.INPUT_COURSE_NUM_AGAIN);
+            System.out.println(ClientProperties.INPUT_STUDENT_NUM_AGAIN);
             return;
         }
         printResult(stub.deleteStudentById(StudentId.newBuilder().setStudentId(id).build()));
@@ -95,23 +94,22 @@ public class SCRegisterMethods {
 
     public void updateStudentByAddCourse(StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String studentId = ""; String courseId = "";
-        printSCRegister(studentId, courseId);
+        System.out.print(ClientProperties.REGISTER_COURSE_STDID);
+        String studentId = br.readLine().trim();
+        System.out.print(ClientProperties.REGISTER_COURSE_COURSEID);
+        String courseId = br.readLine().trim();
         try {
             isNull(studentId);
             isNull(courseId);
         } catch (NotEnoughDataException e) {
-            System.out.println(ClientProperties.INPUT_STUDENT_NUM_AGAIN);
+            System.out.println(ClientProperties.NULL_DATA_INPUT_AGAIN);
+            return;
         }
         printResult(stub.updateStudentWithCourse(StudentAndCourseId.newBuilder().setStudentId(studentId).setCourseId(courseId).build()));
     }
 
     public void printSCRegister(String studentId, String courseId) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print(ClientProperties.REGISTER_COURSE_STDID);
-        studentId = br.readLine().trim();
-        System.out.print(ClientProperties.REGISTER_COURSE_COURSEID);
-        courseId = br.readLine().trim();
+
     }
 
     public void isNull(String  data1, String  data2, String  data3) throws NotEnoughDataException {
@@ -127,28 +125,6 @@ public class SCRegisterMethods {
     public void nullOrEmpty(String data) throws NotEnoughDataException {
         if(data == null || data.equals(EMPTY)) throw new NotEnoughDataException();
     }
-
-//    public void printPutStudentInfo(String id, String name, String major) throws IOException {
-//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//        System.out.print(ClientProperties.INPUT_ID_MSG);
-//        id = br.readLine().trim();
-//        System.out.print(ClientProperties.INPUT_NAME_MSG);
-//        name = br.readLine().trim();
-//        System.out.print(ClientProperties.INPUT_MAJOR_MSG);
-//        major = br.readLine().trim();
-//    }
-//
-//    public void printPutCourseInfo(String id, String name, String profName, String[] preCourseStr) throws IOException {
-//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//        System.out.print(ClientProperties.INPUT_ID_MSG);
-//        id = br.readLine().trim();
-//        System.out.print(ClientProperties.INPUT_COURSENAME_MSG);
-//        name = br.readLine().trim();
-//        System.out.print(ClientProperties.INPUT_PROFNAME_MSG);
-//        profName = br.readLine().trim();
-//        System.out.print(ClientProperties.INPUT_PRECOURSE_MSG);
-//        preCourseStr = br.readLine().trim().split("/");
-//    }
 
     public void printResult(StatusCode statusCode) {
         String status = statusCode.getStatusCode();

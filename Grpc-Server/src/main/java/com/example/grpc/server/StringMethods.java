@@ -14,19 +14,19 @@ public class StringMethods {
         check = new CheckAlreadyMethods();
     }
 
-    public String makeCourseInfoString(Course course) throws NotEnoughDataException {
+    public String makeCourseInfoString(Course course){
         String id = course.getId();
         String name = course.getName();
         String profName = course.getProfName();
-        isNull(id, name, profName);
+//        isNull(id, name, profName);
         return id+SEPARATOR+name+SEPARATOR+profName+SEPARATOR+makePreCourseStr(course.getPreCoursesList());
     }
 
-    public String makeStudentInfoString(Student request) throws NotEnoughDataException {
+    public String makeStudentInfoString(Student request){
         String id = request.getId();
         String name = request.getName();
         String major = request.getMajor();
-        isNull(id, name, major);
+//        isNull(id, name, major);
         return id+SEPARATOR+name+SEPARATOR+major;
     }
 
@@ -61,8 +61,8 @@ public class StringMethods {
     }
 
     public String makeDataString(ListDataResponse listData) {
-        String retVal= "";
-        for (String listDatum : listData.getDataList()) retVal+=listDatum+"\n";
+        String retVal= SCRSProperties.SEPARATOR;
+        for (String listDatum : listData.getDataList()) retVal+=listDatum+SCRSProperties.C13;
         return retVal;
     }
 

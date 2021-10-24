@@ -58,13 +58,4 @@
 
 
 
-20130095 Kim Soyoung CS 12345 23456 17651 17652 17655
-
-
-6060 asdasd 3153adsf
-
-1365254 dsfsdg fgsedr
-
-123 se efd
-
-dfdf 34 df
+20130095 Kim Soyoung CS 12345 23456 17651 17652 17655   17653

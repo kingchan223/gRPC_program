@@ -15,4 +15,5 @@ public interface SCRSProperties {
     public static final String MENU6 = "6. Delete Courses";
     public static final String MENU7 = "7. 수강신청";
     public static final String MENU8 = "8. EXIT";
+    public static final String C13 = "\n";
 }

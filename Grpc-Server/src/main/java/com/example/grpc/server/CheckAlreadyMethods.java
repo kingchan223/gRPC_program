@@ -17,29 +17,25 @@ public class CheckAlreadyMethods {
         }
         else if(obj instanceof StudentId){
             StudentId studentID = (StudentId) obj;
-            if(DataConnection.connect().getCourseById(CourseId.newBuilder().setCourseId(studentID.getStudentId()).build()).getCourseInfo().equals(SCRSProperties.EMPTY))
-                return false;
+            if(DataConnection.connect().getStudentById(StudentId.newBuilder().setStudentId(studentID.getStudentId()).build()).getStudentInfo().equals(SCRSProperties.EMPTY)) return false;
         }
         else if(obj instanceof CourseId){
             CourseId courseID = (CourseId) obj;
-            if(DataConnection.connect()
-                    .getCourseById(CourseId.newBuilder().setCourseId(courseID.getCourseId()).build())
-                    .getCourseInfo().equals(SCRSProperties.EMPTY))
-            return false;
+            if(DataConnection.connect().getCourseById(CourseId.newBuilder().setCourseId(courseID.getCourseId()).build()).getCourseInfo().equals(SCRSProperties.EMPTY)) return false;
         }
         return true;
     }
 
     public boolean alreadyExistCourse(String id){
-        return DataConnection.connect().getCourseById(CourseId.newBuilder().setCourseId(id).build()).getCourseInfo().equals(SCRSProperties.EMPTY);
+        return !DataConnection.connect().getCourseById(CourseId.newBuilder().setCourseId(id).build()).getCourseInfo().equals(SCRSProperties.EMPTY);
     }
 
     public boolean alreadyExistStudent(String id){
-        return DataConnection.connect().getStudentById(StudentId.newBuilder().setStudentId(id).build()).getStudentInfo().equals(SCRSProperties.EMPTY);
+        return !DataConnection.connect().getStudentById(StudentId.newBuilder().setStudentId(id).build()).getStudentInfo().equals(SCRSProperties.EMPTY);
     }
 
     public void checkPreCourse(ProtocolStringList preCoursesList) throws NotExistCourseIDException {
-        for (String id : preCoursesList) if(alreadyExistCourse(id)) throw new NotExistCourseIDException();
+        for (String id : preCoursesList) if(!alreadyExistCourse(id)) throw new NotExistCourseIDException();
     }
 
     public boolean takePreCourse(String studentId, String courseId) {
