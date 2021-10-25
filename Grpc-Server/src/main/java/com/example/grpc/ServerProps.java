@@ -1,10 +1,11 @@
 package com.example.grpc;
 
-public interface SCRSProperties {
+public interface ServerProps {
     public static final String STUDENT_LIST_PATH = "/Users/leechanyoung/Downloads/coding/Grpc-test3/src/main/resources/Students.txt";
     public static final String COURSE_LIST_PATH = "/Users/leechanyoung/Downloads/coding/Grpc-test3/src/main/resources/Courses.txt";
     public static final String SEPARATOR = " ";
     public static final String EMPTY = "";
+    public static final String OK = "OK";
 
     public static final String WELCOME_MESSAGE = "select menu number";
     public static final String MENU1 = "1. List Students ";

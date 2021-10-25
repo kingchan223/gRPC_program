@@ -266,6 +266,37 @@ public final class DataServiceGrpc {
     return getUpdateStudentWithCourseMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<com.example.grpc.Request,
+      com.example.grpc.Response> getCloseMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "close",
+      requestType = com.example.grpc.Request.class,
+      responseType = com.example.grpc.Response.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.example.grpc.Request,
+      com.example.grpc.Response> getCloseMethod() {
+    io.grpc.MethodDescriptor<com.example.grpc.Request, com.example.grpc.Response> getCloseMethod;
+    if ((getCloseMethod = DataServiceGrpc.getCloseMethod) == null) {
+      synchronized (DataServiceGrpc.class) {
+        if ((getCloseMethod = DataServiceGrpc.getCloseMethod) == null) {
+          DataServiceGrpc.getCloseMethod = getCloseMethod =
+              io.grpc.MethodDescriptor.<com.example.grpc.Request, com.example.grpc.Response>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "close"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.example.grpc.Request.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.example.grpc.Response.getDefaultInstance()))
+              .setSchemaDescriptor(new DataServiceMethodDescriptorSupplier("close"))
+              .build();
+        }
+      }
+    }
+    return getCloseMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -394,6 +425,13 @@ public final class DataServiceGrpc {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getUpdateStudentWithCourseMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void close(com.example.grpc.Request request,
+        io.grpc.stub.StreamObserver<com.example.grpc.Response> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getCloseMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -452,6 +490,13 @@ public final class DataServiceGrpc {
                 com.example.grpc.StudentAndCourseId,
                 com.example.grpc.StatusCode>(
                   this, METHODID_UPDATE_STUDENT_WITH_COURSE)))
+          .addMethod(
+            getCloseMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                com.example.grpc.Request,
+                com.example.grpc.Response>(
+                  this, METHODID_CLOSE)))
           .build();
     }
   }
@@ -557,6 +602,14 @@ public final class DataServiceGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getUpdateStudentWithCourseMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void close(com.example.grpc.Request request,
+        io.grpc.stub.StreamObserver<com.example.grpc.Response> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getCloseMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -651,6 +704,13 @@ public final class DataServiceGrpc {
     public com.example.grpc.StatusCode updateStudentWithCourse(com.example.grpc.StudentAndCourseId request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getUpdateStudentWithCourseMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public com.example.grpc.Response close(com.example.grpc.Request request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getCloseMethod(), getCallOptions(), request);
     }
   }
 
@@ -755,6 +815,14 @@ public final class DataServiceGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getUpdateStudentWithCourseMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.example.grpc.Response> close(
+        com.example.grpc.Request request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getCloseMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_GET_LIST_DATA = 0;
@@ -765,6 +833,7 @@ public final class DataServiceGrpc {
   private static final int METHODID_DELETE_COURSE_BY_ID = 5;
   private static final int METHODID_DELETE_STUDENT_BY_ID = 6;
   private static final int METHODID_UPDATE_STUDENT_WITH_COURSE = 7;
+  private static final int METHODID_CLOSE = 8;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -814,6 +883,10 @@ public final class DataServiceGrpc {
         case METHODID_UPDATE_STUDENT_WITH_COURSE:
           serviceImpl.updateStudentWithCourse((com.example.grpc.StudentAndCourseId) request,
               (io.grpc.stub.StreamObserver<com.example.grpc.StatusCode>) responseObserver);
+          break;
+        case METHODID_CLOSE:
+          serviceImpl.close((com.example.grpc.Request) request,
+              (io.grpc.stub.StreamObserver<com.example.grpc.Response>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -884,6 +957,7 @@ public final class DataServiceGrpc {
               .addMethod(getDeleteCourseByIdMethod())
               .addMethod(getDeleteStudentByIdMethod())
               .addMethod(getUpdateStudentWithCourseMethod())
+              .addMethod(getCloseMethod())
               .build();
         }
       }

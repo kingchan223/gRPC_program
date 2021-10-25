@@ -6,13 +6,8 @@ import com.google.protobuf.ProtocolStringList;
 import io.grpc.stub.StreamObserver;
 
 public class StringMethods {
-    private static final String SEPARATOR = SCRSProperties.SEPARATOR;
-    private static final String EMPTY = SCRSProperties.EMPTY;
-    private CheckAlreadyMethods check;
-
-    public StringMethods() {
-        check = new CheckAlreadyMethods();
-    }
+    private static final String SEPARATOR = ServerProps.SEPARATOR;
+    private static final String EMPTY = ServerProps.EMPTY;
 
     public String makeCourseInfoString(Course course){
         String id = course.getId();
@@ -38,35 +33,35 @@ public class StringMethods {
 
     public void getMenuList(StreamObserver<MenuResponse> responseObserver) {
         responseObserver.onNext(MenuResponse.newBuilder()
-                .addMenuList(SCRSProperties.WELCOME_MESSAGE)
-                .addMenuList(SCRSProperties.MENU1)
-                .addMenuList(SCRSProperties.MENU2)
-                .addMenuList(SCRSProperties.MENU3)
-                .addMenuList(SCRSProperties.MENU4)
-                .addMenuList(SCRSProperties.MENU5)
-                .addMenuList(SCRSProperties.MENU6)
-                .addMenuList(SCRSProperties.MENU7)
-                .addMenuList(SCRSProperties.MENU8)
+                .addMenuList(ServerProps.WELCOME_MESSAGE)
+                .addMenuList(ServerProps.MENU1)
+                .addMenuList(ServerProps.MENU2)
+                .addMenuList(ServerProps.MENU3)
+                .addMenuList(ServerProps.MENU4)
+                .addMenuList(ServerProps.MENU5)
+                .addMenuList(ServerProps.MENU6)
+                .addMenuList(ServerProps.MENU7)
+                .addMenuList(ServerProps.MENU8)
                 .build());
     }
 
-    public void isNull(String  data1, String  data2, String  data3) throws NotEnoughDataException {
-        nullOrEmpty(data1);
-        nullOrEmpty(data2);
-        nullOrEmpty(data3);
-    }
+//    public void isNull(String  data1, String  data2, String  data3) throws NotEnoughDataException {
+//        nullOrEmpty(data1);
+//        nullOrEmpty(data2);
+//        nullOrEmpty(data3);
+//    }
 
     public void nullOrEmpty(String data) throws NotEnoughDataException {
         if(data == null || data.equals(EMPTY)) throw new NotEnoughDataException();
     }
 
     public String makeDataString(ListDataResponse listData) {
-        String retVal= SCRSProperties.SEPARATOR;
-        for (String listDatum : listData.getDataList()) retVal+=listDatum+SCRSProperties.C13;
+        String retVal= ServerProps.EMPTY;
+        for (String listDatum : listData.getDataList()) retVal+=listDatum+ ServerProps.C13;
         return retVal;
     }
 
     public String makeSeparatorString(String data1, String data2){
-        return data1 + SCRSProperties.SEPARATOR + data2;
+        return data1 + ServerProps.SEPARATOR + data2;
     }
 }

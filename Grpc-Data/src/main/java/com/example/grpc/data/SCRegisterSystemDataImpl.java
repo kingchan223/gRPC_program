@@ -61,7 +61,7 @@ SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBase {
     @Override
     public void deleteCourseById(CourseId request, StreamObserver<StatusCode> responseObserver) {
         try {
-            crudMethods.deleteById(request.getCourseId(), SCRSProperties.COURSE_LIST_PATH);
+            crudMethods.deleteById(request.getCourseId(), DataProps.COURSE_LIST_PATH);
         }
         catch (Exception e) {
             response(responseObserver,SCode.S500,SCode.FAIL);
@@ -74,7 +74,7 @@ SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBase {
     public void deleteStudentById(StudentId request, StreamObserver<StatusCode> responseObserver)  {
         try {
             crudMethods.deleteById
-                    (request.getStudentId(), SCRSProperties.STUDENT_LIST_PATH);
+                    (request.getStudentId(), DataProps.STUDENT_LIST_PATH);
         }
         catch (Exception e) {
             response(responseObserver, SCode.S500, SCode.FAIL);
@@ -96,6 +96,13 @@ SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBase {
     private void response(StreamObserver<ListDataResponse> responseObserver, ListDataResponse.Builder builder) {
         responseObserver.onNext(builder.build());
         responseObserver.onCompleted();
+    }
+
+    @Override
+    public void close(Request request, StreamObserver<Response> responseObserver) {
+        responseObserver.onNext(Response.newBuilder().setResponse(DataProps.OK).build());
+        responseObserver.onCompleted();
+        SCRegisterData.closeData();
     }
 
     private void response(StreamObserver<StatusCode> responseObserver, String code, String message) {

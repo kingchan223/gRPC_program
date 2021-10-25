@@ -1,6 +1,5 @@
 package com.example.grpc.client;
 
-import com.example.grpc.DataServiceGrpc;
 import com.example.grpc.StudentCourseRegistrationSystemGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -8,7 +7,14 @@ import io.grpc.ManagedChannelBuilder;
 public class ServerConnection {
 
     private static final ServerConnection serverConnection = new ServerConnection();
-    private ServerConnection() {}
+    private static ManagedChannel channel;
+
+    private ServerConnection() {
+        channel = ManagedChannelBuilder.forAddress("localhost", 8080)
+                .usePlaintext()
+                .build();
+    }
+
     public static ServerConnection getServerConnection(){
         return serverConnection;
     }
@@ -18,9 +24,11 @@ public class ServerConnection {
     }
 
     public ManagedChannel connectPort(){
-       return ManagedChannelBuilder.forAddress("localhost", 8080)
-                .usePlaintext()
-                .build();
+       return channel;
+    }
+
+    public static void disconnectPort(){
+        channel.shutdownNow();
     }
 
     public StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub makeStub(){

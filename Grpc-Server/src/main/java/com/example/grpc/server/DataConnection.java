@@ -7,8 +7,16 @@ import io.grpc.ManagedChannelBuilder;
 
 public class DataConnection {
 
+    private static ManagedChannel channel;
+
     private static final DataConnection dataConnection = new DataConnection();
-    private DataConnection() {}
+
+    private DataConnection() {
+        channel = ManagedChannelBuilder.forAddress("localhost", 9090)
+                .usePlaintext()
+                .build();
+    }
+
     public static DataConnection getDataConnection(){
         return dataConnection;
     }
@@ -17,14 +25,16 @@ public class DataConnection {
         return getDataConnection().makeStub();
     }
 
-    public ManagedChannel connectPort(){
-        return ManagedChannelBuilder.forAddress("localhost", 9090)
-                .usePlaintext()
-                .build();
-    }
-
     public DataServiceGrpc.DataServiceBlockingStub makeStub(){
         return DataServiceGrpc.newBlockingStub(connectPort());
     }
 
+    public ManagedChannel connectPort(){
+        return channel;
+    }
+
+    public static void disconnectPort(){
+        System.out.println("DATA CLOSE");
+        channel.shutdownNow();
+    }
 }
