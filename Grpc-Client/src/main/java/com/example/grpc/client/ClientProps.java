@@ -32,5 +32,5 @@ public interface ClientProps {
     public static final String success = "\n🥳 성공적으로 반영되었습니다! 🥳";
     public static final String fail = "\n❗️❗️❗실패하였습니다. 다시 시도해주세요❗️❗️❗";
     public static final String HaveToTakePre = "\n❗️❗️❗선수과목을 수강하지 않았습니다.❗️❗️❗️";
-
+    public static final String systemError = "\n❗️❗️❗시스템 에러입니다. 다시 시도해주세요.❗️❗️❗️";
 }

@@ -16,5 +16,4 @@ public class Validator {
     public void nullOrEmpty(String data) throws NotEnoughDataException {
         if(data == null || data.equals(ClientProps.EMPTY)) throw new NotEnoughDataException();
     }
-
 }

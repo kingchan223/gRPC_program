@@ -45,16 +45,6 @@ public class StringMethods {
                 .build());
     }
 
-//    public void isNull(String  data1, String  data2, String  data3) throws NotEnoughDataException {
-//        nullOrEmpty(data1);
-//        nullOrEmpty(data2);
-//        nullOrEmpty(data3);
-//    }
-
-    public void nullOrEmpty(String data) throws NotEnoughDataException {
-        if(data == null || data.equals(EMPTY)) throw new NotEnoughDataException();
-    }
-
     public String makeDataString(ListDataResponse listData) {
         String retVal= ServerProps.EMPTY;
         for (String listDatum : listData.getDataList()) retVal+=listDatum+ ServerProps.C13;

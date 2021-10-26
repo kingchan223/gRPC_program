@@ -21,21 +21,8 @@ public class SCRegisterServer {
         server = ServerBuilder.forPort(fort)
                 .addService(new SCRegistrationSystemServerImpl())
                 .build();
-
         server.start();
         System.out.println("Listening <"+fort+">.......");
         server.awaitTermination();
     }
-
-    //    public static void main(String[] args) throws IOException, InterruptedException {
-//
-//        int fort = 8080;
-//       server = ServerBuilder.forPort(fort)
-//                .addService(new SCRegistrationSystemServerImpl())
-//                .build();
-//
-//        server.start();
-//        System.out.println("Listening <"+fort+">.......");
-//        server.awaitTermination();
-//    }
 }

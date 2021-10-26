@@ -35,7 +35,7 @@ public class SCRegisterConsoleManager {
             for (String course : courses) System.out.println(course);
         }
     }
-    // TODO
+
     public void putCourse() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.print(ClientProps.INPUT_ID_MSG);
@@ -115,33 +115,58 @@ public class SCRegisterConsoleManager {
         printResult(stub.updateStudentWithCourse(StudentAndCourseId.newBuilder().setStudentId(studentId).setCourseId(courseId).build()));
     }
 
-
     public void printResult(StatusCode statusCode) {
         String status = statusCode.getStatusCode();
         String message = statusCode.getMessage();
 
-        if(status.equals(SCode.S200)){
-            System.out.println(ClientProps.success);
-        }
-        else if(status.equals(SCode.S402)){
-            if(message.equals(SCode.STUDENT)) System.out.println(ClientProps.alreadyEstd);
-            else if(message.equals(SCode.COURSE)) System.out.println(ClientProps.alreadyEcourse);
-        }
-        else if(status.equals(SCode.S404)){
-            if(message.equals(SCode.STUDENT)) System.out.println(ClientProps.NOTexistIDstd);
-            else if(message.equals(SCode.COURSE)) System.out.println(ClientProps.NOTexistIDcourse);
-            else System.out.println(ClientProps.NOTexistDefault);
-        }
-        else if(status.equals(SCode.S410)){
-            System.out.println(ClientProps.HaveToTakePre);
-        }
-        else if(status.equals(SCode.S412)){
-            System.out.println(ClientProps.NULL_DATA_INPUT_AGAIN);
-        }
-        else if(status.equals(SCode.S500)){
-            System.out.println(ClientProps.fail);
+        switch (status) {
+            case SCode.S200:
+                System.out.println(ClientProps.success);
+                break;
+            case SCode.S402:// 이미 존재하는 id 입력
+                if (message.equals(SCode.STUDENT)) System.out.println(ClientProps.alreadyEstd);
+                else if (message.equals(SCode.COURSE)) System.out.println(ClientProps.alreadyEcourse);
+                else System.out.println(ClientProps.fail);
+            case SCode.S404:// 존재하지 않는 id 입력
+                if (message.equals(SCode.STUDENT)) System.out.println(ClientProps.NOTexistIDstd);
+                else if (message.equals(SCode.COURSE)) System.out.println(ClientProps.NOTexistIDcourse);
+                else System.out.println(ClientProps.NOTexistDefault);
+                break;
+            case SCode.S410:// 선수과목을 수강하지 않았음
+                System.out.println(ClientProps.HaveToTakePre);
+                break;
+            case SCode.S500:
+                System.out.println(ClientProps.fail);
+                break;
+            default:
+                System.out.println(ClientProps.systemError);
+                break;
         }
     }
+
+
+
+    //
+
+//        if(status.equals(SCode.S200)){
+//            System.out.println(ClientProps.success);
+//        }
+//        else if(status.equals(SCode.S402)){
+//            if(message.equals(SCode.STUDENT)) System.out.println(ClientProps.alreadyEstd);
+//            else if(message.equals(SCode.COURSE)) System.out.println(ClientProps.alreadyEcourse);
+//        }
+//        else if(status.equals(SCode.S404)){
+//            if(message.equals(SCode.STUDENT)) System.out.println(ClientProps.NOTexistIDstd);
+//            else if(message.equals(SCode.COURSE)) System.out.println(ClientProps.NOTexistIDcourse);
+//            else System.out.println(ClientProps.NOTexistDefault);
+//        }
+//        else if(status.equals(SCode.S410)){
+//            System.out.println(ClientProps.HaveToTakePre);
+//        }
+//        else if(status.equals(SCode.S500)){
+//            System.out.println(ClientProps.fail);
+//        }
+
 
     public void close() {
         System.out.println("프로그램 종료중...");
