@@ -3,7 +3,6 @@ import java.io.*;
 
 public class SCRegisterClient {
     public static void main(String[] args) throws IOException {
-
         SCRegisterConsoleManager scConsole = new SCRegisterConsoleManager();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = ClientProps.EXIT_NUM+1;
@@ -42,3 +41,8 @@ public class SCRegisterClient {
         }
     }
 }
+
+
+
+
+

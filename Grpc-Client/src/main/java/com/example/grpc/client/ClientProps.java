@@ -2,6 +2,9 @@ package com.example.grpc.client;
 
 public interface ClientProps {
 
+    public static final String INPUT_ID_MSG = "ID를 입력하세요:";
+    public static final String INPUT_NAME_MSG = "이름을 입력하세요:";
+    public static final String INPUT_COURSENAME_MSG = "강좌명을 입력하세요:";
     public static final int EXIT_NUM = 8;
     public static final String EMPTY = "";
     public static final String SEPARATOR2 = "/";
@@ -13,9 +16,6 @@ public interface ClientProps {
     public static final String COURSE_DELETE_MESSAGE = "\n삭제할 강좌의 ID를 입력하세요:";
     public static final String EXIT = "\n프로그램을 종료합니다....";
     public static final String WRONG_NUM = "\n❗️❗️❗없는 메뉴를 선택하셨습니다❗️❗️❗";
-    public static final String INPUT_ID_MSG = "ID를 입력하세요:";
-    public static final String INPUT_NAME_MSG = "이름을 입력하세요:";
-    public static final String INPUT_COURSENAME_MSG = "강좌명을 입력하세요:";
     public static final String INPUT_PRECOURSE_MSG = "선수과목의 ID를 입력하세요 ('/'로 구분. 예시: 1010/1011 ) :";
     public static final String INPUT_PROFNAME_MSG = "담당 교수를 입력하세요:";
     public static final String INPUT_MAJOR_MSG = "전공을 입력하세요:";

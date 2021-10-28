@@ -3,17 +3,16 @@ package com.example.grpc.data;
 import com.example.grpc.*;
 import io.grpc.stub.StreamObserver;
 
-public class
-SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBase {
+import java.io.IOException;
+
+public class SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBase {
 
     private final CrudMethods crudMethods;
-
     public SCRegisterSystemDataImpl() {
         this.crudMethods = new CrudMethods();
     }
-
     @Override
-    public void getListData(ListDataRequest request, StreamObserver<ListDataResponse> responseObserver) {
+    public void getListData(ListDataRequest request, StreamObserver<ListDataResponse> responseObserver){
         ListDataResponse.Builder builder = null;
         if(request.getStudentOrCourse().equals(SCode.STUDENT)) builder = crudMethods.getAllStudentData(ListDataResponse.newBuilder());
         else if(request.getStudentOrCourse().equals(SCode.COURSE)) builder = crudMethods.getAllCourseData(ListDataResponse.newBuilder());
@@ -69,12 +68,10 @@ SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBase {
         }
         response(responseObserver,SCode.S200,SCode.SUCCESS);
     }
-
     @Override
     public void deleteStudentById(StudentId request, StreamObserver<StatusCode> responseObserver)  {
         try {
-            crudMethods.deleteById
-                    (request.getStudentId(), DataProps.STUDENT_LIST_PATH);
+            crudMethods.deleteById(request.getStudentId(), DataProps.STUDENT_LIST_PATH);
         }
         catch (Exception e) {
             response(responseObserver, SCode.S500, SCode.FAIL);
@@ -82,7 +79,6 @@ SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBase {
         }
         response(responseObserver,SCode.S200, SCode.SUCCESS);
     }
-
     @Override
     public void updateStudentWithCourse(EditStudentInfoString request, StreamObserver<StatusCode> responseObserver) {
         try{ crudMethods.updateStudent(request.getStudentInfoString()); }
@@ -92,27 +88,21 @@ SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBase {
         }
         response(responseObserver,SCode.S200, SCode.SUCCESS);
     }
-
-    private void response(StreamObserver<ListDataResponse> responseObserver, ListDataResponse.Builder builder) {
-        responseObserver.onNext(builder.build());
-        responseObserver.onCompleted();
-    }
-
     @Override
     public void close(Request request, StreamObserver<Response> responseObserver) {
         responseObserver.onNext(Response.newBuilder().setResponse(DataProps.OK).build());
         responseObserver.onCompleted();
         SCRegisterData.closeData();
     }
-
+    private void response(StreamObserver<ListDataResponse> responseObserver, ListDataResponse.Builder builder) {
+        responseObserver.onNext(builder.build());
+        responseObserver.onCompleted();
+    }
     private void response(StreamObserver<StatusCode> responseObserver, String code, String message) {
         responseObserver.onNext(makeStatusCode(StatusCode.newBuilder(), code, message));
         responseObserver.onCompleted();
     }
-
     public StatusCode makeStatusCode(StatusCode.Builder statusCodeBuilder, String code, String message){
         return statusCodeBuilder.setStatusCode(code).setMessage(message).build();
     }
-
-
 }

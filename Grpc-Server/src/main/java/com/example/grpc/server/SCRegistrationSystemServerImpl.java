@@ -52,13 +52,12 @@ public class SCRegistrationSystemServerImpl extends StudentCourseRegistrationSys
 
     @Override
     public void putStudent(Student student, StreamObserver<StatusCode> responseObserver){
-        //        try {
-//            validator.alreadyExistStudent(student.getId());
-//        } catch (AlreadyExistStudentIDException e) {
-//            response(responseObserver,SCode.S402,SCode.STUDENT);
-//            return;
-//        } //
-        // ...익셉션 처리 로직...
+        try {
+            validator.alreadyExistStudent(student.getId());
+        } catch (AlreadyExistStudentIDException e) {
+            response(responseObserver,SCode.S402,SCode.STUDENT);
+            return;
+        }
         String studentInfo = stringMethods.makeStudentInfoString(student);
         StatusCode statCode = stub.putStudent(StudentInfoString.newBuilder().setStudentInfo(studentInfo).build());
         response(responseObserver,statCode.getStatusCode(),statCode.getMessage());

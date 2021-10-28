@@ -14,7 +14,6 @@ public class SCRegisterConsoleManager {
     private final Validator validator;
     private final StudentCourseRegistrationSystemGrpc.StudentCourseRegistrationSystemBlockingStub stub;
 
-
     public SCRegisterConsoleManager() {
         this.validator = new Validator();
         stub = ServerConnection.connect();
@@ -64,13 +63,16 @@ public class SCRegisterConsoleManager {
         String name = br.readLine().trim();
         System.out.print(ClientProps.INPUT_MAJOR_MSG);
         String major = br.readLine().trim();
+
+        // CPU
         try {
             validator.isNull(id, name, major);
         } catch (NotEnoughDataException e) {
             System.out.println(ClientProps.NULL_DATA_INPUT_AGAIN);
             return;
         }
-        printResult(stub.putStudent(Student.newBuilder().setId(id).setName(name).setMajor(major).build()));
+        StatusCode statusCode = stub.putStudent(Student.newBuilder().setId(id).setName(name).setMajor(major).build());
+        printResult(statusCode);
     }
 
     public void deleteStudent() throws IOException {
@@ -127,6 +129,7 @@ public class SCRegisterConsoleManager {
                 if (message.equals(SCode.STUDENT)) System.out.println(ClientProps.alreadyEstd);
                 else if (message.equals(SCode.COURSE)) System.out.println(ClientProps.alreadyEcourse);
                 else System.out.println(ClientProps.fail);
+                break;
             case SCode.S404:// 존재하지 않는 id 입력
                 if (message.equals(SCode.STUDENT)) System.out.println(ClientProps.NOTexistIDstd);
                 else if (message.equals(SCode.COURSE)) System.out.println(ClientProps.NOTexistIDcourse);
@@ -144,6 +147,15 @@ public class SCRegisterConsoleManager {
         }
     }
 
+    public void close() {
+        System.out.println("프로그램 종료중...");
+        Response close = stub.close(Request.newBuilder().build());
+        if(close.getResponse().equals(ClientProps.OK)) {
+            ServerConnection.disconnectPort();
+            System.out.println(ClientProps.EXIT);
+        }
+    }
+}
 
 
     //
@@ -168,12 +180,3 @@ public class SCRegisterConsoleManager {
 //        }
 
 
-    public void close() {
-        System.out.println("프로그램 종료중...");
-        Response close = stub.close(Request.newBuilder().build());
-        if(close.getResponse().equals(ClientProps.OK)) {
-            ServerConnection.disconnectPort();
-            System.out.println(ClientProps.EXIT);
-        }
-    }
-}
