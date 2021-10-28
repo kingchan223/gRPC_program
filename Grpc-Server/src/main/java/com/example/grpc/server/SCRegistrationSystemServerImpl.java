@@ -51,10 +51,11 @@ public class SCRegistrationSystemServerImpl extends StudentCourseRegistrationSys
     }
 
     @Override
-    public void putStudent(Student student, StreamObserver<StatusCode> responseObserver){
+    public void putStudent(Student student, StreamObserver<StatusCode> responseObserver) {
         try {
             validator.alreadyExistStudent(student.getId());
         } catch (AlreadyExistStudentIDException e) {
+            System.out.println("Exception이 발생하면 출력된다. 해당 catch문에서 바로 Client로 응답하기 때문에 Data Server로 요청하지 않는다.");
             response(responseObserver,SCode.S402,SCode.STUDENT);
             return;
         }

@@ -11,42 +11,40 @@ public class CrudMethods {
 
     public ListDataResponse.Builder getAllStudentData(ListDataResponse.Builder builder){
 
-        while (true) {
-            try {
-                BufferedReader objStudentFile = new BufferedReader(new FileReader(DataProps.STUDENT_LIST_PATH));
-                if (!objStudentFile.ready()) break;
+        try {
+            BufferedReader objStudentFile = new BufferedReader(new FileReader(DataProps.STUDENT_LIST_PATH));
+            while (objStudentFile.ready()) {
                 String stuInfo = objStudentFile.readLine();
-                if (!stuInfo.equals(DataProps.EMPTY)) builder.addData(stuInfo);
-                objStudentFile.close();
-            } catch (IOException e) {
-                builder.addData(DataProps.IOEXECEPTION_ERROR_MESSAGE);
+                if (!stuInfo.equals(DataProps.EMPTY))
+                    builder.addData(stuInfo);
             }
+            objStudentFile.close();
+        } catch (IOException e) {
+            builder.addData(DataProps.IOEXECEPTION_ERROR_MESSAGE);
         }
         return builder;
     }
 
     public ListDataResponse.Builder getAllCourseData(ListDataResponse.Builder builder){
 
-        while (true) {
-            try {
-                BufferedReader objStudentFile = new BufferedReader(new FileReader(DataProps.COURSE_LIST_PATH));
-                if (!objStudentFile.ready()) break;
+        try {
+            BufferedReader objStudentFile = new BufferedReader(new FileReader(DataProps.COURSE_LIST_PATH));
+            while (objStudentFile.ready()) {
                 String courseInfo = objStudentFile.readLine();
                 if (!courseInfo.equals(DataProps.EMPTY)) builder.addData(courseInfo);
-                objStudentFile.close();
-            } catch (IOException e) {
-                builder.addData(DataProps.IOEXECEPTION_ERROR_MESSAGE);
             }
+            objStudentFile.close();
+        } catch (IOException e) {
+            builder.addData(DataProps.IOEXECEPTION_ERROR_MESSAGE);
         }
         return builder;
     }
 
     public String getStudentById(String studentId) {
 
-        while (true) {
-            try {
-                BufferedReader objStudentFile = new BufferedReader(new FileReader(DataProps.STUDENT_LIST_PATH));
-                if (!objStudentFile.ready()) break;
+        try {
+            BufferedReader objStudentFile = new BufferedReader(new FileReader(DataProps.STUDENT_LIST_PATH));
+            while (objStudentFile.ready()) {
                 String line = objStudentFile.readLine();
                 String[] alreadyId = line.split(DataProps.SEPARATOR);
                 if (alreadyId[0].equals(studentId)) {
@@ -54,18 +52,17 @@ public class CrudMethods {
                     return line;
                 }
             }
-            catch(IOException e){
-                return DataProps.EMPTY;
-            }
         }
+        catch(IOException e){
             return DataProps.EMPTY;
+        }
+        return DataProps.EMPTY;
     }
 
     public String getCourseById(String courseId){
-        while (true) {
-            try {
-                BufferedReader objStudentFile = new BufferedReader(new FileReader(DataProps.COURSE_LIST_PATH));
-                if (!objStudentFile.ready()) break;
+        try {
+            BufferedReader objStudentFile = new BufferedReader(new FileReader(DataProps.COURSE_LIST_PATH));
+            while (objStudentFile.ready()) {
                 String line = objStudentFile.readLine();
                 String[] alreadyId = line.split(DataProps.SEPARATOR);
                 if (alreadyId[0].equals(courseId)) {
@@ -73,9 +70,9 @@ public class CrudMethods {
                     return line;
                 }
             }
-            catch(IOException e){
-                return DataProps.EMPTY;
-            }
+        }
+        catch(IOException e){
+            return DataProps.EMPTY;
         }
         return DataProps.EMPTY;
     }

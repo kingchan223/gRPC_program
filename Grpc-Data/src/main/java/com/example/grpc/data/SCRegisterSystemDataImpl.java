@@ -11,6 +11,7 @@ public class SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBas
     public SCRegisterSystemDataImpl() {
         this.crudMethods = new CrudMethods();
     }
+
     @Override
     public void getListData(ListDataRequest request, StreamObserver<ListDataResponse> responseObserver){
         ListDataResponse.Builder builder = null;
@@ -22,6 +23,7 @@ public class SCRegisterSystemDataImpl extends DataServiceGrpc.DataServiceImplBas
     @Override
     public void getStudentById(StudentId studentId, StreamObserver<StudentInfoString> responseObserver) {
         String studentInfoString = crudMethods.getStudentById(studentId.getStudentId());
+        System.out.println(studentInfoString);
         responseObserver.onNext(StudentInfoString.newBuilder().setStudentInfo(studentInfoString).build());
         responseObserver.onCompleted();
     }
